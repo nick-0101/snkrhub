@@ -1,15 +1,19 @@
 {
   "name": "inventory-microservice",
   "version": "1.0.0",
-  "description": "Handle requests regarding created, updating, or reading inventory items.",
+  "description": "Handle requests regarding creating, updating, or reading inventory items.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "nodemon -L index.js"
   },
   "author": "phoenixbeats01",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.3",
     "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
