@@ -1,0 +1,15 @@
+{
+  "name": "inventory-microservice",
+  "version": "1.0.0",
+  "description": "Handle requests regarding created, updating, or reading inventory items.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "phoenixbeats01",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "request": "^2.88.2"
+  }
+}
