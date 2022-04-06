@@ -6,24 +6,19 @@
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName } from 'react-native';
 
-// Screens
-import { RootStackParamList } from '../types';
-import LinkingConfiguration from './LinkingConfiguration';
+// 
+// Auth  
+// 
 
+
+//
+// App
+//
 import AppTabs  from './App/AppTabs';
 
-
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
-  return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <RootNavigator />
-    </NavigationContainer>
-  );
-}
+// Types
+import { RootStackParamList } from '../types';
 
 /**
  * A root stack navigator is often used for displaying modals on top of all other content.
@@ -31,7 +26,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
  */
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-function RootNavigator() {
+export default function RootNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Root" component={AppTabs} options={{ headerShown: false }} />
