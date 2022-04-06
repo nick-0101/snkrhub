@@ -21,11 +21,18 @@ const Stack = createStackNavigator<RootTabParamList>();
 function AuthScreens() {
   const colorScheme = useColorScheme();
 
+  const isSignout = false;
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Login"
         component={LoginScreen}
+        options={{
+          title: 'Login',
+          // When logging out, a pop animation feels intuitive
+          // You can remove this if you want the default 'push' animation
+          animationTypeForReplace: isSignout ? 'pop' : 'push',
+        }}
       />
     </Stack.Navigator>
   );

@@ -3,18 +3,14 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 
-// 
+
 // Auth  
-// 
+import AuthScreens from './Auth/AuthScreens'
 
-
-//
 // App
-//
 import AppTabs  from './App/AppTabs';
 
 // Types
@@ -27,9 +23,14 @@ import { RootStackParamList } from '../types';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
+  const userToken = null;
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Root" component={AppTabs} options={{ headerShown: false }} />
+        {userToken == null ? (
+            <Stack.Screen name="Root" component={AuthScreens} options={{ headerShown: false }} /> 
+        ) : (
+            <Stack.Screen name="Root" component={AppTabs} options={{ headerShown: false }} /> 
+        )}
     </Stack.Navigator>
   );
 }

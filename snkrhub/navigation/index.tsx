@@ -12,7 +12,8 @@ import { ColorSchemeName } from 'react-native';
 import { RootStackParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
-import AppTabs  from './App/AppTabs';
+// Navigator
+import RootNavigator from './RootNavigation'
 
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -25,17 +26,17 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
   );
 }
 
-/**
- * A root stack navigator is often used for displaying modals on top of all other content.
- * https://reactnavigation.org/docs/modal
- */
-const Stack = createNativeStackNavigator<RootStackParamList>();
+// /**
+//  * A root stack navigator is often used for displaying modals on top of all other content.
+//  * https://reactnavigation.org/docs/modal
+//  */
+// const Stack = createNativeStackNavigator<RootStackParamList>();
 
-function RootNavigator() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Root" component={AppTabs} options={{ headerShown: false }} />
-    </Stack.Navigator>
-  );
-}
+// function RootNavigator() {
+//   return (
+//     <Stack.Navigator>
+//       <Stack.Screen name="Root" component={AppTabs} options={{ headerShown: false }} />
+//     </Stack.Navigator>
+//   );
+// }
 
