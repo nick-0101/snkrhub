@@ -26,11 +26,11 @@ export default function RootNavigator() {
   const userToken = null;
   return (
     <Stack.Navigator>
-        {userToken == null ? (
-            <Stack.Screen name="Root" component={AuthScreens} options={{ headerShown: false }} /> 
-        ) : (
-            <Stack.Screen name="Root" component={AppTabs} options={{ headerShown: false }} /> 
-        )}
+      {userToken == null ? (
+          <Stack.Screen name="Root" component={AuthScreens} options={{ headerShown: false }} /> 
+      ) : (
+          <Stack.Screen name="Root" component={AppTabs} options={{ headerShown: false }} /> 
+      )}
     </Stack.Navigator>
   );
 }
