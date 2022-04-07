@@ -6,9 +6,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 
-import Colors from '../../constants/Colors';
-import useColorScheme from '../../hooks/useColorScheme';
-
 import HomeScreen from '../../screens/HomeScreen';
 import { RootTabParamList, RootTabScreenProps } from '../../types';
 
@@ -19,13 +16,12 @@ import { RootTabParamList, RootTabScreenProps } from '../../types';
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function AppTabs() {
-  const colorScheme = useColorScheme();
 
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
+        headerShown: false
       }}
     >
       <BottomTab.Screen

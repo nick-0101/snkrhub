@@ -12,13 +12,27 @@ export default function App() {
 
   // Theme
   const config = {
-    useSystemColorMode: true,
+    useSystemColorMode: false,
     initialColorMode: "dark",
   };
 
   const theme = extendTheme({
     colors: {
       primary: nbTheme.colors.blue,
+    },
+    components: {
+      Button: {
+        defaultProps: {
+          borderRadius: '6'
+        },
+      },
+      Input: {
+        defaultProps: {
+          borderRadius: '5',
+          px: '3.5',
+          borderWidth: 1.3
+        },
+      },
     },
     config
   });

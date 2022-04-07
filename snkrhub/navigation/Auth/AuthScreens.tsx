@@ -6,10 +6,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 
-import useColorScheme from '../../hooks/useColorScheme';
-
-import LoginScreen from '../../screens/LoginScreen';
-import { RootTabParamList, RootTabScreenProps } from '../../types';
+import SignUpScreen from '../../screens/SignUpScreen';
+import { RootTabParamList } from '../../types';
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
@@ -18,16 +16,18 @@ import { RootTabParamList, RootTabScreenProps } from '../../types';
 const Stack = createStackNavigator<RootTabParamList>();
 
 function AuthScreens() {
-  const colorScheme = useColorScheme();
-
   const isSignout = false;
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}
+    >
       <Stack.Screen
-        name="Login"
-        component={LoginScreen}
+        name="SignUp"
+        component={SignUpScreen}
         options={{
-          title: 'Login',
+          title: '',
           // When logging out, a pop animation feels intuitive
           // You can remove this if you want the default 'push' animation
           animationTypeForReplace: isSignout ? 'pop' : 'push',
