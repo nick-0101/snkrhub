@@ -151,12 +151,12 @@ export function SignInForm({ navigation }: any) {
         </VStack>
 
         <HStack
-            mb="4"
+            mb="2"
             space="1"
             safeAreaBottom
             alignItems="center"
             justifyContent="center"
-            mt={{ base: "auto", md: "8" }}
+            mt={{ base: "auto", md: "12" }}
         >
             <Text
                 _light={{ color: "gray.800" }}
@@ -202,12 +202,41 @@ export default function SignIn({ navigation }: RootTabScreenProps<'SignIn'>) {
         flex="1"
       >
         <Stack
-          flexDirection={{ base: "column", md: "row" }}
-          w="100%"
-          maxW={{ md: "1016px" }}
-          flex={{ base: "1", md: "none" }}
+            flexDirection={{ base: "column", md: "row" }}
+            w="100%"
+            maxW={{ md: "1016px" }}
+            flex={{ base: "1", md: "none" }}
         >
-            <VStack px="4" mt="20" mb="5">
+            <HStack px="2">
+                <Link
+                    alignItems="center"
+                    onPress={() => {
+                        navigation.navigate("SignUp");
+                    }}
+                >
+                    <IconButton
+                        variant="unstyled"
+                        pl="0"
+                        onPress={() => {
+                            navigation.navigate("SignUp");
+                        }}
+                        icon={
+                            <Icon
+                                size="5"
+                                as={Ionicons}
+                                name="chevron-back"
+                                color="gray.100"
+                            />
+                        }
+                    />
+                    
+                    <Text color="gray.50" fontSize="md">
+                        Sign up
+                    </Text>
+                </Link>
+            </HStack>
+
+            <VStack px="4" mt="16" mb="5">
                 <Text
                     fontSize="md"
                     fontWeight="normal"
