@@ -1,11 +1,11 @@
 import { View, Text } from 'react-native';
 
-import { AuthScreenProps } from '../../types';
+import { RootTabScreenProps } from '../../types';
 
-export default function SignInScreen({ navigation }: AuthScreenProps<'SignIn'>) {
+export default function SignInScreen({ navigation }: RootTabScreenProps<'SignIn'>) {
   return (
     <View>
-      <Text>Home</Text>
+      <Text>Signin</Text>
     </View>
   );
 }

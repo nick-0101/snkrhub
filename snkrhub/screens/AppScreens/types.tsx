@@ -1,3 +1,3 @@
-export type RootTabParamList = {
+export type RootTabs = {
   Home: undefined;
 };

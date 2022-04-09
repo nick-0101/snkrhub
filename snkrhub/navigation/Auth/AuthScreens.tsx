@@ -38,6 +38,13 @@ function AuthScreens() {
           animationTypeForReplace: isSignout ? 'pop' : 'push',
         })}
       />
+      <Stack.Screen
+        name="SignIn"
+        component={SignInScreen}
+        options={({ navigation }: AuthScreenProps<'SignIn'>) => ({
+          title: 'SignIn',
+        })}
+      />
     </Stack.Navigator>
   );
 }

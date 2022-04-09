@@ -17,8 +17,9 @@ import {
   FormControl
 } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { background } from "native-base/lib/typescript/theme/styled-system";
+
+// Types
+import { RootTabScreenProps } from '../../types';
 
 const SignUpForm = (props: any) => {
   const [text, setText] = useState("");
@@ -260,7 +261,7 @@ const SignUpForm = (props: any) => {
               color: "primary.600",
             }}
             onPress={() => {
-              props.navigation.navigate("SignIn");
+              props.navigation.navigate("Home");
             }}
           >
             Sign in
@@ -272,7 +273,7 @@ const SignUpForm = (props: any) => {
   )
 }
 
-export default function SignUpScreen(props: any) {
+export default function SignUpScreen({ navigation }: RootTabScreenProps<'SignUp'>) {
   return (
     <>
       <StatusBar
@@ -309,7 +310,7 @@ export default function SignUpScreen(props: any) {
               </Text>
             </VStack>
           </VStack>
-          <SignUpForm props={props} />
+          <SignUpForm props={navigation} />
         </Stack>
       </Center>
     </>
