@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { extendTheme, NativeBaseProvider, theme as nbTheme } from 'native-base';
+import { extendTheme, NativeBaseProvider, themeTools, theme as nbTheme } from 'native-base';
 
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
@@ -28,11 +28,19 @@ export default function App() {
         },
       },
       Input: {
+        baseStyle: (props: any) => {
+          return {
+            borderColor: themeTools.mode("gray.300", "gray.800")(props),
+            background: themeTools.mode("gray.800", "#262A31")(props),
+          };
+        },
         defaultProps: {
           borderRadius: '5',
           px: '3.5',
           py: '3',
-          borderWidth: 1.2
+          borderWidth: 1.2,
+          fontSize: "sm",
+          fontWeight: 'medium'
         },
       },
     },
