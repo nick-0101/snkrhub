@@ -30,6 +30,7 @@ export default function App() {
       Input: {
         baseStyle: (props: any) => {
           return {
+            // light: any, dark: any
             borderColor: themeTools.mode("gray.300", "gray.800")(props),
             background: themeTools.mode("gray.800", "#262A31")(props),
           };

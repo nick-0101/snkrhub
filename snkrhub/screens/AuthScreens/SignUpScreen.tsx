@@ -18,6 +18,7 @@ import {
 } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { background } from "native-base/lib/typescript/theme/styled-system";
 
 const SignUpForm = (props: any) => {
   const [text, setText] = useState("");
@@ -108,22 +109,22 @@ const SignUpForm = (props: any) => {
                     labelBGColor={useColorModeValue("#fff", "#1f2937")}
                     defaultValue={pass}
                     onChangeText={(txt: any) => setPass(txt)}
-                    InputRightElement={
-                      <IconButton
-                        variant="unstyled"
-                        icon={
-                          <Icon
-                            size="4"
-                            color="gray.400"
-                            as={Ionicons}
-                            name={showPass ? "eye-off" : "eye"}
-                          />
-                        }
-                        onPress={() => {
-                          setShowPass(!showPass);
-                        }}
-                      />
-                    }
+                    // InputRightElement={
+                    //   <IconButton
+                    //     variant="unstyled"
+                    //     icon={
+                    //       <Icon
+                    //         size="4"
+                    //         color="gray.400"
+                    //         as={Ionicons}
+                    //         name={showPass ? "eye-off" : "eye"}
+                    //       />
+                    //     }
+                    //     onPress={() => {
+                    //       setShowPass(!showPass);
+                    //     }}
+                    //   />
+                    // }
                   />
                 </FormControl>
                 
@@ -145,50 +146,32 @@ const SignUpForm = (props: any) => {
                     label="Confirm Password"
                     defaultValue={confirm_pass}
                     onChangeText={(txt: any) => setConfirmPass(txt)}
-                    InputRightElement={
-                      <IconButton
-                        variant="ghost"
-                        icon={
-                          <Icon
-                            size="4"
-                            color="gray.400"
-                            as={Ionicons}
-                            name={showConfirmPass ? "eye-off" : "eye"}
-                          />
-                        }
-                        onPress={() => {
-                          setShowConfirmPass(!showConfirmPass);
-                        }}
-                      />
-                    }
+                    // InputRightElement={
+                    //   <IconButton
+                    //     variant="ghost"
+                    //     icon={
+                    //       <Icon
+                    //         size="4"
+                    //         color="gray.400"
+                    //         as={Ionicons}
+                    //         name={showConfirmPass ? "eye-off" : "eye"}
+                    //       />
+                    //     }
+                    //     onPress={() => {
+                    //       setShowConfirmPass(!showConfirmPass);
+                    //     }}
+                    //   />
+                    // }
                   />
                 </FormControl>
-                {/* <Input 
-                  w={{
-                    base: "75%",
-                    md: "25%"
-                  }} 
-                  type={showConfirmPass ? "" : "password"} 
-                  InputRightElement={
-                    <Icon as={
-                      <Ionicons 
-                        name={showConfirmPass ? "eye" : "eye-off"} />
-                      } 
-                      size={5} 
-                      mr="2" 
-                      color="muted.400" 
-                      onPress={() => setShowConfirmPass(!showConfirmPass)} />
-                    } 
-                      placeholder="Password" 
-                  /> */}
                 </VStack>
 
               <Checkbox
                 alignItems="flex-start"
-                defaultIsChecked
-                value="demo"
+                value="agreed"
                 colorScheme="primary"
                 accessibilityLabel="Remember me"
+                size="sm" 
               >
                 <HStack alignItems="center">
                   <Text 
@@ -213,7 +196,15 @@ const SignUpForm = (props: any) => {
                   >
                     Terms of Use
                   </Link>
-                  <Text fontSize="sm"> & </Text>
+                  <Text
+                    fontSize="sm" 
+                    _light={{
+                      color: "gray.700",
+                    }}
+                    _dark={{
+                      color: "gray.300", 
+                    }} 
+                  > & </Text>
 
                   <Link
                     _text={{
@@ -264,7 +255,7 @@ const SignUpForm = (props: any) => {
           <Link
             _text={{
               fontSize: "sm",
-              fontWeight: "bold",
+              fontWeight: "medium",
               textDecoration: "none",
               color: "primary.600",
             }}

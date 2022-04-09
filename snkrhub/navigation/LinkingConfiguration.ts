@@ -7,9 +7,9 @@
 import { LinkingOptions } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 
-import { RootStackParamList } from '../types';
+import { RootStackParamList, AuthStackParamList } from '../types';
 
-const linking: LinkingOptions<RootStackParamList> = {
+const linking: LinkingOptions<RootStackParamList | AuthStackParamList> = {
   prefixes: [Linking.makeUrl('/')],
   config: {
     screens: {
@@ -23,6 +23,11 @@ const linking: LinkingOptions<RootStackParamList> = {
           SignUp: {
             screens: {
               SignUpScreen: 'signup',
+            },
+          },
+          SignIn: {
+            screens: {
+              SignInScreen: 'signin',
             },
           },
         },
