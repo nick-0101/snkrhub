@@ -23,14 +23,16 @@ export default function App() {
     components: {
       Button: {
         defaultProps: {
-          borderRadius: '6'
+          borderRadius: '6',
+          py: '3',
         },
       },
       Input: {
         defaultProps: {
           borderRadius: '5',
           px: '3.5',
-          borderWidth: 1.3
+          py: '3',
+          borderWidth: 1.2
         },
       },
     },

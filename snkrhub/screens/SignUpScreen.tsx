@@ -43,7 +43,7 @@ const SignUpForm = (props: any) => {
         flex="1"
         px="6"
         py="5"
-        _light={{ bg: "white" }}
+        _light={{ bg: "gray.100" }}
         _dark={{ bg: "gray.900" }}
         justifyContent="space-between"
         space="3"
@@ -58,14 +58,20 @@ const SignUpForm = (props: any) => {
               pb="5"
               fontSize="lg"
               fontWeight="bold"
-              color={'gray.300'}
+
+              _light={{
+                color: "gray.700",
+              }}
+              _dark={{
+                color: "gray.300", 
+              }}
             >
-              Sign Up
+              Sign up
             </Text>
 
             {/* Form */}
             <VStack space="8">
-              <VStack space={{ base: "7", md: "4" }}>
+              <VStack space={{ base: "3", md: "4" }}>
                 {/* Email Input */}
                 <FormControl>
                   <FormControl.Label 
@@ -98,80 +104,106 @@ const SignUpForm = (props: any) => {
                     }}
                   />
                 </FormControl>
-
-                <Input
-                  isRequired
-                  placeholder={'Password'}
-                  type={showPass ? "" : "password"}
-                  label="Password"
-                  labelColor="#9ca3af"
-                  labelBGColor={useColorModeValue("#fff", "#1f2937")}
-                  defaultValue={pass}
-                  onChangeText={(txt: any) => setPass(txt)}
-                  // InputRightElement={
-                  //   <IconButton
-                  //     variant="unstyled"
-                  //     icon={
-                  //       <Icon
-                  //         size="4"
-                  //         color="gray.400"
-                  //         as={Entypo}
-                  //         name={showPass ? "eye-with-line" : "eye"}
-                  //       />
-                  //     }
-                  //     onPress={() => {
-                  //       setShowPass(!showPass);
-                  //     }}
-                  //   />
-                  // }
-                  _text={{
-                    fontSize: "sm",
-                    fontWeight: "medium",
-                  }}
-                  _dark={{
-                    borderColor: "gray.700",
-                  }}
-                  _light={{
-                    borderColor: "gray.300",
-                  }}
-                />
-
-                <Input
-                  isRequired
-                  placeholder={'Confirm Password'}
-                  type={showConfirmPass ? "" : "password"}
-                  label="Confirm Password"
-                  labelColor="#9ca3af"
-                  labelBGColor={useColorModeValue("#fff", "#1f2937")}
-                  defaultValue={confirm_pass}
-                  onChangeText={(txt: any) => setConfirmPass(txt)}
-                  // InputRightElement={
-                  //   <IconButton
-                  //     variant="unstyled"
-                  //     icon={
-                  //       <Icon
-                  //         size="4"
-                  //         color="gray.400"
-                  //         as={Entypo}
-                  //         name={showConfirmPass ? "eye-with-line" : "eye"}
-                  //       />
-                  //     }
-                  //     onPress={() => {
-                  //       setShowConfirmPass(!showConfirmPass);
-                  //     }}
-                  //   />
-                  // }
-                  _text={{
-                    fontSize: "sm",
-                    fontWeight: "medium",
-                  }}
-                  _dark={{
-                    borderColor: "gray.700",
-                  }}
-                  _light={{
-                    borderColor: "gray.300",
-                  }}
-                />
+                
+                {/* Password input */}
+                <FormControl>
+                  <FormControl.Label 
+                    _text={{
+                      fontSize: "xs",
+                      color: "gray.400",
+                      fontWeight: "medium"
+                    }}
+                  >
+                    Password
+                  </FormControl.Label>
+                  <Input
+                    isRequired
+                    placeholder={'Password'}
+                    type={showPass ? "" : "password"}
+                    label="Password"
+                    labelColor="#9ca3af"
+                    labelBGColor={useColorModeValue("#fff", "#1f2937")}
+                    defaultValue={pass}
+                    onChangeText={(txt: any) => setPass(txt)}
+                    // InputRightElement={
+                    //   <IconButton
+                    //     variant="unstyled"
+                    //     icon={
+                    //       <Icon
+                    //         size="4"
+                    //         color="gray.400"
+                    //         as={Entypo}
+                    //         name={showPass ? "eye-with-line" : "eye"}
+                    //       />
+                    //     }
+                    //     onPress={() => {
+                    //       setShowPass(!showPass);
+                    //     }}
+                    //   />
+                    // }
+                    _text={{
+                      fontSize: "md",
+                      fontWeight: "medium",
+                    }}
+                    _light={{
+                      borderColor: "gray.300",
+                    }}
+                    _dark={{
+                      borderColor: "gray.800", 
+                      background: '#262A31'
+                    }}
+                  />
+                </FormControl>
+                
+                {/* Confirm password input */}
+                <FormControl>
+                  <FormControl.Label 
+                    _text={{
+                      fontSize: "xs",
+                      color: "gray.400",
+                      fontWeight: "medium"
+                    }}
+                  >
+                    Confirm password
+                  </FormControl.Label>
+                  <Input
+                    isRequired
+                    placeholder={'Confirm Password'}
+                    type={showConfirmPass ? "" : "password"}
+                    label="Confirm Password"
+                    labelColor="#9ca3af"
+                    labelBGColor={useColorModeValue("#fff", "#1f2937")}
+                    defaultValue={confirm_pass}
+                    onChangeText={(txt: any) => setConfirmPass(txt)}
+                    // InputRightElement={
+                    //   <IconButton
+                    //     variant="unstyled"
+                    //     icon={
+                    //       <Icon
+                    //         size="4"
+                    //         color="gray.400"
+                    //         as={Entypo}
+                    //         name={showConfirmPass ? "eye-with-line" : "eye"}
+                    //       />
+                    //     }
+                    //     onPress={() => {
+                    //       setShowConfirmPass(!showConfirmPass);
+                    //     }}
+                    //   />
+                    // }
+                    _text={{
+                      fontSize: "md",
+                      fontWeight: "medium",
+                    }}
+                    _light={{
+                      borderColor: "gray.300",
+                    }}
+                    _dark={{
+                      borderColor: "gray.800", 
+                      background: '#262A31'
+                    }}
+                  />
+                </FormControl>
               </VStack>
 
               <Checkbox
@@ -182,7 +214,16 @@ const SignUpForm = (props: any) => {
                 accessibilityLabel="Remember me"
               >
                 <HStack alignItems="center">
-                  <Text fontSize="sm" color="gray.400" pl="2">
+                  <Text 
+                    fontSize="sm" 
+                    pl="2"
+                    _light={{
+                      color: "gray.700",
+                    }}
+                    _dark={{
+                      color: "gray.300", 
+                    }}
+                  >
                     I accept the{" "}
                   </Text>
                   <Link
@@ -190,16 +231,7 @@ const SignUpForm = (props: any) => {
                       fontSize: "sm",
                       fontWeight: "semibold",
                       textDecoration: "none",
-                    }}
-                    _light={{
-                      _text: {
-                        color: "primary.900",
-                      },
-                    }}
-                    _dark={{
-                      _text: {
-                        color: "primary.500",
-                      },
+                      color: 'primary.500'
                     }}
                   >
                     Terms of Use
@@ -211,16 +243,7 @@ const SignUpForm = (props: any) => {
                       fontSize: "sm",
                       fontWeight: "semibold",
                       textDecoration: "none",
-                    }}
-                    _light={{
-                      _text: {
-                        color: "primary.900",
-                      },
-                    }}
-                    _dark={{
-                      _text: {
-                        color: "primary.500",
-                      },
+                      color:'primary.500'
                     }}
                   >
                     Privacy Policy
@@ -234,12 +257,7 @@ const SignUpForm = (props: any) => {
                   fontSize: "sm",
                   fontWeight: "medium",
                 }}
-                _light={{
-                  bg: "primary.900",
-                }}
-                _dark={{
-                  bg: "primary.600",
-                }}
+                background="primary.600"
                 onPress={() => {
                   props.navigation.navigate("OTP");
                 }}
@@ -259,8 +277,8 @@ const SignUpForm = (props: any) => {
         >
           <Text
             fontSize="sm"
-            _light={{ color: "gray.800" }}
-            _dark={{ color: "gray.400" }}
+            _light={{ color: "gray.700" }}
+            _dark={{ color: "gray.300" }}
           >
             Already have an account?
           </Text>
@@ -271,16 +289,7 @@ const SignUpForm = (props: any) => {
               fontSize: "sm",
               fontWeight: "bold",
               textDecoration: "none",
-            }}
-            _light={{
-              _text: {
-                color: "primary.900",
-              },
-            }}
-            _dark={{
-              _text: {
-                color: "primary.500",
-              },
+              color: "primary.600",
             }}
             onPress={() => {
               props.navigation.navigate("SignIn");
