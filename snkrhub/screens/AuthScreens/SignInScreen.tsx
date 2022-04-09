@@ -6,15 +6,12 @@ import {
   Text,
   Link,
   Input,
-  Divider,
-  Image,
-  useColorModeValue,
+  FormControl,
   IconButton,
   Icon,
   Center,
-  Hidden,
-  StatusBar,
   Stack,
+  StatusBar,
   Box,
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
@@ -29,6 +26,7 @@ export function SignInForm({ navigation }: any) {
   const [text, setText] = useState("");
   const [pass, setPass] = useState("");
   const [showPass, setShowPass] = React.useState(false);
+
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={{
@@ -39,190 +37,148 @@ export function SignInForm({ navigation }: any) {
       <VStack
         flex="1"
         px="6"
-        py="9"
+        py="5"
         _light={{ bg: "gray.100" }}
         _dark={{ bg: "gray.900" }}
         space="3"
         justifyContent="space-between"
-        borderTopRightRadius={{ base: "2xl", md: "xl" }}
-        borderBottomRightRadius={{ base: "0", md: "xl" }}
-        borderTopLeftRadius={{ base: "2xl", md: "0" }}
+        borderTopRightRadius={{ base: "3xl", }}
+        borderBottomRightRadius={{ base: "0", }}
+        borderTopLeftRadius={{ base: "3xl" }}
       >
         <VStack space="7">
-            <Text fontSize="lg" fontWeight="normal">
-              Sign in to continue!
+          <VStack>
+            {/* Form title */}
+            <Text
+              pb="5"
+              fontSize="lg"
+              fontWeight="bold"
+
+              _light={{
+                color: "gray.700",
+              }}
+              _dark={{
+                color: "gray.300", 
+              }}
+            >
+              Sign in
             </Text>
-            <VStack>
-                <VStack space="3">
-                <VStack space={{ base: "7", md: "4" }}>
-                    {/* Email field */}
-                    <Input
-                    isRequired
-                    label="Email"
-                    labelColor="#9ca3af"
-                    labelBGColor={useColorModeValue("#fff", "#1f2937")}
-                    borderRadius="4"
-                    defaultValue={text}
-                    onChangeText={(txt: any) => setText(txt)}
-                    _text={{
-                        fontSize: "sm",
-                        fontWeight: "medium",
-                    }}
-                    _dark={{
-                        borderColor: "coolGray.700",
-                    }}
-                    _light={{
-                        borderColor: "coolGray.300",
-                    }}
-                    />
 
-                    {/* Password field */}
-                    <Input
-                    isRequired
-                    type={showPass ? "" : "password"}
-                    label="Password"
-                    borderRadius="4"
-                    labelColor="#9ca3af"
-                    labelBGColor={useColorModeValue("#fff", "#1f2937")}
-                    defaultValue={pass}
-                    onChangeText={(txt: any) => setPass(txt)}
-                    InputRightElement={
-                        <IconButton
-                        variant="unstyled"
-                        icon={
-                            <Icon
-                            size="4"
-                            color="coolGray.400"
-                            as={Ionicons}
-                            name={showPass ? "eye-off" : "eye"}
-                            />
-                        }
-                        onPress={() => {
-                            setShowPass(true);
-                        }}
+            {/* Form */}
+            <VStack space="5">
+                <VStack space={{ base: "3", md: "4" }}>
+                    {/* Email Input */}
+                    <FormControl>
+                        <FormControl.Label 
+                            _text={{
+                            fontSize: "xs",
+                            color: "gray.400",
+                            fontWeight: "medium"
+                            }}
+                        >
+                            Email
+                        </FormControl.Label>
+                        <Input
+                            isRequired
+                            label="Email"
+                            placeholder="your@email.com"
+                            defaultValue={text}
+                            onChangeText={(txt: any) => setText(txt)}
                         />
-                    }
-                    _text={{
-                        fontSize: "sm",
-                        fontWeight: "medium",
-                    }}
-                    _dark={{
-                        borderColor: "coolGray.700",
-                    }}
-                    _light={{
-                        borderColor: "coolGray.300",
-                    }}
-                    />
-                </VStack>
+                    </FormControl>
+                    
+                    {/* Password input */}
+                    <FormControl>
+                        <FormControl.Label 
+                            _text={{
+                            fontSize: "xs",
+                            color: "gray.400",
+                            fontWeight: "medium"
+                            }}
+                        >
+                            Password
+                        </FormControl.Label>
 
+                        <Input
+                            isRequired
+                            placeholder={'••••••••'}
+                            type={showPass ? "" : "password"}
+                            label="Password"     
+                            defaultValue={pass}
+                            onChangeText={(txt: any) => setPass(txt)}
+                        />
+                    </FormControl>
+            
+                </VStack>
+                            
+                {/* Forgot password link */}
                 <Link
                     ml="auto"
                     _text={{
-                    fontSize: "xs",
-                    fontWeight: "bold",
-                    textDecoration: "none",
+                        fontSize: "sm",
+                        fontWeight: "normal",
+                        textDecoration: "none",
                     }}
                     _light={{
-                    _text: {
-                        color: "primary.900",
-                    },
+                        _text: {
+                            color: "primary.900",
+                        },
                     }}
                     _dark={{
-                    _text: {
-                        color: "primary.500",
-                    },
+                        _text: {
+                            color: "primary.500",
+                        },
                     }}
                 >
                     Forgot password?
                 </Link>
 
-                {/* Sign In button */}
+                {/* Signin button */}
                 <Button
-                    mt="5"
-                    size="md"
-                    borderRadius="4"
                     _text={{
-                    fontWeight: "medium",
+                        fontSize: "sm",
+                        fontWeight: "medium",
                     }}
-                    _light={{
-                    bg: "primary.900",
-                    }}
-                    _dark={{
-                    bg: "primary.700",
-                    }}
+                    background="primary.600"
                     onPress={() => {
-                    navigation.navigate("OTP");
+                        navigation.navigate("SignUp");
                     }}
                 >
-                    SIGN IN
+                    Sign In
                 </Button>
-
-                <HStack
-                    mt="5"
-                    space="2"
-                    mb={{ base: 6, md: 7 }}
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <Divider
-                    w="30%"
-                    _light={{ bg: "coolGray.200" }}
-                    _dark={{ bg: "coolGray.700" }}
-                    ></Divider>
-                    <Text
-                    fontWeight="medium"
-                    _light={{ color: "coolGray.300" }}
-                    _dark={{ color: "coolGray.500" }}
-                    >
-                    or
-                    </Text>
-                    <Divider
-                    w="30%"
-                    _light={{ bg: "coolGray.200" }}
-                    _dark={{ bg: "coolGray.700" }}
-                    ></Divider>
-                </HStack>
-                </VStack>
             </VStack>
+          </VStack>
         </VStack>
 
-
         <HStack
-          mb="4"
-          space="1"
-          safeAreaBottom
-          alignItems="center"
-          justifyContent="center"
-          mt={{ base: "auto", md: "8" }}
+            mb="4"
+            space="1"
+            safeAreaBottom
+            alignItems="center"
+            justifyContent="center"
+            mt={{ base: "auto", md: "8" }}
         >
-          <Text
-            _light={{ color: "coolGray.800" }}
-            _dark={{ color: "coolGray.400" }}
-          >
-            Don't have an account?
-          </Text>
-          {/* Opening Link Tag navigateTo:"SignUp" */}
-          <Link
-            _text={{
-              fontWeight: "bold",
-              textDecoration: "none",
-            }}
-            _light={{
-              _text: {
-                color: "primary.900",
-              },
-            }}
-            _dark={{
-              _text: {
-                color: "primary.500",
-              },
-            }}
-            onPress={() => {
-              navigation.navigate("SignUp");
-            }}
-          >
-            Sign up
-          </Link>
+            <Text
+                _light={{ color: "gray.800" }}
+                _dark={{ color: "gray.400" }}
+            >
+                Don't have an account?
+            </Text>
+            
+            {/* Opening Link Tag navigateTo:"SignUp" */}
+            <Link
+               _text={{
+                    fontSize: "sm",
+                    fontWeight: "medium",
+                    textDecoration: "none",
+                    color: "primary.600",
+                }}
+                onPress={() => {
+                    navigation.navigate("SignUp");
+                }}
+            >
+                Sign up
+            </Link>
         </HStack>
       </VStack>
     </KeyboardAwareScrollView>

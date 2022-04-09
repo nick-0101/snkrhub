@@ -6,11 +6,8 @@ import {
   VStack,
   Text,
   Link,
-  useColorModeValue,
   Center,
   StatusBar,
-  IconButton,
-  Icon,
   Box,
   Stack,
   Input,
@@ -44,9 +41,9 @@ const SignUpForm = ({ navigation }: any) => {
         _dark={{ bg: "gray.900" }}
         justifyContent="space-between"
         space="3"
-        borderTopRightRadius={{ base: "2xl", md: "xl" }}
-        borderBottomRightRadius={{ base: "0", md: "xl" }}
-        borderTopLeftRadius={{ base: "2xl", md: "0" }}
+        borderTopRightRadius={{ base: "3xl", }}
+        borderBottomRightRadius={{ base: "0", }}
+        borderTopLeftRadius={{ base: "3xl" }}
       >
         <VStack space="7">
           <VStack>
@@ -107,22 +104,6 @@ const SignUpForm = ({ navigation }: any) => {
                     label="Password"     
                     defaultValue={pass}
                     onChangeText={(txt: any) => setPass(txt)}
-                    // InputRightElement={
-                    //   <IconButton
-                    //     variant="unstyled"
-                    //     icon={
-                    //       <Icon
-                    //         size="4"
-                    //         color="gray.400"
-                    //         as={Ionicons}
-                    //         name={showPass ? "eye-off" : "eye"}
-                    //       />
-                    //     }
-                    //     onPress={() => {
-                    //       setShowPass(!showPass);
-                    //     }}
-                    //   />
-                    // }
                   />
                 </FormControl>
                 
@@ -144,22 +125,6 @@ const SignUpForm = ({ navigation }: any) => {
                     label="Confirm Password"
                     defaultValue={confirm_pass}
                     onChangeText={(txt: any) => setConfirmPass(txt)}
-                    // InputRightElement={
-                    //   <IconButton
-                    //     variant="ghost"
-                    //     icon={
-                    //       <Icon
-                    //         size="4"
-                    //         color="gray.400"
-                    //         as={Ionicons}
-                    //         name={showConfirmPass ? "eye-off" : "eye"}
-                    //       />
-                    //     }
-                    //     onPress={() => {
-                    //       setShowConfirmPass(!showConfirmPass);
-                    //     }}
-                    //   />
-                    // }
                   />
                 </FormControl>
                 </VStack>
@@ -243,8 +208,8 @@ const SignUpForm = ({ navigation }: any) => {
         >
           <Text
             fontSize="sm"
-            _light={{ color: "gray.700" }}
-            _dark={{ color: "gray.300" }}
+            _light={{ color: "gray.800" }}
+            _dark={{ color: "gray.400" }}
           >
             Already have an account?
           </Text>
