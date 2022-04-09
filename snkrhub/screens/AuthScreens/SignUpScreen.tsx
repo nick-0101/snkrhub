@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Checkbox,
@@ -21,12 +21,13 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 // Types
 import { RootTabScreenProps } from '../../types';
 
-const SignUpForm = (props: any) => {
+const SignUpForm = ({ navigation }: any) => {
   const [text, setText] = useState("");
   const [pass, setPass] = useState("");
   const [confirm_pass, setConfirmPass] = useState("");
   const [showPass, setShowPass] = React.useState(false);
   const [showConfirmPass, setShowConfirmPass] = React.useState(false);
+
 
   return (
     <KeyboardAwareScrollView
@@ -83,8 +84,6 @@ const SignUpForm = (props: any) => {
                     isRequired
                     label="Email"
                     placeholder="your@email.com"
-                    labelColor="#9ca3af"
-                    labelBGColor={useColorModeValue("#fff", "#1f2937")}
                     defaultValue={text}
                     onChangeText={(txt: any) => setText(txt)}
                   />
@@ -105,9 +104,7 @@ const SignUpForm = (props: any) => {
                     isRequired
                     placeholder={'••••••••'}
                     type={showPass ? "" : "password"}
-                    label="Password"
-                    labelColor="#9ca3af"
-                    labelBGColor={useColorModeValue("#fff", "#1f2937")}
+                    label="Password"     
                     defaultValue={pass}
                     onChangeText={(txt: any) => setPass(txt)}
                     // InputRightElement={
@@ -228,7 +225,7 @@ const SignUpForm = (props: any) => {
                 }}
                 background="primary.600"
                 onPress={() => {
-                  props.navigation.navigate("OTP");
+                  navigation.navigate("SignUp");
                 }}
               >
                 Sign Up
@@ -261,12 +258,11 @@ const SignUpForm = (props: any) => {
               color: "primary.600",
             }}
             onPress={() => {
-              props.navigation.navigate("Home");
+              navigation.navigate("SignIn");
             }}
           >
             Sign in
           </Link>
-          {/* Closing Link Tag */}
         </HStack>
       </VStack>
     </KeyboardAwareScrollView>
@@ -310,7 +306,7 @@ export default function SignUpScreen({ navigation }: RootTabScreenProps<'SignUp'
               </Text>
             </VStack>
           </VStack>
-          <SignUpForm props={navigation} />
+          <SignUpForm navigation={navigation} />
         </Stack>
       </Center>
     </>

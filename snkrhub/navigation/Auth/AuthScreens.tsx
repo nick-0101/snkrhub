@@ -11,17 +11,17 @@ import SignUpScreen from '../../screens/AuthScreens/SignUpScreen';
 import SignInScreen from '../../screens/AuthScreens/SignInScreen';
 
 // Types
-import { AuthScreensParamList, AuthScreenProps } from '../../types';
+import { RootTabParamList, RootTabScreenProps } from '../../types';
 
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
  * https://reactnavigation.org/docs/bottom-tab-navigator
  */
-const Stack = createStackNavigator<AuthScreensParamList>();
+const Stack = createStackNavigator<RootTabParamList>();
 
 function AuthScreens() {
-  const isSignout = false;
+  const isSignout = true;
   return (
     <Stack.Navigator
       screenOptions={{
@@ -31,7 +31,7 @@ function AuthScreens() {
       <Stack.Screen
         name="SignUp"
         component={SignUpScreen}
-        options={({ navigation }: AuthScreenProps<'SignUp'>) => ({
+        options={({ navigation }: RootTabScreenProps<'SignUp'>) => ({
           title: '',
           // When logging out, a pop animation feels intuitive
           // You can remove this if you want the default 'push' animation
@@ -41,7 +41,7 @@ function AuthScreens() {
       <Stack.Screen
         name="SignIn"
         component={SignInScreen}
-        options={({ navigation }: AuthScreenProps<'SignIn'>) => ({
+        options={({ navigation }: RootTabScreenProps<'SignIn'>) => ({
           title: 'SignIn',
         })}
       />
