@@ -21,6 +21,7 @@ import { RootTabScreenProps } from '../../types';
 import { Ionicons } from "@expo/vector-icons";
 
 const SignUpForm = ({ navigation }: any) => {
+  const [inputFocus, setInputFocus] = useState<number | null>(null)
   const [text, setText] = useState("");
   const [pass, setPass] = useState("");
   const [confirm_pass, setConfirmPass] = useState("");
@@ -76,16 +77,18 @@ const SignUpForm = ({ navigation }: any) => {
                     placeholder="Username"
                     defaultValue={text}
                     onChangeText={(txt: any) => setText(txt)}
+                    onFocus={() => setInputFocus(0)}
+                    onBlur={() => setInputFocus(null)}
                     InputLeftElement={
                       <Icon 
                         as={
                           <Ionicons 
-                            name="person" 
+                            name="person-outline" 
                           />
                         } 
-                        size={4} 
-                        ml="2" 
-                        color="muted.400" 
+                        size={5} 
+                        ml="4" 
+                        color={inputFocus === 0 ? 'primary.600' : 'gray.400'}
                       />
                     }
                   />
@@ -99,7 +102,21 @@ const SignUpForm = ({ navigation }: any) => {
                     placeholder="Email address"
                     defaultValue={text}
                     onChangeText={(txt: any) => setText(txt)}
-                  />
+                    onFocus={() => setInputFocus(1)}
+                    onBlur={() => setInputFocus(null)}
+                    InputLeftElement={
+                        <Icon 
+                          as={
+                            <Ionicons 
+                              name="mail-outline" 
+                            />
+                          } 
+                          size={5} 
+                          ml="4" 
+                          color={inputFocus === 1 ? 'primary.600' : 'gray.400'}
+                        />
+                      }
+                    />
                 </FormControl>
                 
                 {/* Password input */}
@@ -111,7 +128,21 @@ const SignUpForm = ({ navigation }: any) => {
                     label="Password"     
                     defaultValue={pass}
                     onChangeText={(txt: any) => setPass(txt)}
-                  />
+                    onFocus={() => setInputFocus(2)}
+                    onBlur={() => setInputFocus(null)}
+                    InputLeftElement={
+                        <Icon 
+                          as={
+                            <Ionicons 
+                              name="lock-closed-outline" 
+                            />
+                          } 
+                          size={5} 
+                          ml="4" 
+                          color={inputFocus === 2 ? 'primary.600' : 'gray.400'}
+                        />
+                      }
+                    />
                 </FormControl>
                 
                 {/* Confirm password input */}
@@ -123,7 +154,21 @@ const SignUpForm = ({ navigation }: any) => {
                     label="Confirm Password"
                     defaultValue={confirm_pass}
                     onChangeText={(txt: any) => setConfirmPass(txt)}
-                  />
+                    onFocus={() => setInputFocus(3)}
+                    onBlur={() => setInputFocus(null)}
+                    InputLeftElement={
+                        <Icon 
+                          as={
+                            <Ionicons 
+                              name="lock-closed-outline" 
+                            />
+                          } 
+                          size={5} 
+                          ml="4" 
+                          color={inputFocus === 3 ? 'primary.600' : 'gray.400'}
+                        />
+                      }
+                    />
                 </FormControl>
                 </VStack>
 
