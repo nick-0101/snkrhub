@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Alert } from "react-native";
 import {
   Button,
   Checkbox,
@@ -12,9 +13,14 @@ import {
   Stack,
   Input,
   FormControl,
-  Icon
+  Icon,
+  Spinner
 } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Formik } from 'formik';
+
+// Validation
+import { SignUpValidationSchema } from "./Schemas/SignUpSchema";
 
 // Types
 import { RootTabScreenProps } from '../../types';
@@ -22,12 +28,16 @@ import { Ionicons } from "@expo/vector-icons";
 
 const SignUpForm = ({ navigation }: any) => {
   const [inputFocus, setInputFocus] = useState<number | null>(null)
-  const [text, setText] = useState("");
-  const [pass, setPass] = useState("");
-  const [confirm_pass, setConfirmPass] = useState("");
+  
+  // Form state
   const [showPass, setShowPass] = React.useState(false);
   const [showConfirmPass, setShowConfirmPass] = React.useState(false);
 
+  // useEffect(() => {
+  //   if(formik.errors) {
+  //     console.log(formik.errors)
+  //   }
+  // }, [formik])
 
   return (
     <KeyboardAwareScrollView
@@ -67,178 +77,219 @@ const SignUpForm = ({ navigation }: any) => {
             </Text>
 
             {/* Form */}
-            <VStack space="8">
-              <VStack space={{ base: "3", md: "4" }}>
-                {/* Email Input */}
-                <FormControl>
-                  <Input
-                    isRequired
-                    label="Username"
-                    placeholder="Username"
-                    defaultValue={text}
-                    onChangeText={(txt: any) => setText(txt)}
-                    onFocus={() => setInputFocus(0)}
-                    onBlur={() => setInputFocus(null)}
-                    InputLeftElement={
-                      <Icon 
-                        as={
-                          <Ionicons 
-                            name="person-outline" 
+            <Formik
+              validateOnChange={false}
+              validateOnBlur={false}
+              validationSchema={SignUpValidationSchema}
+              initialValues={{
+                username: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+                termsOfService: 'false',
+              }}
+              onSubmit={(values) =>
+                console.log(
+                  values.username,
+                  values.email,
+                  values.password,
+                  values.confirmPassword,
+                  values.termsOfService
+                )
+              }
+            >
+              {({
+              handleChange,
+              handleSubmit,
+              setFieldValue,
+              values,
+              errors,
+              touched,
+              isValid,
+            }) => (
+              <VStack space="8">
+                <VStack space={{ base: "3", md: "4" }}>
+                  {/* Input Input */}
+                  <FormControl>
+                    <Input
+                      isRequired
+                      label="username"
+                      placeholder="Username"
+                      defaultValue={values.username.trim()}
+                      onChangeText={handleChange('username')}
+                      onFocus={() => setInputFocus(0)}
+                      onBlur={() => setInputFocus(null)}
+                      InputLeftElement={
+                        <Icon 
+                          as={
+                            <Ionicons 
+                              name="person-outline" 
+                            />
+                          } 
+                          size={5} 
+                          ml="4" 
+                          color={inputFocus === 0 ? 'primary.500' : 'gray.400'}
+                        />
+                      }
+                    />
+                  </FormControl>
+
+                  {/* Email Input */}
+                  <FormControl>
+                    <Input
+                      isRequired
+                      label="email"
+                      placeholder="Email address"
+                      defaultValue={values.email.trim()}
+                      onChangeText={handleChange('email')}
+                      onFocus={() => setInputFocus(1)}
+                      onBlur={() => setInputFocus(null)}
+                      InputLeftElement={
+                          <Icon 
+                            as={
+                              <Ionicons 
+                                name="mail-outline" 
+                              />
+                            } 
+                            size={5} 
+                            ml="4" 
+                            color={inputFocus === 1 ? 'primary.500' : 'gray.400'}
                           />
-                        } 
-                        size={5} 
-                        ml="4" 
-                        color={inputFocus === 0 ? 'primary.600' : 'gray.400'}
+                        }
                       />
+                  </FormControl>
+                  
+                  {/* Password input */}
+                  <FormControl>
+                    <Input
+                      isRequired
+                      placeholder={'Password'}
+                      type={showPass ? "" : "password"}
+                      label="Password"     
+                      defaultValue={values.password.trim()}
+                      onChangeText={handleChange('password')}
+                      onFocus={() => setInputFocus(2)}
+                      onBlur={() => setInputFocus(null)}
+                      InputLeftElement={
+                          <Icon 
+                            as={
+                              <Ionicons 
+                                name="lock-closed-outline" 
+                              />
+                            } 
+                            size={5} 
+                            ml="4" 
+                            color={inputFocus === 2 ? 'primary.500' : 'gray.400'}
+                          />
+                        }
+                      />
+                  </FormControl>
+                  
+                  {/* Confirm password input */}
+                  <FormControl>
+                    <Input
+                      isRequired
+                      placeholder={'Confirm Password'}
+                      type={showConfirmPass ? "" : "password"}
+                      label="comfirmPassword"
+                      defaultValue={values.confirmPassword.trim()}
+                      onChangeText={handleChange('confirmPassword')}
+                      onFocus={() => setInputFocus(3)}
+                      onBlur={() => setInputFocus(null)}
+                      InputLeftElement={
+                          <Icon 
+                            as={
+                              <Ionicons 
+                                name="lock-closed-outline" 
+                              />
+                            } 
+                            size={5} 
+                            ml="4" 
+                            color={inputFocus === 3 ? 'primary.500' : 'gray.400'}
+                          />
+                        }
+                      />
+                  </FormControl>
+                  </VStack>
+
+                <Checkbox
+                  alignItems="flex-start"
+                  value={values.termsOfService}
+                  colorScheme="primary"
+                  accessibilityLabel="Remember me"
+                  size="sm" 
+                  onChange={(checked) => {
+                    setFieldValue('termsOfService', checked.toString())
+                  }} 
+                >
+                  <HStack alignItems="center">
+                    <Text 
+                      fontSize="sm" 
+                      pl="2"
+                      _light={{
+                        color: "gray.700",
+                      }}
+                      _dark={{
+                        color: "gray.300", 
+                      }}
+                    >
+                      I accept the{" "}
+                    </Text>
+                    <Link
+                      _text={{
+                        fontSize: "sm",
+                        fontWeight: "semibold",
+                        textDecoration: "none",
+                        color: 'primary.500'
+                      }}
+                    >
+                      Terms of Use
+                    </Link>
+                    <Text
+                      fontSize="sm" 
+                      _light={{
+                        color: "gray.700",
+                      }}
+                      _dark={{
+                        color: "gray.300", 
+                      }} 
+                    > & </Text>
+
+                    <Link
+                      _text={{
+                        fontSize: "sm",
+                        fontWeight: "semibold",
+                        textDecoration: "none",
+                        color:'primary.500'
+                      }}
+                    >
+                      Privacy Policy
+                    </Link>
+                  </HStack>
+                </Checkbox>
+                
+                <Button
+                  size="md"
+                  _text={{
+                    fontSize: "sm",
+                    fontWeight: "medium",
+                  }}
+                  _loading={{
+                    _text: {
+                      color: "white"
                     }
-                  />
-                </FormControl>
-
-                {/* Email Input */}
-                <FormControl>
-                  <Input
-                    isRequired
-                    label="Email"
-                    placeholder="Email address"
-                    defaultValue={text}
-                    onChangeText={(txt: any) => setText(txt)}
-                    onFocus={() => setInputFocus(1)}
-                    onBlur={() => setInputFocus(null)}
-                    InputLeftElement={
-                        <Icon 
-                          as={
-                            <Ionicons 
-                              name="mail-outline" 
-                            />
-                          } 
-                          size={5} 
-                          ml="4" 
-                          color={inputFocus === 1 ? 'primary.600' : 'gray.400'}
-                        />
-                      }
-                    />
-                </FormControl>
-                
-                {/* Password input */}
-                <FormControl>
-                  <Input
-                    isRequired
-                    placeholder={'Password'}
-                    type={showPass ? "" : "password"}
-                    label="Password"     
-                    defaultValue={pass}
-                    onChangeText={(txt: any) => setPass(txt)}
-                    onFocus={() => setInputFocus(2)}
-                    onBlur={() => setInputFocus(null)}
-                    InputLeftElement={
-                        <Icon 
-                          as={
-                            <Ionicons 
-                              name="lock-closed-outline" 
-                            />
-                          } 
-                          size={5} 
-                          ml="4" 
-                          color={inputFocus === 2 ? 'primary.600' : 'gray.400'}
-                        />
-                      }
-                    />
-                </FormControl>
-                
-                {/* Confirm password input */}
-                <FormControl>
-                  <Input
-                    isRequired
-                    placeholder={'Confirm Password'}
-                    type={showConfirmPass ? "" : "password"}
-                    label="Confirm Password"
-                    defaultValue={confirm_pass}
-                    onChangeText={(txt: any) => setConfirmPass(txt)}
-                    onFocus={() => setInputFocus(3)}
-                    onBlur={() => setInputFocus(null)}
-                    InputLeftElement={
-                        <Icon 
-                          as={
-                            <Ionicons 
-                              name="lock-closed-outline" 
-                            />
-                          } 
-                          size={5} 
-                          ml="4" 
-                          color={inputFocus === 3 ? 'primary.600' : 'gray.400'}
-                        />
-                      }
-                    />
-                </FormControl>
-                </VStack>
-
-              <Checkbox
-                alignItems="flex-start"
-                value="agreed"
-                colorScheme="primary"
-                accessibilityLabel="Remember me"
-                size="sm" 
-              >
-                <HStack alignItems="center">
-                  <Text 
-                    fontSize="sm" 
-                    pl="2"
-                    _light={{
-                      color: "gray.700",
-                    }}
-                    _dark={{
-                      color: "gray.300", 
-                    }}
-                  >
-                    I accept the{" "}
-                  </Text>
-                  <Link
-                    _text={{
-                      fontSize: "sm",
-                      fontWeight: "semibold",
-                      textDecoration: "none",
-                      color: 'primary.500'
-                    }}
-                  >
-                    Terms of Use
-                  </Link>
-                  <Text
-                    fontSize="sm" 
-                    _light={{
-                      color: "gray.700",
-                    }}
-                    _dark={{
-                      color: "gray.300", 
-                    }} 
-                  > & </Text>
-
-                  <Link
-                    _text={{
-                      fontSize: "sm",
-                      fontWeight: "semibold",
-                      textDecoration: "none",
-                      color:'primary.500'
-                    }}
-                  >
-                    Privacy Policy
-                  </Link>
-                </HStack>
-              </Checkbox>
-              
-              <Button
-                size="md"
-                _text={{
-                  fontSize: "sm",
-                  fontWeight: "medium",
-                }}
-                background="primary.600"
-                onPress={() => {
-                  navigation.replace("Home");
-                }}
-              >
-                Sign Up
-              </Button>
-            </VStack>
+                  }}
+                  onPress={() => handleSubmit()}
+                  background="primary.600"
+                  isLoadingText="Sign Up..."
+                  isLoading={false}
+                  spinnerPlacement="end"
+                >
+                  Sign Up
+                </Button>
+              </VStack>
+            )}
+            </Formik>
           </VStack>
         </VStack>
 

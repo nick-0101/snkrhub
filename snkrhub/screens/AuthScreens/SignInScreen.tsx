@@ -22,7 +22,9 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { RootTabScreenProps } from '../../types';
 
 export function SignInForm({ navigation }: any) {
-  // const router = useRouter(); //use incase of Nextjs
+  const [inputFocus, setInputFocus] = useState<number | null>(null)
+
+  // Form input
   const [text, setText] = useState("");
   const [pass, setPass] = useState("");
   const [showPass, setShowPass] = React.useState(false);
@@ -69,43 +71,52 @@ export function SignInForm({ navigation }: any) {
                 <VStack space={{ base: "3", md: "4" }}>
                     {/* Email Input */}
                     <FormControl>
-                        <FormControl.Label 
-                            _text={{
-                            fontSize: "xs",
-                            color: "gray.400",
-                            fontWeight: "medium"
-                            }}
-                        >
-                            Email
-                        </FormControl.Label>
                         <Input
                             isRequired
                             label="Email"
-                            placeholder="your@email.com"
+                            placeholder="Email address"
                             defaultValue={text}
                             onChangeText={(txt: any) => setText(txt)}
+                            onFocus={() => setInputFocus(1)}
+                            onBlur={() => setInputFocus(null)}
+                            InputLeftElement={
+                                <Icon 
+                                    as={
+                                        <Ionicons 
+                                            name="mail-outline" 
+                                        />
+                                    } 
+                                    size={5} 
+                                    ml="4" 
+                                    color={inputFocus === 1 ? 'primary.500' : 'gray.400'}
+                                />
+                            }
                         />
                     </FormControl>
                     
                     {/* Password input */}
                     <FormControl>
-                        <FormControl.Label 
-                            _text={{
-                            fontSize: "xs",
-                            color: "gray.400",
-                            fontWeight: "medium"
-                            }}
-                        >
-                            Password
-                        </FormControl.Label>
-
                         <Input
                             isRequired
-                            placeholder={'••••••••'}
+                            placeholder={'Password'}
                             type={showPass ? "" : "password"}
                             label="Password"     
                             defaultValue={pass}
                             onChangeText={(txt: any) => setPass(txt)}
+                            onFocus={() => setInputFocus(2)}
+                            onBlur={() => setInputFocus(null)}
+                            InputLeftElement={
+                                <Icon 
+                                    as={
+                                        <Ionicons 
+                                        name="lock-closed-outline" 
+                                        />
+                                    } 
+                                    size={5} 
+                                    ml="4" 
+                                    color={inputFocus === 2 ? 'primary.500' : 'gray.400'}
+                                />
+                            }
                         />
                     </FormControl>
             
