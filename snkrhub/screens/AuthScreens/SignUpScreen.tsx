@@ -190,7 +190,7 @@ const SignUpForm = ({ navigation }: any) => {
                 }}
                 background="primary.600"
                 onPress={() => {
-                  navigation.navigate("SignUp");
+                  navigation.replace("Home");
                 }}
               >
                 Sign Up

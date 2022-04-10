@@ -16,6 +16,7 @@ import { RootTabParamList, RootTabScreenProps } from '../../types';
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function AppTabs() {
+  const isSignout = true;
 
   return (
     <BottomTab.Navigator
@@ -29,6 +30,10 @@ function AppTabs() {
         component={HomeScreen}
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
           title: 'Home',
+
+          // When logging out, a pop animation feels intuitive
+          // You can remove this if you want the default 'push' animation
+          animationTypeForReplace: isSignout ? 'pop' : 'push',
           // tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         })}
       />
