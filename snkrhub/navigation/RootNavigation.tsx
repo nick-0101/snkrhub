@@ -5,12 +5,10 @@
  */
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
+import { useAuth } from '../context/AuthContext'
 
-
-// Auth  
+// Navigators
 import AuthScreens from './Auth/AuthScreens'
-
-// App
 import AppTabs  from './App/AppTabs';
 
 // Types
@@ -23,13 +21,15 @@ import { RootStackParamList } from '../types';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
-  const userToken = null;
+  // Auth state
+  const { user } = useAuth();
+
   return (
     <Stack.Navigator>
-      {userToken == null ? (
-          <Stack.Screen name="Root" component={AuthScreens} options={{ headerShown: false }} /> 
+      {user == null ? (
+        <Stack.Screen name="Root" component={AuthScreens} options={{ headerShown: false }} /> 
       ) : (
-          <Stack.Screen name="Root" component={AppTabs} options={{ headerShown: false }} /> 
+        <Stack.Screen name="Root" component={AppTabs} options={{ headerShown: false }} /> 
       )}
     </Stack.Navigator>
   );

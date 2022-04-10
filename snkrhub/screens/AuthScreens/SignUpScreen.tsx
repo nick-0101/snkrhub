@@ -11,12 +11,14 @@ import {
   Box,
   Stack,
   Input,
-  FormControl
+  FormControl,
+  Icon
 } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // Types
 import { RootTabScreenProps } from '../../types';
+import { Ionicons } from "@expo/vector-icons";
 
 const SignUpForm = ({ navigation }: any) => {
   const [text, setText] = useState("");
@@ -68,19 +70,33 @@ const SignUpForm = ({ navigation }: any) => {
               <VStack space={{ base: "3", md: "4" }}>
                 {/* Email Input */}
                 <FormControl>
-                  <FormControl.Label 
-                    _text={{
-                      fontSize: "xs",
-                      color: "gray.400",
-                      fontWeight: "medium"
-                    }}
-                  >
-                    Email
-                  </FormControl.Label>
+                  <Input
+                    isRequired
+                    label="Username"
+                    placeholder="Username"
+                    defaultValue={text}
+                    onChangeText={(txt: any) => setText(txt)}
+                    InputLeftElement={
+                      <Icon 
+                        as={
+                          <Ionicons 
+                            name="person" 
+                          />
+                        } 
+                        size={4} 
+                        ml="2" 
+                        color="muted.400" 
+                      />
+                    }
+                  />
+                </FormControl>
+
+                {/* Email Input */}
+                <FormControl>
                   <Input
                     isRequired
                     label="Email"
-                    placeholder="your@email.com"
+                    placeholder="Email address"
                     defaultValue={text}
                     onChangeText={(txt: any) => setText(txt)}
                   />
@@ -88,18 +104,9 @@ const SignUpForm = ({ navigation }: any) => {
                 
                 {/* Password input */}
                 <FormControl>
-                  <FormControl.Label 
-                    _text={{
-                      fontSize: "xs",
-                      color: "gray.400",
-                      fontWeight: "medium"
-                    }}
-                  >
-                    Password
-                  </FormControl.Label>
                   <Input
                     isRequired
-                    placeholder={'••••••••'}
+                    placeholder={'Password'}
                     type={showPass ? "" : "password"}
                     label="Password"     
                     defaultValue={pass}
@@ -109,18 +116,9 @@ const SignUpForm = ({ navigation }: any) => {
                 
                 {/* Confirm password input */}
                 <FormControl>
-                  <FormControl.Label 
-                    _text={{
-                      fontSize: "xs",
-                      color: "gray.400",
-                      fontWeight: "medium"
-                    }}
-                  >
-                    Confirm password
-                  </FormControl.Label>
                   <Input
                     isRequired
-                    placeholder={'••••••••'}
+                    placeholder={'Confirm Password'}
                     type={showConfirmPass ? "" : "password"}
                     label="Confirm Password"
                     defaultValue={confirm_pass}

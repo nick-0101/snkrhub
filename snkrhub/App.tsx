@@ -46,6 +46,16 @@ export default function App() {
           fontWeight: 'medium'
         },
       },
+      FormControl: {
+        baseStyle: (props: any) => {
+          return {
+            background: themeTools.mode("gray.800", "#262A31")(props),
+          };
+        },
+        defaultProps: {
+          borderRadius: '5',
+        },
+      },
     },
     config
   });
