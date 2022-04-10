@@ -40,7 +40,7 @@ export default function App() {
         defaultProps: {
           borderRadius: '5',
           px: '3.5',
-          py: '3',
+          py: '4',
           borderWidth: 1.2,
           fontSize: "sm",
           fontWeight: 'medium'

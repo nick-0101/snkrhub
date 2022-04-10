@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Alert } from "react-native";
 import {
   Button,
   Checkbox,
@@ -32,13 +31,7 @@ const SignUpForm = ({ navigation }: any) => {
   // Form state
   const [showPass, setShowPass] = React.useState(false);
   const [showConfirmPass, setShowConfirmPass] = React.useState(false);
-
-  // useEffect(() => {
-  //   if(formik.errors) {
-  //     console.log(formik.errors)
-  //   }
-  // }, [formik])
-
+  
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={{
@@ -98,19 +91,17 @@ const SignUpForm = ({ navigation }: any) => {
                 )
               }
             >
-              {({
+            {({
               handleChange,
               handleSubmit,
               setFieldValue,
               values,
               errors,
-              touched,
-              isValid,
             }) => (
               <VStack space="8">
-                <VStack space={{ base: "3", md: "4" }}>
+                <VStack space={{ base: "4", md: "4" }}>
                   {/* Input Input */}
-                  <FormControl>
+                  <FormControl isInvalid>
                     <Input
                       isRequired
                       label="username"
@@ -132,6 +123,40 @@ const SignUpForm = ({ navigation }: any) => {
                         />
                       }
                     />
+                    {errors.username ? 
+                      <Stack 
+                        direction="row"
+                        _light={{ bg: "gray.100" }}
+                        _dark={{ bg: "gray.900" }}
+                        pt="2"
+                      >
+                        <Icon 
+                          as={
+                            <Ionicons 
+                              name="alert-circle" 
+                            />
+                          } 
+                          size={5} 
+                          mr="2" 
+                          _light={{
+                            color: "red.700",
+                          }}
+                          _dark={{
+                            color: "red.300", 
+                          }} 
+                        />
+                        <Text 
+                          _light={{
+                            color: "red.700",
+                          }}
+                          _dark={{
+                            color: "red.300", 
+                          }} 
+                        >
+                          {errors.username}
+                        </Text>
+                      </Stack>
+                    : null}
                   </FormControl>
 
                   {/* Email Input */}
