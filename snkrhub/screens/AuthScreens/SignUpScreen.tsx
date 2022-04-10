@@ -21,6 +21,9 @@ import { Formik } from 'formik';
 // Validation
 import { SignUpValidationSchema } from "./Schemas/SignUpSchema";
 
+// Components
+import { FormError } from '../../components'
+
 // Types
 import { RootTabScreenProps } from '../../types';
 import { Ionicons } from "@expo/vector-icons";
@@ -83,11 +86,7 @@ const SignUpForm = ({ navigation }: any) => {
               }}
               onSubmit={(values) =>
                 console.log(
-                  values.username,
-                  values.email,
-                  values.password,
-                  values.confirmPassword,
-                  values.termsOfService
+                  values
                 )
               }
             >
@@ -97,11 +96,13 @@ const SignUpForm = ({ navigation }: any) => {
               setFieldValue,
               values,
               errors,
+              isValid,
+              isSubmitting
             }) => (
               <VStack space="8">
                 <VStack space={{ base: "4", md: "4" }}>
                   {/* Input Input */}
-                  <FormControl isInvalid>
+                  <FormControl isInvalid={errors.username ? true : false}>
                     <Input
                       isRequired
                       label="username"
@@ -124,43 +125,12 @@ const SignUpForm = ({ navigation }: any) => {
                       }
                     />
                     {errors.username ? 
-                      <Stack 
-                        direction="row"
-                        _light={{ bg: "gray.100" }}
-                        _dark={{ bg: "gray.900" }}
-                        pt="2"
-                      >
-                        <Icon 
-                          as={
-                            <Ionicons 
-                              name="alert-circle" 
-                            />
-                          } 
-                          size={5} 
-                          mr="2" 
-                          _light={{
-                            color: "red.700",
-                          }}
-                          _dark={{
-                            color: "red.300", 
-                          }} 
-                        />
-                        <Text 
-                          _light={{
-                            color: "red.700",
-                          }}
-                          _dark={{
-                            color: "red.300", 
-                          }} 
-                        >
-                          {errors.username}
-                        </Text>
-                      </Stack>
+                      <FormError error={errors.username} />
                     : null}
                   </FormControl>
 
                   {/* Email Input */}
-                  <FormControl>
+                  <FormControl isInvalid={errors.email ? true : false}> 
                     <Input
                       isRequired
                       label="email"
@@ -170,22 +140,26 @@ const SignUpForm = ({ navigation }: any) => {
                       onFocus={() => setInputFocus(1)}
                       onBlur={() => setInputFocus(null)}
                       InputLeftElement={
-                          <Icon 
-                            as={
-                              <Ionicons 
-                                name="mail-outline" 
-                              />
-                            } 
-                            size={5} 
-                            ml="4" 
-                            color={inputFocus === 1 ? 'primary.500' : 'gray.400'}
-                          />
-                        }
-                      />
+                        <Icon 
+                          as={
+                            <Ionicons 
+                              name="mail-outline" 
+                            />
+                          } 
+                          size={5} 
+                          ml="4" 
+                          color={inputFocus === 1 ? 'primary.500' : 'gray.400'}
+                        />
+                      }
+                    />
+
+                    {errors.email ? 
+                      <FormError error={errors.email} />
+                    : null}
                   </FormControl>
-                  
+
                   {/* Password input */}
-                  <FormControl>
+                  <FormControl isInvalid={errors.password ? true : false}>
                     <Input
                       isRequired
                       placeholder={'Password'}
@@ -196,22 +170,26 @@ const SignUpForm = ({ navigation }: any) => {
                       onFocus={() => setInputFocus(2)}
                       onBlur={() => setInputFocus(null)}
                       InputLeftElement={
-                          <Icon 
-                            as={
-                              <Ionicons 
-                                name="lock-closed-outline" 
-                              />
-                            } 
-                            size={5} 
-                            ml="4" 
-                            color={inputFocus === 2 ? 'primary.500' : 'gray.400'}
-                          />
-                        }
-                      />
+                        <Icon 
+                          as={
+                            <Ionicons 
+                              name="lock-closed-outline" 
+                            />
+                          } 
+                          size={5} 
+                          ml="4" 
+                          color={inputFocus === 2 ? 'primary.500' : 'gray.400'}
+                        />
+                      }
+                    />
+
+                    {errors.password ? 
+                      <FormError error={errors.password} />
+                    : null}
                   </FormControl>
                   
                   {/* Confirm password input */}
-                  <FormControl>
+                  <FormControl isInvalid={errors.confirmPassword ? true : false}>
                     <Input
                       isRequired
                       placeholder={'Confirm Password'}
@@ -222,20 +200,24 @@ const SignUpForm = ({ navigation }: any) => {
                       onFocus={() => setInputFocus(3)}
                       onBlur={() => setInputFocus(null)}
                       InputLeftElement={
-                          <Icon 
-                            as={
-                              <Ionicons 
-                                name="lock-closed-outline" 
-                              />
-                            } 
-                            size={5} 
-                            ml="4" 
-                            color={inputFocus === 3 ? 'primary.500' : 'gray.400'}
-                          />
-                        }
-                      />
+                        <Icon 
+                          as={
+                            <Ionicons 
+                              name="lock-closed-outline" 
+                            />
+                          } 
+                          size={5} 
+                          ml="4" 
+                          color={inputFocus === 3 ? 'primary.500' : 'gray.400'}
+                        />
+                      }
+                    />
+
+                    {errors.confirmPassword ? 
+                      <FormError error={errors.confirmPassword} />
+                    : null}
                   </FormControl>
-                  </VStack>
+                </VStack>
 
                 <Checkbox
                   alignItems="flex-start"
@@ -246,6 +228,7 @@ const SignUpForm = ({ navigation }: any) => {
                   onChange={(checked) => {
                     setFieldValue('termsOfService', checked.toString())
                   }} 
+                  isInvalid={errors.termsOfService ? true : false}
                 >
                   <HStack alignItems="center">
                     <Text 
@@ -304,7 +287,7 @@ const SignUpForm = ({ navigation }: any) => {
                       color: "white"
                     }
                   }}
-                  onPress={() => handleSubmit()}
+                  onPress={() => (!isSubmitting && handleSubmit())}
                   background="primary.600"
                   isLoadingText="Sign Up..."
                   isLoading={false}
