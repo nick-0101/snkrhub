@@ -7,7 +7,10 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } f
 
 // Types 
 type User = firebase.User | null;
-type ContextState = { user: User }
+type ContextState = { 
+    user: User,
+    signUp: (email: string, password: string) => Promise<firebase.UserCredential>
+}
 
 // Create auth context
 const AuthContext = createContext<ContextState | undefined>(undefined)
@@ -34,6 +37,7 @@ const AuthProvider: FC = ({ children }) => {
     }
 
     const signUp = (email: string, password: string) => {
+        // TODO: On sign up, also create document with username
         return createUserWithEmailAndPassword(auth, email, password)
     }
 

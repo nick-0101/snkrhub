@@ -11,7 +11,6 @@ type Props = {
 }
 
 const FormError = ({ error }: Props) => {
-    console.log(error)
     return (
         <>
             <Stack 

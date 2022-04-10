@@ -17,6 +17,7 @@ import {
 } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Formik } from 'formik';
+import { useAuth } from '../../context/AuthContext'
 
 // Validation
 import { SignUpValidationSchema } from "./Schemas/SignUpSchema";
@@ -29,12 +30,14 @@ import { RootTabScreenProps } from '../../types';
 import { Ionicons } from "@expo/vector-icons";
 
 const SignUpForm = ({ navigation }: any) => {
+  const { signUp } = useAuth()
   const [inputFocus, setInputFocus] = useState<number | null>(null)
   
   // Form state
   const [showPass, setShowPass] = React.useState(false);
   const [showConfirmPass, setShowConfirmPass] = React.useState(false);
-  
+  const [formLoader, setFormLoading] = useState(false)
+
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={{
@@ -84,20 +87,24 @@ const SignUpForm = ({ navigation }: any) => {
                 confirmPassword: '',
                 termsOfService: 'false',
               }}
-              onSubmit={(values) =>
-                console.log(
-                  values
-                )
-              }
+              onSubmit={async(values) => {
+                // Show button loading
+                setFormLoading(true)
+
+                // Sign up user
+                await signUp(values.email, values.password)
+                .catch(err => console.log(JSON.stringify(err)) )
+
+                // Hide form loader
+                setFormLoading(false)
+              }}
             >
             {({
               handleChange,
               handleSubmit,
               setFieldValue,
               values,
-              errors,
-              isValid,
-              isSubmitting
+              errors
             }) => (
               <VStack space="8">
                 <VStack space={{ base: "4", md: "4" }}>
@@ -135,7 +142,7 @@ const SignUpForm = ({ navigation }: any) => {
                       isRequired
                       label="email"
                       placeholder="Email address"
-                      defaultValue={values.email.trim()}
+                      defaultValue={values.email}
                       onChangeText={handleChange('email')}
                       onFocus={() => setInputFocus(1)}
                       onBlur={() => setInputFocus(null)}
@@ -287,10 +294,10 @@ const SignUpForm = ({ navigation }: any) => {
                       color: "white"
                     }
                   }}
-                  onPress={() => (!isSubmitting && handleSubmit())}
+                  onPress={() => handleSubmit()}
                   background="primary.600"
                   isLoadingText="Sign Up..."
-                  isLoading={false}
+                  isLoading={formLoader}
                   spinnerPlacement="end"
                 >
                   Sign Up
