@@ -23,7 +23,7 @@ import { RootStackParamList } from '../types';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
-  const userToken = 'a';
+  const userToken = null;
   return (
     <Stack.Navigator>
       {userToken == null ? (

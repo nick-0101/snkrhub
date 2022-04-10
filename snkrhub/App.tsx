@@ -2,9 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { extendTheme, NativeBaseProvider, themeTools, theme as nbTheme } from 'native-base';
 
+// App function imports
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
+import { AuthProvider } from './context/AuthContext';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -52,12 +54,14 @@ export default function App() {
     return null;
   } else {
     return (
-      <NativeBaseProvider theme={theme}>
-        <SafeAreaProvider>
-          <Navigation colorScheme={colorScheme} />
-          <StatusBar />
-        </SafeAreaProvider>
-      </NativeBaseProvider>
+      <AuthProvider>
+        <NativeBaseProvider theme={theme}>
+          <SafeAreaProvider>
+            <Navigation colorScheme={colorScheme} />
+            <StatusBar />
+          </SafeAreaProvider>
+        </NativeBaseProvider>
+      </AuthProvider>
     );
   }
 }

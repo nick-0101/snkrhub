@@ -13,12 +13,18 @@ type ContextState = { user: User }
 const AuthContext = createContext<ContextState | undefined>(undefined)
 
 // Use auth function for screens 
-export const useAuth = () => {
-    return useContext(AuthContext)
+const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (context === undefined) {
+        throw new Error(
+        "useFirebaseAuth must be used within a AuthProvider"
+        );
+    }
+    return context;
 }
 
 // Auth provider
-export const AuthProvider: FC = ({ children }) => {
+const AuthProvider: FC = ({ children }) => {
     const [user, setUser] = useState<User>(null)
     const [loading, setLoading] = useState(true)
     
@@ -46,19 +52,19 @@ export const AuthProvider: FC = ({ children }) => {
     }, [])
 
     const value = {
-    user,
-    getUser,
-    login,
-    signOutUser,
-    signUp,
-    loading
-  }
+        user,
+        getUser,
+        login,
+        signOutUser,
+        signUp,
+        loading
+    }
 
     return (
-        <AuthContext.Provider
-            value={value}
-        >
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     )
 }
+
+export { AuthProvider, useAuth }
