@@ -8,10 +8,11 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } f
 // Types 
 type User = firebase.User | null;
 type ContextState = { 
+    loading: boolean,
     user: User,
     signUp: (email: string, password: string) => Promise<firebase.UserCredential>
     signOutUser: () => Promise<void>,
-    loading: boolean
+    signIn: (email: string, password: string) => Promise<firebase.UserCredential>
 }
 
 // Create auth context
@@ -22,7 +23,7 @@ const useAuth = () => {
     const context = useContext(AuthContext);
     if (context === undefined) {
         throw new Error(
-        "useFirebaseAuth must be used within a AuthProvider"
+            "useFirebaseAuth must be used within a AuthProvider"
         );
     }
     return context;
@@ -34,10 +35,6 @@ const AuthProvider: FC = ({ children }) => {
     const [loading, setLoading] = useState(true)
     
     // User functions
-    const login = (email: string, password: string) => {
-        return signInWithEmailAndPassword(auth, email, password)
-    }
-
     const signUp = (email: string, password: string) => {
         // TODO: On sign up, also create document with username
         return createUserWithEmailAndPassword(auth, email, password)
@@ -47,14 +44,13 @@ const AuthProvider: FC = ({ children }) => {
         return signOut(auth)
     }
 
+    const signIn = (email: string, password: string) => {
+        return signInWithEmailAndPassword(auth, email, password)
+    }
+
     const getUser = () => {
         return auth.currentUser;
     }
-
-    // useEffect(() => {
-    //     const unsubscribe = auth.onAuthStateChanged(setUser);
-    //     return unsubscribe;
-    // }, [])
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -78,7 +74,7 @@ const AuthProvider: FC = ({ children }) => {
     const value = {
         user,
         getUser,
-        login,
+        signIn,
         signOutUser,
         signUp,
         loading

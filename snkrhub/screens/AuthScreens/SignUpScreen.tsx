@@ -93,10 +93,12 @@ const SignUpForm = ({ navigation }: any) => {
 
                 // Sign up user
                 await signUp(values.email, values.password)
-                .catch(err => console.log(JSON.stringify(err)) )
-
-                // Hide form loader
-                setFormLoading(false)
+                .catch(err => {
+                  console.log(JSON.stringify(err))
+                  
+                  // Hide form loader
+                  setFormLoading(false)
+                })
               }}
             >
             {({

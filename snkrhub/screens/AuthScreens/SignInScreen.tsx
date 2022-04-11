@@ -29,7 +29,7 @@ import { FormError } from '../../components'
 import { RootTabScreenProps } from '../../types';
 
 export function SignInForm({ navigation }: any) {
-  const { signUp } = useAuth()
+  const { signIn } = useAuth()
   const [inputFocus, setInputFocus] = useState<number | null>(null)
     
   // Form state
@@ -78,22 +78,21 @@ export function SignInForm({ navigation }: any) {
               validateOnBlur={false}
               validationSchema={SignInValidationSchema}
               initialValues={{
-                username: '',
                 email: '',
                 password: '',
-                confirmPassword: '',
-                termsOfService: 'false',
               }}
               onSubmit={async(values) => {
                 // Show button loading
                 setFormLoading(true)
 
                 // Sign up user
-                await signUp(values.email, values.password)
-                .catch(err => console.log(JSON.stringify(err)) )
-
-                // Hide form loader
-                setFormLoading(false)
+                await signIn(values.email, values.password)
+                .catch(err => {
+                  console.log(JSON.stringify(err))
+                  
+                  // Hide form loader
+                  setFormLoading(false)
+                })
               }}
             >
             {({

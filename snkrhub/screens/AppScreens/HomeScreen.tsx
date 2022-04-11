@@ -33,7 +33,9 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
         >
           <VStack px="4" mt="20" mb="5">
             <VStack>
-              <Button onPress={() => signOutUser()}>Click Me</Button>
+              <Button onPress={() => {
+                signOutUser().then(() => navigation.replace('Root'))
+              }}>Click Me</Button>
             </VStack>
           </VStack>
         </Stack>
