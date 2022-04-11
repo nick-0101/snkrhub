@@ -35,8 +35,6 @@ export default function RootNavigator() {
       ) : (
         <Stack.Screen name="Root" component={AppTabs} options={{ headerShown: false }} /> 
       )}
-    
-
     </Stack.Navigator>
   );
 }

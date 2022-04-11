@@ -15,6 +15,7 @@ import {
   Icon,
   Spinner
 } from "native-base";
+import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Formik } from 'formik';
 import { useAuth } from '../../context/AuthContext'
@@ -27,7 +28,6 @@ import { FormError } from '../../components'
 
 // Types
 import { RootTabScreenProps } from '../../types';
-import { Ionicons } from "@expo/vector-icons";
 
 const SignUpForm = ({ navigation }: any) => {
   const { signUp } = useAuth()

@@ -15,19 +15,25 @@ import {
   Box,
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
-
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Formik } from 'formik';
+import { useAuth } from '../../context/AuthContext'
+
+// Validation
+import { SignInValidationSchema } from "./Schemas/SignInSchema";
+
+// Components
+import { FormError } from '../../components'
 
 // Types
 import { RootTabScreenProps } from '../../types';
 
 export function SignInForm({ navigation }: any) {
+  const { signUp } = useAuth()
   const [inputFocus, setInputFocus] = useState<number | null>(null)
-
-  // Form input
-  const [text, setText] = useState("");
-  const [pass, setPass] = useState("");
-  const [showPass, setShowPass] = React.useState(false);
+    
+  // Form state
+  const [formLoader, setFormLoading] = useState(false)
 
   return (
     <KeyboardAwareScrollView
@@ -67,97 +73,137 @@ export function SignInForm({ navigation }: any) {
             </Text>
 
             {/* Form */}
-            <VStack space="5">
-                <VStack space={{ base: "3", md: "4" }}>
-                    {/* Email Input */}
-                    <FormControl>
-                        <Input
+            <Formik
+              validateOnChange={false}
+              validateOnBlur={false}
+              validationSchema={SignInValidationSchema}
+              initialValues={{
+                username: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+                termsOfService: 'false',
+              }}
+              onSubmit={async(values) => {
+                // Show button loading
+                setFormLoading(true)
+
+                // Sign up user
+                await signUp(values.email, values.password)
+                .catch(err => console.log(JSON.stringify(err)) )
+
+                // Hide form loader
+                setFormLoading(false)
+              }}
+            >
+            {({
+              handleChange,
+              handleSubmit,
+              setFieldValue,
+              values,
+              errors
+            }) => (
+                <VStack space="5">
+                    <VStack space={{ base: "3", md: "4" }}>
+                        {/* Email Input */}
+                        <FormControl isInvalid={errors.email ? true : false}> 
+                            <Input
                             isRequired
-                            label="Email"
+                            label="email"
                             placeholder="Email address"
-                            defaultValue={text}
-                            onChangeText={(txt: any) => setText(txt)}
+                            defaultValue={values.email}
+                            onChangeText={handleChange('email')}
                             onFocus={() => setInputFocus(1)}
                             onBlur={() => setInputFocus(null)}
                             InputLeftElement={
                                 <Icon 
-                                    as={
-                                        <Ionicons 
-                                            name="mail-outline" 
-                                        />
-                                    } 
-                                    size={5} 
-                                    ml="4" 
-                                    color={inputFocus === 1 ? 'primary.500' : 'gray.400'}
+                                as={
+                                    <Ionicons 
+                                    name="mail-outline" 
+                                    />
+                                } 
+                                size={5} 
+                                ml="4" 
+                                color={inputFocus === 1 ? 'primary.500' : 'gray.400'}
                                 />
                             }
-                        />
-                    </FormControl>
-                    
-                    {/* Password input */}
-                    <FormControl>
-                        <Input
+                            />
+
+                            {errors.email ? 
+                                <FormError error={errors.email} />
+                            : null}
+                        </FormControl>
+                        
+                        {/* Password input */}
+                        <FormControl isInvalid={errors.password ? true : false}>
+                            <Input
                             isRequired
                             placeholder={'Password'}
-                            type={showPass ? "" : "password"}
+                            type={"password"}
                             label="Password"     
-                            defaultValue={pass}
-                            onChangeText={(txt: any) => setPass(txt)}
+                            defaultValue={values.password.trim()}
+                            onChangeText={handleChange('password')}
                             onFocus={() => setInputFocus(2)}
                             onBlur={() => setInputFocus(null)}
                             InputLeftElement={
                                 <Icon 
-                                    as={
-                                        <Ionicons 
-                                        name="lock-closed-outline" 
-                                        />
-                                    } 
-                                    size={5} 
-                                    ml="4" 
-                                    color={inputFocus === 2 ? 'primary.500' : 'gray.400'}
+                                as={
+                                    <Ionicons 
+                                    name="lock-closed-outline" 
+                                    />
+                                } 
+                                size={5} 
+                                ml="4" 
+                                color={inputFocus === 2 ? 'primary.500' : 'gray.400'}
                                 />
                             }
-                        />
-                    </FormControl>
-            
-                </VStack>
-                            
-                {/* Forgot password link */}
-                <Link
-                    ml="auto"
-                    _text={{
-                        fontSize: "sm",
-                        fontWeight: "normal",
-                        textDecoration: "none",
-                    }}
-                    _light={{
-                        _text: {
-                            color: "primary.900",
-                        },
-                    }}
-                    _dark={{
-                        _text: {
-                            color: "primary.500",
-                        },
-                    }}
-                >
-                    Forgot password?
-                </Link>
+                            />
 
-                {/* Signin button */}
-                <Button
-                    _text={{
-                        fontSize: "sm",
-                        fontWeight: "medium",
-                    }}
-                    background="primary.600"
-                    onPress={() => {
-                        navigation.navigate("SignUp");
-                    }}
-                >
-                    Sign In
-                </Button>
-            </VStack>
+                            {errors.password ? 
+                            <FormError error={errors.password} />
+                            : null}
+                        </FormControl>
+                
+                    </VStack>
+                                
+                    {/* Forgot password link */}
+                    <Link
+                        ml="auto"
+                        _text={{
+                            fontSize: "sm",
+                            fontWeight: "normal",
+                            textDecoration: "none",
+                        }}
+                        _light={{
+                            _text: {
+                                color: "primary.900",
+                            },
+                        }}
+                        _dark={{
+                            _text: {
+                                color: "primary.500",
+                            },
+                        }}
+                    >
+                        Forgot password?
+                    </Link>
+
+                    {/* Signin button */}
+                    <Button
+                        _text={{
+                            fontSize: "sm",
+                            fontWeight: "medium",
+                        }}
+                        background="primary.600"
+                        onPress={() => {
+                            navigation.navigate("SignUp");
+                        }}
+                    >
+                        Sign In
+                    </Button>
+                </VStack>
+            )}
+            </Formik>
           </VStack>
         </VStack>
 
@@ -246,7 +292,7 @@ export default function SignIn({ navigation }: RootTabScreenProps<'SignIn'>) {
                     </Text>
                 </Link>
             </HStack>
-
+            
             <VStack px="4" mt="16" mb="5">
                 <Text
                     fontSize="md"

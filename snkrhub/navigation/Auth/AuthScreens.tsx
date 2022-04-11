@@ -21,7 +21,6 @@ import { RootTabParamList, RootTabScreenProps } from '../../types';
 const Stack = createStackNavigator<RootTabParamList>();
 
 function AuthScreens() {
-  const isSignout = true;
   return (
     <Stack.Navigator
       screenOptions={{
@@ -35,7 +34,7 @@ function AuthScreens() {
           title: '',
           // When logging out, a pop animation feels intuitive
           // You can remove this if you want the default 'push' animation
-          animationTypeForReplace: isSignout ? 'pop' : 'push',
+          animationTypeForReplace: 'pop'
         })}
       />
       <Stack.Screen
