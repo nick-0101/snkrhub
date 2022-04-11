@@ -9,13 +9,16 @@ import {
   StatusBar,
   Box,
   Stack,
-  Input,
-  FormControl
 } from "native-base";
+import { useAuth } from '../../context/AuthContext'
+
 // Types
 import { RootTabScreenProps } from '../../types';
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
+  // Auth state
+  const { signOutUser } = useAuth();
+
   return (
     <Center
         my="auto"
@@ -30,7 +33,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
         >
           <VStack px="4" mt="20" mb="5">
             <VStack>
-              <Text>Sign up</Text>
+              <Button onPress={() => signOutUser()}>Click Me</Button>
             </VStack>
           </VStack>
         </Stack>

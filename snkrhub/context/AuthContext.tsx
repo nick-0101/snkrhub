@@ -10,6 +10,8 @@ type User = firebase.User | null;
 type ContextState = { 
     user: User,
     signUp: (email: string, password: string) => Promise<firebase.UserCredential>
+    signOutUser: () => Promise<void>,
+    loading: boolean
 }
 
 // Create auth context
@@ -49,11 +51,23 @@ const AuthProvider: FC = ({ children }) => {
         return auth.currentUser;
     }
 
+    // useEffect(() => {
+    //     const unsubscribe = auth.onAuthStateChanged(setUser);
+    //     return unsubscribe;
+    // }, [])
+
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(setUser);
-        setLoading(false)
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            setTimeout(() => {
+                if (user) {
+                    setUser(user);
+                    setLoading(false)
+                }
+            }, 5000)
+        });
+
         return unsubscribe;
-    }, [])
+    }, []);
 
     const value = {
         user,

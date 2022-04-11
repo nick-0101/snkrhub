@@ -30,6 +30,11 @@ const linking: LinkingOptions<RootStackParamList> = {
               SignInScreen: 'signin',
             },
           },
+          Loading: {
+            screens: {
+              LoadingScreen: "loading"
+            }
+          }
         },
       },
     },

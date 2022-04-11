@@ -10,6 +10,7 @@ import { useAuth } from '../context/AuthContext'
 // Navigators
 import AuthScreens from './Auth/AuthScreens'
 import AppTabs  from './App/AppTabs';
+import LoadingScreen from '../screens/Loading/LoadingScreen';
 
 // Types
 import { RootStackParamList } from '../types';
@@ -22,15 +23,20 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {
   // Auth state
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
   return (
     <Stack.Navigator>
-      {user == null ? (
+      {loading ?
+        <Stack.Screen name="Root" component={LoadingScreen} options={{ headerShown: false }} /> 
+      :
+      user == null ? (
         <Stack.Screen name="Root" component={AuthScreens} options={{ headerShown: false }} /> 
       ) : (
         <Stack.Screen name="Root" component={AppTabs} options={{ headerShown: false }} /> 
       )}
+    
+
     </Stack.Navigator>
   );
 }
