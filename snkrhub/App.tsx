@@ -60,18 +60,24 @@ export default function App() {
     config
   });
 
+
+  const inset = {
+    frame: { x: 0, y: 0, width: 0, height: 0 },
+    insets: { top: 0, left: 0, right: 0, bottom: 0 },
+  };
+
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
-      <AuthProvider>
-        <NativeBaseProvider theme={theme}>
-          <SafeAreaProvider>
+      <NativeBaseProvider theme={theme} initialWindowMetrics={inset}>
+        <SafeAreaProvider>
+          <AuthProvider>
             <Navigation colorScheme={colorScheme} />
             <StatusBar />
-          </SafeAreaProvider>
-        </NativeBaseProvider>
-      </AuthProvider>
+          </AuthProvider>
+        </SafeAreaProvider>
+      </NativeBaseProvider>
     );
   }
 }
