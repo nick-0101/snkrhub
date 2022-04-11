@@ -15,6 +15,7 @@ const FormError = ({ error }: Props) => {
         <>
             <Stack 
                 direction="row"
+                alignItems={'center'}
                 _light={{ bg: "gray.100" }}
                 _dark={{ bg: "gray.900" }}
                 pt="2"

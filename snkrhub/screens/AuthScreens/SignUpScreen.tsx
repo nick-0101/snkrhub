@@ -296,11 +296,11 @@ const SignUpForm = ({ navigation }: any) => {
                   }}
                   onPress={() => handleSubmit()}
                   background="primary.600"
-                  isLoadingText="Sign Up..."
+                  isLoadingText="Sign up..."
                   isLoading={formLoader}
                   spinnerPlacement="end"
                 >
-                  Sign Up
+                  Sign up
                 </Button>
               </VStack>
             )}

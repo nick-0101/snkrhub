@@ -190,16 +190,23 @@ export function SignInForm({ navigation }: any) {
 
                     {/* Signin button */}
                     <Button
+                        size="md"
                         _text={{
                             fontSize: "sm",
                             fontWeight: "medium",
                         }}
-                        background="primary.600"
-                        onPress={() => {
-                            navigation.navigate("SignUp");
+                        _loading={{
+                            _text: {
+                            color: "white"
+                            }
                         }}
+                        onPress={() => handleSubmit()}
+                        background="primary.600"
+                        isLoadingText="Sign in..."
+                        isLoading={formLoader}
+                        spinnerPlacement="end"
                     >
-                        Sign In
+                        Sign in
                     </Button>
                 </VStack>
             )}
