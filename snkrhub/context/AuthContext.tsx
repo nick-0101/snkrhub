@@ -58,12 +58,18 @@ const AuthProvider: FC = ({ children }) => {
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
-            setTimeout(() => {
-                if (user) {
-                    setUser(user);
-                    setLoading(false)
-                }
-            }, 5000)
+            // setTimeout(() => {
+            //     if (user) {
+            //         setUser(user);
+            //         setLoading(false)
+            //     }
+            // }, 5000)
+            if (user) {
+                setUser(user);
+                setLoading(false)
+            } else {
+                setLoading(false)
+            }
         });
 
         return unsubscribe;
