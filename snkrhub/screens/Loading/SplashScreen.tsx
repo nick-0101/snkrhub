@@ -9,7 +9,7 @@ import {
 // Types
 import { RootTabScreenProps } from '../../types';
 
-export default function LoadingScreen({ navigation }: RootTabScreenProps<'Loading'>) {
+export default function SplashScreen({ navigation }: RootTabScreenProps<'Loading'>) {
   return (
     <Center>
         <Center 

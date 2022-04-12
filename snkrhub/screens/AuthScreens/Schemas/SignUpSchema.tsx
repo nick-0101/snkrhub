@@ -4,8 +4,8 @@ export const SignUpValidationSchema = yup.object().shape({
   username: yup
     .string()
     .trim()
-    .min(5, ({ min }) => `Username must be ${min} characters or more.`)
-    .max(16, ({ max }) => `Username must be ${max} characters or less.`)
+    .min(3, ({ min }) => `Username must be ${min} characters or more.`)
+    .max(10, ({ max }) => `Username must be ${max} characters or less.`)
     .required('Username is required.'),
   email: yup
     .string()

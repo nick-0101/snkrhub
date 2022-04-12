@@ -12,7 +12,8 @@ type ContextState = {
     user: User,
     signUp: (email: string, password: string) => Promise<firebase.UserCredential>
     signOutUser: () => Promise<void>,
-    signIn: (email: string, password: string) => Promise<firebase.UserCredential>
+    signIn: (email: string, password: string) => Promise<firebase.UserCredential>,
+    getUser: () => firebase.User | null
 }
 
 // Create auth context
@@ -53,17 +54,14 @@ const AuthProvider: FC = ({ children }) => {
     }
 
     useEffect(() => {
+        setLoading(true)
+
         const unsubscribe = auth.onAuthStateChanged((user) => {
-            // setTimeout(() => {
-            //     if (user) {
-            //         setUser(user);
-            //         setLoading(false)
-            //     }
-            // }, 5000)
             if (user) {
                 setUser(user);
                 setLoading(false)
             } else {
+                setUser(null);
                 setLoading(false)
             }
         });
