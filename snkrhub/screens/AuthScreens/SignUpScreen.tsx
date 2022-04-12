@@ -20,6 +20,10 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { Formik } from 'formik';
 import { useAuth } from '../../context/AuthContext'
 
+// Firebase
+import { db } from '../../firebaseSetup'
+import { doc, setDoc, getDoc } from "firebase/firestore"; 
+
 // Validation
 import { SignUpValidationSchema } from "./Schemas/SignUpSchema";
 
@@ -34,8 +38,8 @@ const SignUpForm = ({ navigation }: any) => {
   const [inputFocus, setInputFocus] = useState<number | null>(null)
   
   // Form state
-  const [showPass, setShowPass] = React.useState(false);
-  const [showConfirmPass, setShowConfirmPass] = React.useState(false);
+  const [usernameError, setUsernameError] = useState('')
+  const [emailError, setEmailError] = useState('')
   const [formLoader, setFormLoading] = useState(false)
 
   return (
@@ -90,15 +94,38 @@ const SignUpForm = ({ navigation }: any) => {
               onSubmit={async(values) => {
                 // Show button loading
                 setFormLoading(true)
+                
+                // Check if username exists
+                const docRef = doc(db, "users", values.username);
+                const docSnap = await getDoc(docRef);
 
-                // Sign up user
-                await signUp(values.email, values.password)
-                .catch(err => {
-                  console.log(JSON.stringify(err))
-                  
-                  // Hide form loader
-                  setFormLoading(false)
-                })
+                // If username doesn't exist, create user
+                if(!docSnap.exists()) {
+                  try {                
+                    // create the user account, get credentials back
+                    const userCredential = await signUp(values.email, values.password)
+                    
+                    // pull the user’s unique ID out of the result
+                    const uid = userCredential.user.uid
+                    
+                    // Add some initial data to it
+                    await setDoc(doc(db, "users", values.username), {
+                      userId: uid,
+                    });
+                  } 
+                  catch (error: any) {
+                    switch (error.code) {
+                      case 'auth/email-already-in-use':
+                        setEmailError('Email already in use.')
+                      case 'auth/invalid-email':
+                        setEmailError('Enter a valid email.')
+                      default:
+                        setEmailError(error.message)
+                    }
+                  }
+                } else {
+                  return setUsernameError('Username already exists')
+                }
               }}
             >
             {({
@@ -133,8 +160,8 @@ const SignUpForm = ({ navigation }: any) => {
                         />
                       }
                     />
-                    {errors.username ? 
-                      <FormError error={errors.username} />
+                    {errors.username || usernameError ? 
+                      <FormError error={errors.username || usernameError} />
                     : null}
                   </FormControl>
 
@@ -162,8 +189,8 @@ const SignUpForm = ({ navigation }: any) => {
                       }
                     />
 
-                    {errors.email ? 
-                      <FormError error={errors.email} />
+                    {errors.email || emailError ? 
+                      <FormError error={errors.email || emailError} />
                     : null}
                   </FormControl>
 
@@ -172,7 +199,7 @@ const SignUpForm = ({ navigation }: any) => {
                     <Input
                       isRequired
                       placeholder={'Password'}
-                      type={showPass ? "" : "password"}
+                      type={"password"}
                       label="Password"     
                       defaultValue={values.password.trim()}
                       onChangeText={handleChange('password')}
@@ -202,7 +229,7 @@ const SignUpForm = ({ navigation }: any) => {
                     <Input
                       isRequired
                       placeholder={'Confirm Password'}
-                      type={showConfirmPass ? "" : "password"}
+                      type={"password"}
                       label="comfirmPassword"
                       defaultValue={values.confirmPassword.trim()}
                       onChangeText={handleChange('confirmPassword')}

@@ -2,15 +2,15 @@ import { FC, createContext, useContext, useEffect, useState } from 'react';
 
 // Firebase
 import firebase from "firebase/auth";
-import { auth } from "../firebaseSetup";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { auth, db } from "../firebaseSetup";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 
 // Types 
 type User = firebase.User | null;
 type ContextState = { 
     loading: boolean,
     user: User,
-    signUp: (email: string, password: string) => Promise<firebase.UserCredential>
+    signUp: (email: string, password: string) => Promise<firebase.UserCredential>,
     signOutUser: () => Promise<void>,
     signIn: (email: string, password: string) => Promise<firebase.UserCredential>,
     getUser: () => firebase.User | null
@@ -36,8 +36,29 @@ const AuthProvider: FC = ({ children }) => {
     const [loading, setLoading] = useState(true)
     
     // User functions
-    const signUp = (email: string, password: string) => {
-        // TODO: On sign up, also create document with username
+    const signUp = async (email: string, password: string) => {
+        // try {
+        //     const newUser = await runTransaction(db, async (transaction) => {
+        //         const usrDoc = await transaction.get(usrDocRef);
+
+        //         // Username does not exist
+        //         if (!usrDoc.exists()) {
+        //             // Create user
+        //             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+                    
+        //             // pull the user’s unique ID out of the result
+        //             const uid = userCredential.user.uid
+
+        //             transaction.set(usrDocRef, { userId: uid })
+        //         }
+        //     });
+
+        //     console.log("Population increased to ", newUser);
+        // } catch (e) {
+        //     // This will be a "population is too big" error.
+        //     console.error(e);
+        // }
+        
         return createUserWithEmailAndPassword(auth, email, password)
     }
 
