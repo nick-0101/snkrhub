@@ -112,8 +112,7 @@ const SignUpForm = ({ navigation }: any) => {
                     await setDoc(doc(db, "users", values.username), {
                       userId: uid,
                     });
-                  } 
-                  catch (error: any) {
+                  } catch (error: any) {
                     switch (error.code) {
                       case 'auth/email-already-in-use':
                         setEmailError('Email already in use.')
@@ -124,7 +123,7 @@ const SignUpForm = ({ navigation }: any) => {
                       default:
                         setEmailError(error.message)
                     }
-
+                  } finally {
                     setFormLoading(false)
                   }
                 } else {
