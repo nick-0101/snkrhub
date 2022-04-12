@@ -117,13 +117,18 @@ const SignUpForm = ({ navigation }: any) => {
                     switch (error.code) {
                       case 'auth/email-already-in-use':
                         setEmailError('Email already in use.')
+                        break;
                       case 'auth/invalid-email':
                         setEmailError('Enter a valid email.')
+                        break;
                       default:
                         setEmailError(error.message)
                     }
+
+                    setFormLoading(false)
                   }
                 } else {
+                  setFormLoading(false)
                   return setUsernameError('Username already exists')
                 }
               }}
