@@ -3,16 +3,20 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import * as React from 'react';
 
 // Screens
 import SignUpScreen from '../../screens/AuthScreens/SignUpScreen';
 import SignInScreen from '../../screens/AuthScreens/SignInScreen';
+import ForgotPasswordScreen from '../../screens/AuthScreens/ForgotPasswordScreen';
 
 // Types
-import { RootTabParamList, RootTabScreenProps } from '../../types';
+import { RootTabParamList } from '../../types';
 
+const TransitionScreenOptions = {
+  ...TransitionPresets.SlideFromRightIOS, // This is where the transition happens
+};
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
@@ -24,22 +28,21 @@ function AuthScreens() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: false
+        headerShown: false,
+        ...TransitionPresets.SlideFromRightIOS
       }}
     >
       <Stack.Screen
         name="SignUp"
         component={SignUpScreen}
-        options={({ navigation }: RootTabScreenProps<'SignUp'>) => ({
-          title: '',
-        })}
       />
       <Stack.Screen
         name="SignIn"
         component={SignInScreen}
-        options={({ navigation }: RootTabScreenProps<'SignIn'>) => ({
-          title: 'SignIn',
-        })}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPasswordScreen}
       />
     </Stack.Navigator>
   );

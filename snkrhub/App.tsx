@@ -23,6 +23,14 @@ export default function App() {
       primary: nbTheme.colors.blue,
     },
     components: {
+      Text: {
+        baseStyle: (props: any) => {
+          return {
+            // light: any, dark: any
+            color: themeTools.mode("gray.500", "gray.400")(props),
+          };
+        },
+      },
       Button: {
         defaultProps: {
           borderRadius: '6',
@@ -34,7 +42,8 @@ export default function App() {
           return {
             // light: any, dark: any
             borderColor: themeTools.mode("gray.300", "gray.800")(props),
-            background: themeTools.mode("gray.800", "#262A31")(props),
+            background: themeTools.mode("#fff", "#262A31")(props),
+            color: "gray.400"
           };
         },
         defaultProps: {
@@ -49,7 +58,7 @@ export default function App() {
       FormControl: {
         baseStyle: (props: any) => {
           return {
-            background: themeTools.mode("gray.800", "#262A31")(props),
+            background: themeTools.mode("#fff", "#262A31")(props),
           };
         },
         defaultProps: {
@@ -60,17 +69,11 @@ export default function App() {
     config
   });
 
-
-  const inset = {
-    frame: { x: 0, y: 0, width: 0, height: 0 },
-    insets: { top: 0, left: 0, right: 0, bottom: 0 },
-  };
-
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
-      <NativeBaseProvider theme={theme} initialWindowMetrics={inset}>
+      <NativeBaseProvider theme={theme}>
         <SafeAreaProvider>
           <AuthProvider>
             <Navigation colorScheme={colorScheme} />

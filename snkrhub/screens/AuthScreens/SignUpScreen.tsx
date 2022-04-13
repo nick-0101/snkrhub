@@ -137,7 +137,8 @@ const SignUpForm = ({ navigation }: any) => {
               handleSubmit,
               setFieldValue,
               values,
-              errors
+              errors,
+              dirty
             }) => (
               <VStack space="8">
                 <VStack space={{ base: "4", md: "4" }}>
@@ -327,11 +328,22 @@ const SignUpForm = ({ navigation }: any) => {
                       color: "white"
                     }
                   }}
+                  _disabled={{
+                    _light: { 
+                      background: "coolGray.300",
+                      color: "gray.300"                    
+                    },
+                    _dark: { 
+                      background: "coolGray.700",
+                      color: "gray.100"                    
+                    },
+                  }}
                   onPress={() => handleSubmit()}
                   background="primary.600"
                   isLoadingText="Sign up..."
                   isLoading={formLoader}
                   spinnerPlacement="end"
+                  isDisabled={!dirty}
                 >
                   Sign up
                 </Button>
@@ -350,8 +362,6 @@ const SignUpForm = ({ navigation }: any) => {
         >
           <Text
             fontSize="sm"
-            _light={{ color: "gray.800" }}
-            _dark={{ color: "gray.400" }}
           >
             Already have an account?
           </Text>
