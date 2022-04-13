@@ -30,10 +30,12 @@ import { RootTabScreenProps } from '../../types';
 
 export function SignInForm({ navigation }: any) {
   const { signIn } = useAuth()
-  const [inputFocus, setInputFocus] = useState<number | null>(null)
     
   // Form state
   const [formLoader, setFormLoading] = useState(false)
+  const [inputFocus, setInputFocus] = useState<number | null>(null)
+  const [emailError, setEmailError] = useState('')
+
 
   return (
     <KeyboardAwareScrollView
@@ -87,8 +89,17 @@ export function SignInForm({ navigation }: any) {
 
                 // Sign up user
                 await signIn(values.email, values.password)
-                .catch(err => {
-                  console.log(JSON.stringify(err))
+                .catch((err: any) => {
+                  switch (err.code) {
+                    case 'auth/wrong-password':
+                      setEmailError('Incorrect user credentials.')
+                      break;
+                    case 'auth/invalid-email':
+                      setEmailError('Enter a valid email.')
+                      break;
+                    default:
+                      setEmailError(err.message)
+                  }
                   
                   // Hide form loader
                   setFormLoading(false)
@@ -129,8 +140,8 @@ export function SignInForm({ navigation }: any) {
                       }
                       />
 
-                      {errors.email ? 
-                          <FormError error={errors.email} />
+                      {errors.email || emailError ? 
+                          <FormError error={errors.email || emailError} />
                       : null}
                     </FormControl>
                     
