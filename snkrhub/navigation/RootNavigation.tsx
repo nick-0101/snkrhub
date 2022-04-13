@@ -31,7 +31,6 @@ export default function RootNavigator() {
   // Auth state
   const { user, loading } = useAuth();
 
-
   return (
     <Stack.Navigator>
       {loading ?

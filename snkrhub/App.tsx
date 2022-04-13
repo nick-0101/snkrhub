@@ -43,7 +43,7 @@ export default function App() {
             // light: any, dark: any
             borderColor: themeTools.mode("gray.300", "gray.800")(props),
             background: themeTools.mode("#fff", "#262A31")(props),
-            color: "gray.400"
+            color: themeTools.mode("gray.400", "gray.200")(props),
           };
         },
         defaultProps: {

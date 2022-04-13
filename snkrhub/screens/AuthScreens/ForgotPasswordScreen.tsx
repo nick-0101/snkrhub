@@ -30,11 +30,13 @@ import { RootTabScreenProps } from '../../types';
 import { background } from "native-base/lib/typescript/theme/styled-system";
 
 export function ForgotPasswordForm({ navigation }: any) {
-  const { signIn } = useAuth()
-  const [inputFocus, setInputFocus] = useState<number | null>(null)
+  const { forgotPassword } = useAuth()
     
   // Form state
   const [formLoader, setFormLoading] = useState(false)
+  const [inputFocus, setInputFocus] = useState<number | null>(null)
+  const [emailError, setEmailError] = useState('')
+
 
   return (
     <KeyboardAwareScrollView
@@ -84,12 +86,23 @@ export function ForgotPasswordForm({ navigation }: any) {
               onSubmit={async(values) => {
                 // Show button loading
                 setFormLoading(true)
+
+                // Send email
+                await forgotPassword(values.email)
+                .catch((err: any) => {
+                  setEmailError(err.message);
+                  
+                  // Hide form loader
+                  setFormLoading(false)
+                })
+
+                // Hidee button loading
+                setFormLoading(false)
               }}
             >
             {({
               handleChange,
               handleSubmit,
-              setFieldValue,
               values,
               dirty,
               errors
@@ -120,8 +133,8 @@ export function ForgotPasswordForm({ navigation }: any) {
                     }
                     />
 
-                    {errors.email ? 
-                      <FormError error={errors.email} />
+                    {errors.email || emailError ? 
+                      <FormError error={errors.email || emailError} />
                     : null}
                   </FormControl>
                 </VStack>
@@ -150,7 +163,7 @@ export function ForgotPasswordForm({ navigation }: any) {
                   }}
                   onPress={() => handleSubmit()}
                   background="primary.600"
-                  isLoadingText="Sign in..."
+                  isLoadingText="Reset Password..."
                   isLoading={formLoader}
                   spinnerPlacement="end"
                   isDisabled={!dirty}
