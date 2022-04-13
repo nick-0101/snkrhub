@@ -1,11 +1,11 @@
 {
-  "name": "inventory-microservice",
+  "name": "test",
   "version": "1.0.0",
-  "description": "Handle requests regarding creating, updating, or reading inventory items.",
+  "description": "Starter code for node ts app running in a docker container with hot reload",
   "scripts": {
     "build": "tsc",
-    "start:dev": "node -r dist/server.js",
-    "start:watch": "nodemon --exec npx ts-node src/server.ts"
+    "start:dev": "node -r dotenv/config dist/server.js",
+    "start:watch": "nodemon -L src/server.ts"
   },
   "author": "Kartik K",
   "license": "ISC",

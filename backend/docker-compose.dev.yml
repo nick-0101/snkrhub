@@ -1,15 +1,17 @@
 version: '3.8'
 services:
   inventory-microservice:
+    restart: always
     build:
-      # Location of dockerfile
       context: ./inventory-microservice
-      # Pass all the different arguments
       args:
         NODE_ENV: development
     volumes:
-      - ./inventory-microservice:/usr/local/apps/inventory-microservice/dev:ro # Create a bind mount. First specify path to folder on local machine, then path to folder in docker container
-      - exclude:/usr/local/apps/inventory-microservice/dev/node_modules/ # Create anonymous volume to prevent the bind mount from overwriting the node_modules folder
+      - ./inventory-microservice:/usr/local/apps/inventory-app/dev
+      - exclude:/usr/local/apps/inventory-app/dev/node_modules/
     environment:
       - NODE_ENV=development
     command: npm run start:watch
+
+volumes:
+  exclude:

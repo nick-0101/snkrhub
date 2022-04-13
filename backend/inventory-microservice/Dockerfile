@@ -1,5 +1,5 @@
 # Node image to use
-FROM node:16
+FROM node:16-alpine
 
 # Directory where we run all the commands
 WORKDIR /usr/local/apps/inventory-app
@@ -23,9 +23,7 @@ COPY tsconfig.json ./
 # Copy the rest of our source code
 COPY src ./src
 
-# Set and expose port env
 ENV PORT 3000
 EXPOSE $PORT
 
-# Start the app
 CMD ["node", "server.ts"]
