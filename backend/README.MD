@@ -10,15 +10,19 @@ The backend uses the following technologies:
 
 - Expressjs (Web framework)
 - Postgresql (Database)
-- GraphQL (Api gateway)
+- Apollo GraphQL (Api)
 - Docker (Environment)
 - Nginx (Web server)
 - HAproxy (Load balancer)
 - Firebase (User auth)
 - Kubernetes (Container orchestration)
 
+[backend architecture](https://i.ibb.co/KXcX550/26236-F39-DCB3-43-B1-BBBC-5-F87753-EE030.jpg 'backend architecture')
+
 ## Why GraphQL
 
 GraphQL is being used as a central service that all the clients will talk too. GraphQL lets me provide a single api for the frontend application while allowing joins across data from different services. It pretty much acts the api gateway.
 
 Refer to this stackoverflow answer: [https://stackoverflow.com/questions/38071714/when-and-how-to-use-graphql-with-microservice-architecture](https://stackoverflow.com/questions/38071714/when-and-how-to-use-graphql-with-microservice-architecture)
+
+To actually merge all the microservices in one place, refer to this article: [https://labs.getninjas.com.br/sharing-data-in-a-microservices-architecture-using-graphql-97db59357602](https://labs.getninjas.com.br/sharing-data-in-a-microservices-architecture-using-graphql-97db59357602)
