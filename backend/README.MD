@@ -21,7 +21,7 @@ The backend uses the following technologies:
 
 ## Why GraphQL
 
-GraphQL is being used as a central service that all the clients will talk too. GraphQL lets me provide a single api for the frontend application while allowing joins across data from different services. It pretty much acts the api gateway.
+GraphQL is being used as a central service that all the clients will talk too. GraphQL lets me provide a single api for the frontend application while allowing joins across data from different services. There will be 1 GraphQL schema that acts as api gateway.
 
 Refer to this stackoverflow answer: [https://stackoverflow.com/questions/38071714/when-and-how-to-use-graphql-with-microservice-architecture](https://stackoverflow.com/questions/38071714/when-and-how-to-use-graphql-with-microservice-architecture)
 

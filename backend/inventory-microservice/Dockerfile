@@ -22,4 +22,4 @@ ENV PORT 3000
 EXPOSE $PORT
 
 # Start the app
-CMD [ "node", "server.js" ]
+CMD [ "node", "server.ts" ]
