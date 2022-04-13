@@ -17,7 +17,7 @@ The backend uses the following technologies:
 - Firebase (User auth)
 - Kubernetes (Container orchestration)
 
-[backend architecture](https://i.ibb.co/KXcX550/26236-F39-DCB3-43-B1-BBBC-5-F87753-EE030.jpg 'backend architecture')
+![backend architecture](https://i.ibb.co/KXcX550/26236-F39-DCB3-43-B1-BBBC-5-F87753-EE030.jpg 'backend architecture')
 
 ## Why GraphQL
 
