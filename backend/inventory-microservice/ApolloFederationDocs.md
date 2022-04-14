@@ -37,9 +37,11 @@ To create a gateway, refer to this: [https://www.apollographql.com/docs/federati
 
 For more info on Subgraph Schemas, refer to: [https://www.apollographql.com/docs/federation/federated-types/overview#subgraph-schemas](https://www.apollographql.com/docs/federation/federated-types/overview#subgraph-schemas)
 
-### Composition
+### Schema composition
 
 Composition is the process of combining a set of subgraph schemas into a supergraph schema.
+
+To compose a supergraph schema, check these docs: [https://www.apollographql.com/docs/federation/federated-types/composition#manually-with-the-rover-cli](https://www.apollographql.com/docs/federation/federated-types/composition#manually-with-the-rover-cli)
 
 #### Rules of composition
 
@@ -51,3 +53,5 @@ In Federation 2, subgraph schemas must follow all of these rules to successfully
 
 - If multiple subgraphs define the same type, each field of that type must be resolvable by every valid GraphQL operation that includes it.
   - This rule is the most complex and the most essential to Federation 2. More info here: [https://www.apollographql.com/docs/federation/federated-types/composition#unresolvable-field-example](https://www.apollographql.com/docs/federation/federated-types/composition#unresolvable-field-example)
+
+#### Federation-specific GraphQL directives
