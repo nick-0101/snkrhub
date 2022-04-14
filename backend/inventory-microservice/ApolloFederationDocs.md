@@ -35,4 +35,19 @@ To create a gateway, refer to this: [https://www.apollographql.com/docs/federati
 - API schema. This schema is like the supergraph schema, but it omits types, fields, and directives that are considered "machinery" and are not part of your public API (this includes Federation-specific information).
   - This is the schema that your gateway exposes to clients, who don't need to know internal implementation details about your graph.
 
-For more info on Subgraph Schemas, refer to: [https://www.apollographql.com/docs/federation/federated-types/overview#api-schema](https://www.apollographql.com/docs/federation/federated-types/overview#api-schema)
+For more info on Subgraph Schemas, refer to: [https://www.apollographql.com/docs/federation/federated-types/overview#subgraph-schemas](https://www.apollographql.com/docs/federation/federated-types/overview#subgraph-schemas)
+
+### Composition
+
+Composition is the process of combining a set of subgraph schemas into a supergraph schema.
+
+#### Rules of composition
+
+In Federation 2, subgraph schemas must follow all of these rules to successfully compose into a supergraph schema:
+
+- Multiple subgraphs can't define the same field on an object type, unless that field is shareable.
+
+- A shared field must have both a compatible return type and compatible argument types across each defining subgraph.
+
+- If multiple subgraphs define the same type, each field of that type must be resolvable by every valid GraphQL operation that includes it.
+  - This rule is the most complex and the most essential to Federation 2. More info here: [https://www.apollographql.com/docs/federation/federated-types/composition#unresolvable-field-example](https://www.apollographql.com/docs/federation/federated-types/composition#unresolvable-field-example)
