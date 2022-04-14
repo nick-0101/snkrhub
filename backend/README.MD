@@ -4,7 +4,7 @@ Documentation for the design of the backend for SnkrHub.
 
 ## Overview
 
-The SnkrHub app backend uses the microservice architecture. We will have a microservice for each major function of the app (ie. Analytics microservice, Inventory microservice, Orders microservice, etc).
+The SnkrHub app backend uses the microservice architecture. It will have a microservice for each major function of the app (ie. Analytics microservice, Inventory microservice, Orders microservice, etc).
 
 The backend uses the following technologies:
 
