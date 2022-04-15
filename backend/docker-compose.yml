@@ -1,6 +1,18 @@
 version: '3.8'
 services:
   # ---------------------------
+  # GraphQL Gateway
+  # ---------------------------
+  graphql-gateway:
+    container_name: 'graphql-gateway'
+    hostname: 'graphql-gateway'
+    build: ./gateway
+    ports:
+      - '3000:3000'
+    environment:
+      - PORT=3000
+
+  # ---------------------------
   # Inventory microservice
   # ---------------------------
   inventory-microservice:
@@ -8,6 +20,6 @@ services:
     hostname: 'inventory-microservice'
     build: ./inventory-microservice
     ports:
-      - '3000:3000'
+      - '3001:3001'
     environment:
-      - PORT=3000
+      - PORT=3001

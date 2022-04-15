@@ -67,7 +67,7 @@ const startServer = async () => {
   server.applyMiddleware({ app });
 
   // Start express server
-  const PORT = process.env.PORT || 3001;
+  const PORT = process.env.PORT || 3000;
   app.listen(PORT, () =>
     console.log(`⚡️ [server]: Server is running on http://localhost:${PORT}`)
   );
