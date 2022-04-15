@@ -55,3 +55,15 @@ In Federation 2, subgraph schemas must follow all of these rules to successfully
   - This rule is the most complex and the most essential to Federation 2. More info here: [https://www.apollographql.com/docs/federation/federated-types/composition#unresolvable-field-example](https://www.apollographql.com/docs/federation/federated-types/composition#unresolvable-field-example)
 
 #### Federation-specific GraphQL directives
+
+Apollo Federation defines a collection of directives that you use in your subgraph schemas to enable certain features.
+
+`@key` for example, designates an object type as an entity. In a federated graph, an entity is an object type that can resolve its fields across multiple subgraphs
+
+More info here: [https://www.apollographql.com/docs/federation/federated-types/federated-directives#managing-entities](https://www.apollographql.com/docs/federation/federated-types/federated-directives#managing-entities)
+
+#### Caching
+
+Docs for caching (federation): [https://www.apollographql.com/docs/federation/performance/caching](https://www.apollographql.com/docs/federation/performance/caching)
+
+Docs for caching with apollo server v3: [https://www.apollographql.com/docs/apollo-server/performance/caching/](https://www.apollographql.com/docs/apollo-server/performance/caching/)
