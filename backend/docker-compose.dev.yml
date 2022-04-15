@@ -6,7 +6,7 @@ services:
   graphql-gateway:
     restart: always
     build:
-      context: ./gateway
+      context: .
       dockerfile: ./gateway/Dockerfile.dev
       args:
         NODE_ENV: development
@@ -24,6 +24,7 @@ services:
     restart: always
     build:
       context: ./inventory-microservice
+      dockerfile: ./Dockerfile.dev
       args:
         NODE_ENV: development
     volumes:

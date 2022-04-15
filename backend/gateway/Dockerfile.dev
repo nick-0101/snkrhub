@@ -5,19 +5,17 @@ FROM node:16-alpine
 WORKDIR /usr/local/apps/gateway-app
 
 # Copy the package.json file to out image's filesystem
-COPY package.json ./
+COPY ./gateway/package.json ./
+
+# Copy supergraph
+COPY supergraph.graphql ./
+
 
 # Set working directory to /dev
 WORKDIR /usr/local/apps/gateway-app/dev
 
-# Copy tsconfig
-COPY tsconfig.json ./
-
-# If we are in development, then copy our node_modules
-COPY node_modules ./node_modules
-
-# Copy the rest of the source code
-COPY src ./src
+# Copy all project files
+COPY ./gateway ./
 
 ENV PORT 3000
 EXPOSE $PORT

@@ -10,14 +10,8 @@ COPY package.json ./
 # Set working directory to /dev
 WORKDIR /usr/local/apps/inventory-app/dev
 
-# Copy tsconfig
-COPY tsconfig.json ./
-
-# If we are in development, then copy our node_modules
-COPY node_modules ./node_modules
-
-# Copy the rest of the source code
-COPY src ./src
+# Copy all project files
+COPY . ./
 
 ENV PORT 3000
 EXPOSE $PORT
