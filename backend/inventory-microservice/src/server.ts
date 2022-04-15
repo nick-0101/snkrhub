@@ -20,44 +20,38 @@ app.get('/about', (req: Request, res: Response) => {
   res.json(aboutInfo);
 });
 
-interface Content {
+interface User {
     id: string
-    title: string
-    year: string
+    username: string
 }
-
-const contents = [
-  { id: "1", title: "Batman", year: "1989" },
-  { id: "2", title: "Batman Returns", year: "1992" },
-  { id: "3", title: "Batman: The Animated Series", year: "1992" },
-];
 
 const typeDefs = gql`
 extend schema
-  @link(url: "https://specs.apollo.dev/federation/v2.0",
-        import: ["@key", "@shareable"])
-        
+    @link(url: "https://specs.apollo.dev/federation/v2.0",
+          import: ["@key", "@shareable"])
+
   type Query {
-    contents: [Content]
+    me: User
   }
-  type Content @key(fields: "id") {
+
+  type User @key(fields: "id") {
     id: ID!
-    title: String
-    year: String
+    username: String
   }
 `;
 
+
 const resolvers = {
   Query: {
-    contents() {
-      return contents;
-    },
+    me() {
+      return { id: "1", username: "@ava" }
+    }
   },
-  content: {
-    __resolveReference(content: Content) {
-      return contents.find(c => c.id === content.id);
-    },
-  },
+  user: {
+    __resolveReference(user: User, { fetchUserById }: any){
+      return fetchUserById(user.id)
+    }
+  }
 };
 
 // Start server

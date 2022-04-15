@@ -3,4 +3,4 @@ subgraphs:
   content:
     routing_url: http://localhost:3000/graphql
     schema:
-      subgraph_url: http://localhost:3000/graphql
+      file: ./inventory-microservice/src/schema/user.graphql
