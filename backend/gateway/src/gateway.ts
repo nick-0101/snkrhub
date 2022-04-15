@@ -13,7 +13,7 @@ const gateway = new ApolloGateway({
     watcher.on('change', async () => {
         // update the supergraph schema
         try {
-            console.log(`📦 Rebuilding supergraph `);
+            console.log(`📦 [gateway]: Rebuilding supergraph `);
             const updatedSupergraph = readFileSync("../supergraph.graphql", 'utf16le')
         
             // optional health check update to ensure our services are responsive
@@ -48,5 +48,5 @@ const server = new ApolloServer({
 });
 
 server.listen().then(() => {
-  console.log(`🚀 Gateway ready `);
+  console.log(`⚡️ [gateway]: Gateway is online`);
 });

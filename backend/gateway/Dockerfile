@@ -5,14 +5,17 @@ FROM node:16-alpine
 WORKDIR /usr/local/apps/gateway-app
 
 # Copy the package.json file to out image's filesystem
-COPY package.json package-lock.json ./
+# COPY package.json package-lock.json ./
+COPY package.json ./
+
 
 # Run a npm install command based on node env
 ARG NODE_ENV
-RUN if [ "$NODE_ENV" = "development" ]; \
-    then npm install && npm cache clean --force; \
-    else npm install --only=production; \
-    fi
+# RUN if [ "$NODE_ENV" = "development" ]; \
+#     then npm install && npm cache clean --force; \
+#     else npm install --only=production; \
+#     fi
+RUN npm install && npm cache clean --force
 
 # Set working directory to /dev
 WORKDIR /usr/local/apps/gateway-app/dev

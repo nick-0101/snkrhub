@@ -5,7 +5,8 @@ FROM node:16-alpine
 WORKDIR /usr/local/apps/inventory-app
 
 # Copy the package.json file to out image's filesystem
-COPY package.json package-lock.json ./
+# COPY package.json package-lock.json ./
+COPY package.json ./
 
 # Run a npm install command based on node env
 ARG NODE_ENV

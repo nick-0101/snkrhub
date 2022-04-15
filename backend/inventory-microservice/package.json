@@ -4,7 +4,7 @@
   "description": "Starter code for node ts app running in a docker container with hot reload",
   "scripts": {
     "build": "tsc",
-    "start": "node -r dotenv/config dist/server.js",
+    "start": "node dist/server.js",
     "dev": "nodemon -L src/server.ts"
   },
   "author": "phoenixbeats01",
