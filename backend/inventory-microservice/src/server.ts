@@ -20,38 +20,44 @@ app.get('/about', (req: Request, res: Response) => {
   res.json(aboutInfo);
 });
 
-interface User {
+interface Content {
     id: string
-    username: string
+    title: string
+    year: string
 }
+
+const contents = [
+  { id: "1", title: "Batman", year: "1989" },
+  { id: "2", title: "Batman Returns", year: "1992" },
+  { id: "3", title: "Batman: The Animated Series", year: "1992" },
+];
 
 const typeDefs = gql`
 extend schema
   @link(url: "https://specs.apollo.dev/federation/v2.0",
         import: ["@key", "@shareable"])
-
+        
   type Query {
-    me: User
+    contents: [Content]
   }
-
-  type User @key(fields: "id") {
+  type Content @key(fields: "id") {
     id: ID!
-    username: String
+    title: String
+    year: String
   }
 `;
 
-
 const resolvers = {
   Query: {
-    me() {
-      return { id: "1", username: "@ava" }
-    }
+    contents() {
+      return contents;
+    },
   },
-  User: {
-    __resolveReference(user: User, { fetchUserById }: any){
-      return fetchUserById(user.id)
-    }
-  }
+  content: {
+    __resolveReference(content: Content) {
+      return contents.find(c => c.id === content.id);
+    },
+  },
 };
 
 // Start server
@@ -61,7 +67,7 @@ const startServer = async () => {
     schema: buildSubgraphSchema({ typeDefs, resolvers }),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
-  await server.start();
+  await server.start()
 
   // Mount Apollo middleware here.
   server.applyMiddleware({ app });

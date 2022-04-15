@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/gateway.js",
-    "dev": "nodemon -L src/gateway.ts"
+    "dev": "nodemon --exec npx ts-node src/gateway.ts"
   },
   "author": "phoenixbeats01",
   "license": "ISC",

@@ -1,0 +1,6 @@
+federation_version: 2 # Without this line, Rover uses Federation 1
+subgraphs:
+  content:
+    routing_url: http://localhost:3000/graphql
+    schema:
+      subgraph_url: http://localhost:3000/graphql
