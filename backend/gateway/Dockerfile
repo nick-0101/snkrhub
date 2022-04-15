@@ -15,7 +15,7 @@ ARG NODE_ENV
 #     then npm install && npm cache clean --force; \
 #     else npm install --only=production; \
 #     fi
-RUN npm install && npm cache clean --force
+RUN npm install --network=host
 
 # Set working directory to /dev
 WORKDIR /usr/local/apps/gateway-app/dev
