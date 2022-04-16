@@ -1,28 +1,9 @@
-import { Request, Response } from 'express';
-const express = require('express');
-const http = require('http');
-
-const app = express()
-const httpServer = http.createServer(app);
-
-// Apollo
-import { ApolloServer, gql } from 'apollo-server-express';
-import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
+const { ApolloServer, gql } = require('apollo-server');
 const { buildSubgraphSchema } = require('@apollo/subgraph');
 
-// Routes
-var properties = require('../package.json');
-app.get('/about', (req: Request, res: Response) => {
-  var aboutInfo = {
-    name: properties.name,
-    version: properties.version,
-  };
-  res.json(aboutInfo);
-});
-
 interface User {
-    id: string
-    username: string
+  id: string
+  username: string
 }
 
 const typeDefs = gql`
@@ -55,22 +36,11 @@ const resolvers = {
 };
 
 // Start server
-const startServer = async () => {
-  // Start apollo
-  const server = new ApolloServer({
-    schema: buildSubgraphSchema({ typeDefs, resolvers }),
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-  });
-  await server.start()
+const server = new ApolloServer({
+  schema: buildSubgraphSchema({ typeDefs, resolvers })
+});
 
-  // Mount Apollo middleware here.
-  server.applyMiddleware({ app });
-
-  // Start express server
-  const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () =>
-    console.log(`⚡️ [server]: Server is running on http://localhost:${PORT}`)
-  );
-};
-
-startServer();
+const PORT = process.env.PORT || 3001;
+server.listen({ port: PORT }).then(() => {
+  console.log(`⚡️ [inventory-microservice]: Inventory microservice is online`);
+});

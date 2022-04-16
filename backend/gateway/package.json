@@ -12,13 +12,9 @@
   "dependencies": {
     "@apollo/gateway": "^2.0.1",
     "apollo-server": "^3.6.7",
-    "apollo-server-core": "^3.6.7",
-    "apollo-server-express": "^3.6.7",
-    "express": "^4.17.3",
     "graphql": "^16.3.0"
   },
   "devDependencies": {
-    "@types/express": "^4.17.13",
     "@types/node": "^17.0.24",
     "apollo-server-types": "^3.5.2",
     "nodemon": "^2.0.15",

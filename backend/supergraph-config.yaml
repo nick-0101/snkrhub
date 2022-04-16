@@ -1,6 +1,6 @@
 federation_version: 2 # Without this line, Rover uses Federation 1
 subgraphs:
   user:
-    routing_url: http://localhost:3000/graphql
+    routing_url: http://localhost:3001/graphql
     schema:
       file: ./inventory-microservice/src/schema/user.graphql

@@ -11,21 +11,20 @@ const gateway = new ApolloGateway({
 
     // subscribe to file changes
     watcher.on('change', async () => {
-        // update the supergraph schema
-        try {
-            console.log(`📦 [gateway]: Rebuilding supergraph `);
-            const updatedSupergraph = readFileSync("../supergraph.graphql", 'utf16le')
+      // update the supergraph schema
+      try {
+        console.log(`📦 [gateway]: Rebuilding supergraph `);
+        const updatedSupergraph = readFileSync("../supergraph.graphql", 'utf16le')
+    
+        // optional health check update to ensure our services are responsive
+        await healthCheck(updatedSupergraph);
         
-            // optional health check update to ensure our services are responsive
-            await healthCheck(updatedSupergraph);
-            
-            // update the supergraph schema
-            update(updatedSupergraph);
-
-        } catch (e) {
-            // handle errors that occur during health check or while updating the supergraph schema 
-            console.error(e);   
-        }
+        // update the supergraph schema
+        update(updatedSupergraph);
+      } catch (e) {
+        // handle errors that occur during health check or while updating the supergraph schema 
+        console.error(e);   
+      }
     });
 
     // Fetch inital schema
@@ -34,11 +33,10 @@ const gateway = new ApolloGateway({
       supergraphSdl: await readFileSync('../supergraph.graphql', 'utf16le'),
 
       // cleanup is called when the gateway is stopped
-        async cleanup() {
-          watcher.close();
-        }
+      async cleanup() {
+        watcher.close();
+      }
     }
-
   },
 });
 
@@ -47,6 +45,7 @@ const server = new ApolloServer({
   gateway,
 });
 
-server.listen().then(() => {
-  console.log(`⚡️ [gateway]: Gateway is online`);
+const PORT = process.env.PORT || 3000;
+server.listen({ port: PORT }).then(() => {
+  console.log(`⚡️ [gateway]: Gateway is online at http://localhost:${PORT}/graphql`);
 });
