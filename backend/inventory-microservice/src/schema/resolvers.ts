@@ -1,9 +1,10 @@
 export {};
 
 // Types
-interface User {
-  id: string
-  username: string
+import { InventoryItem, AddInventoryItemArgs } from './types';
+
+interface test {
+  name: string
 }
 
 const resolvers = {
@@ -13,12 +14,24 @@ const resolvers = {
     }
   },
 
-    //  https://www.apollographql.com/docs/federation/entities#2-define-a-reference-resolver
-  user: {
-    __resolveReference(user: User, { fetchUserById }: any){
-      return fetchUserById(user.id)
-    }
-  }
+  Mutation: {
+    addInventoryItem: async (parent: undefined, args: AddInventoryItemArgs) => {
+      // const user = await dataSources.userAPI.findOrCreateUser({ email });
+      // if (user) {
+      //   user.token = Buffer.from(email).toString('base64');
+      //   return user;
+      // }
+      console.log(args)
+      return {"name": args.name}
+    },  
+  },
+
+  //  https://www.apollographql.com/docs/federation/entities#2-define-a-reference-resolver
+  // user: {
+  //   __resolveReference(user: User, { fetchUserById }: any){
+  //     return fetchUserById(user.id)
+  //   }
+  // }
 };
 
 module.exports = {resolvers}
