@@ -2,47 +2,15 @@ import { Request, Response } from 'express';
 const express = require('express');
 const http = require('http');
 
+// Apollo
+const { ApolloServer } = require('apollo-server-express');
+const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
+const { buildSubgraphSchema } = require('@apollo/subgraph');
+const { resolvers } = require('./schema/resolvers')
+const { typeDefs } = require('./schema/typeDefs')
+
 const app = express()
 const httpServer = http.createServer(app);
-
-// Apollo
-import { ApolloServer, gql } from 'apollo-server-express';
-import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
-const { buildSubgraphSchema } = require('@apollo/subgraph');
-
-interface User {
-  id: string
-  username: string
-}
-
-const typeDefs = gql`
-  extend schema
-    @link(url: "https://specs.apollo.dev/federation/v2.0",
-          import: ["@key", "@shareable"])
-
-  type Query {
-    me: User
-  }
-
-  type User @key(fields: "id") {
-    id: ID!
-    username: String
-  }
-`;
-
-
-const resolvers = {
-  Query: {
-    me() {
-      return { id: "1", username: "@ava" }
-    }
-  },
-  user: {
-    __resolveReference(user: User, { fetchUserById }: any){
-      return fetchUserById(user.id)
-    }
-  }
-};
 
 // Start server
 const startServer = async () => {
