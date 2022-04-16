@@ -1,7 +1,7 @@
 const express = require('express');
 const http = require('http');
 var cors = require('cors')
-// const postgresDb = require('./clients/postgres');
+const db = require('./clients/postgres');
 const firebaseApp = require("./clients/firebase")
 
 // Apollo
@@ -18,19 +18,19 @@ const httpServer = http.createServer(app);
 app.use(cors())
 
 // Postgres database connection
-// const connectWithRetry = () => {
-//   // Test if the connection is ok
-//   try {
-//     postgresDb.authenticate();
-//     console.log('Connection has been established successfully.');
+const connectWithRetry = () => {
+  // Test if the connection is ok
+  try {
+    db.authenticate();
+    console.log('Connection has been established successfully.');
 
-//     return postgresDb;
-//   } catch (error) {
-//     console.error('Unable to connect to the database:', error);
-//     setTimeout(connectWithRetry, 5000);
-//   }
-// };
-// connectWithRetry();
+    return db;
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+    setTimeout(connectWithRetry, 5000);
+  }
+};
+connectWithRetry();
 
 // Firebase
 firebaseApp()

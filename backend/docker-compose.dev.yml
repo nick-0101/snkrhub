@@ -30,9 +30,24 @@ services:
       # - exclude:/usr/local/apps/inventory-app/dev/node_modules/
     environment:
       - NODE_ENV=development
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=example
+      - POSTGRES_DATABASE=postgres
+      - SESSION_SECRET=secret
     env_file:
       - ./inventory-microservice/.env
     command: npm run dev
+    depends_on:
+      - postgres
 
+  postgres:
+    image: postgres
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=example
+      - POSTGRES_INITDB_ROOT_PASSWORD=example
+
+# Create a volume to persist data
 volumes:
-  exclude:
+  postgres-db:
