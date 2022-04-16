@@ -32,6 +32,8 @@ services:
       # - exclude:/usr/local/apps/inventory-app/dev/node_modules/
     environment:
       - NODE_ENV=development
+    env_file:
+      - .env
     command: npm run dev
 
 volumes:

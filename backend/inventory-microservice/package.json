@@ -4,8 +4,8 @@
   "description": "Starter code for node ts app running in a docker container with hot reload",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/server.js",
-    "dev": "nodemon -L --exec npx ts-node src/server.ts"
+    "start": "node -r dotenv/configdist/server.js",
+    "dev": "nodemon -L --exec npx ts-node -r dotenv/config src/server.ts"
   },
   "author": "phoenixbeats01",
   "license": "ISC",
@@ -24,6 +24,9 @@
     "apollo-server-core": "^3.6.7",
     "apollo-server-express": "^3.6.7",
     "express": "^4.17.3",
-    "graphql": "^16.3.0"
+    "graphql": "^16.3.0",
+    "pg": "^8.7.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.19.0"
   }
 }

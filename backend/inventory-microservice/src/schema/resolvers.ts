@@ -1,3 +1,5 @@
+export {};
+
 // Types
 interface User {
   id: string

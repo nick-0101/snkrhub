@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
 const express = require('express');
 const http = require('http');
+const postgresDb = require('./db/postgres');
 
 // Apollo
 const { ApolloServer } = require('apollo-server-express');
@@ -11,6 +11,22 @@ const { typeDefs } = require('./schema/typeDefs')
 
 const app = express()
 const httpServer = http.createServer(app);
+
+// Database connection
+const connectWithRetry = () => {
+  // Test if the connection is ok
+  try {
+    postgresDb.authenticate();
+    console.log('Connection has been established successfully.');
+
+    return postgresDb;
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+    setTimeout(connectWithRetry, 5000);
+  }
+};
+
+connectWithRetry();
 
 // Start server
 const startServer = async () => {
