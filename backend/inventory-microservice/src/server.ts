@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
-const postgresDb = require('./db/postgres');
+const postgresDb = require('./clients/postgres');
+const firebaseApp = require("./clients/firebase")
 
 // Apollo
 const { ApolloServer } = require('apollo-server-express');
@@ -12,7 +13,7 @@ const { typeDefs } = require('./schema/typeDefs')
 const app = express()
 const httpServer = http.createServer(app);
 
-// Database connection
+// Postgres database connection
 const connectWithRetry = () => {
   // Test if the connection is ok
   try {
@@ -25,8 +26,10 @@ const connectWithRetry = () => {
     setTimeout(connectWithRetry, 5000);
   }
 };
-
 connectWithRetry();
+
+// Firebase
+firebaseApp()
 
 // Start server
 const startServer = async () => {
