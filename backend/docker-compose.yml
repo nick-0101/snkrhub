@@ -3,14 +3,14 @@ services:
   # ---------------------------
   # GraphQL Gateway
   # ---------------------------
-  graphql-gateway:
-    container_name: 'graphql-gateway'
-    hostname: 'graphql-gateway'
-    build: ./gateway
-    ports:
-      - '3000:3000'
-    environment:
-      - PORT=3000
+  # graphql-gateway:
+  #   container_name: 'graphql-gateway'
+  #   hostname: 'graphql-gateway'
+  #   build: ./gateway
+  #   ports:
+  #     - '3000:3000'
+  #   environment:
+  #     - PORT=3000
 
   # ---------------------------
   # Inventory microservice

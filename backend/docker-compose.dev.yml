@@ -3,25 +3,23 @@ services:
   # ---------------------------
   # GraphQL Gateway
   # ---------------------------
-  graphql-gateway:
-    restart: always
-    build:
-      context: .
-      dockerfile: ./gateway/Dockerfile.dev
-      args:
-        NODE_ENV: development
-    volumes:
-      - ./gateway:/usr/local/apps/gateway-app/dev
-      # - exclude:/usr/local/apps/gateway-app/dev/node_modules/
-    environment:
-      - NODE_ENV=development
-    command: npm run dev
+  # graphql-gateway:
+  #   build:
+  #     context: .
+  #     dockerfile: ./gateway/Dockerfile.dev
+  #     args:
+  #       NODE_ENV: development
+  #   volumes:
+  #     - ./gateway:/usr/local/apps/gateway-app/dev
+  #     # - exclude:/usr/local/apps/gateway-app/dev/node_modules/
+  #   environment:
+  #     - NODE_ENV=development
+  #   command: npm run dev
 
   # ---------------------------
   # Inventory microservice
   # ---------------------------
   inventory-microservice:
-    restart: always
     build:
       context: ./inventory-microservice
       dockerfile: ./Dockerfile.dev
@@ -33,7 +31,7 @@ services:
     environment:
       - NODE_ENV=development
     env_file:
-      - .env
+      - ./inventory-microservice/.env
     command: npm run dev
 
 volumes:

@@ -12,7 +12,8 @@
   "dependencies": {
     "@apollo/gateway": "^2.0.1",
     "apollo-server": "^3.6.7",
-    "graphql": "^16.3.0"
+    "graphql": "^16.3.0",
+    "wait-on": "^6.0.1"
   },
   "devDependencies": {
     "@types/node": "^17.0.24",

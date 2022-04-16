@@ -14,7 +14,7 @@ WORKDIR /usr/local/apps/inventory-app/dev
 # installing them on every build
 COPY . ./
 
-ENV PORT 3000
+ENV PORT 3001
 EXPOSE $PORT
 
 CMD ["node", "gateway.ts"]
