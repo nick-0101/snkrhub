@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "nodemon --exec npx ts-node src/server.ts"
+    "dev": "nodemon -L --exec npx ts-node src/server.ts"
   },
   "author": "phoenixbeats01",
   "license": "ISC",
@@ -23,7 +23,7 @@
     "apollo-server": "^3.6.7",
     "apollo-server-core": "^3.6.7",
     "apollo-server-express": "^3.6.7",
-    "express": "^4.17.2",
+    "express": "^4.17.3",
     "graphql": "^16.3.0"
   }
 }

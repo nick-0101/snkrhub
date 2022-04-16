@@ -62,6 +62,13 @@ Apollo Federation defines a collection of directives that you use in your subgra
 
 More info here: [https://www.apollographql.com/docs/federation/federated-types/federated-directives#managing-entities](https://www.apollographql.com/docs/federation/federated-types/federated-directives#managing-entities)
 
+#### Entities
+
+In a federated graph, an entity is an object type that can resolve its fields across multiple subgraphs. Each subgraph can contribute different fields to the entity and is responsible for resolving only the fields that it contributes.
+
+The `@key` directive defines the entity's primary key, which consists of one or more of the type's fields. In this example, the Product entity's primary key is its id field.
+Every instance of an entity must be uniquely identifiable by its `@key` fields. This is what enables your gateway to associate field data from different subgraphs with the same entity instance.
+
 #### Caching
 
 Docs for caching (federation): [https://www.apollographql.com/docs/federation/performance/caching](https://www.apollographql.com/docs/federation/performance/caching)
