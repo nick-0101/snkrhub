@@ -1,6 +1,5 @@
 const express = require('express');
 const http = require('http');
-var cors = require('cors')
 const db = require('./clients/postgres');
 const firebaseApp = require("./clients/firebase")
 
@@ -45,9 +44,9 @@ const startServer = async () => {
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     context: async({ req }: ApolloContext) => {
       // simple auth check on every request
-      // const auth = req.headers && req.headers.authorization || '';
+      const auth = req.headers.authorization || '';
 
-      console.log(req.headers.authorization)
+      
 
       // return { user: { ...user.dataValues } };
     },

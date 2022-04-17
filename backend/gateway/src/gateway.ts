@@ -1,5 +1,4 @@
-import { Request, Response } from 'express';
-const { ApolloServer, GraphQLRequest } = require('apollo-server');
+const { ApolloServer, GraphQLResponse } = require('apollo-server');
 const { ApolloGateway, externalSupergraphUpdateCallback, RemoteGraphQLDataSource} = require('@apollo/gateway');
 const { watch, readFileSync } = require('fs');
 
@@ -46,9 +45,8 @@ const gateway = new ApolloGateway({
     return new RemoteGraphQLDataSource({
       url,
       willSendRequest({ request, context }: ApolloContext) {
-        // pass the user's id from the context to underlying services
-        // as a header called `user-id`
-        request.http.headers.set('authorization', context.userId);
+        // pass the user's id from the context to underlying services as a header called `authorization`
+        request.http.headers.set('authorization', context.userId ? context.userId : null);
       },
     });
   },
@@ -57,12 +55,25 @@ const gateway = new ApolloGateway({
 // Pass the ApolloGateway to the ApolloServer constructor
 const server = new ApolloServer({
   gateway,
+  plugins: [
+    {
+      requestDidStart() {
+        return {
+          willSendResponse({ response }: typeof GraphQLResponse) {
+            // Append our final result to the outgoing response headers
+            response.http.headers.set(
+              'X-Powered-By', 'Cats on keyboards'
+            );
+          }
+        };
+      }
+    }
+  ],
   context: ({ req }: ApolloRequest) => {
     const token = req.headers.authorization || '';
-    const userId = 'shit'
 
     // Add the user ID to the context
-    return { userId };
+    return { userId: token };
   },
 });
 
