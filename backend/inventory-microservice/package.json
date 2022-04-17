@@ -5,15 +5,18 @@
   "scripts": {
     "build": "tsc",
     "start": "node -r dotenv/configdist/server.js",
-    "dev": "nodemon -L --exec npx ts-node -r dotenv/config src/server.ts"
+    "dev": "nodemon -L --exec npx ts-node -r dotenv/config src/server.ts",
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --runInBand --coverage"
   },
   "author": "phoenixbeats01",
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^4.17.13",
+    "@types/jest": "^27.4.1",
     "@types/node": "^17.0.16",
     "dotenv": "^16.0.0",
     "nodemon": "^2.0.15",
+    "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",
     "typescript": "^4.5.5"
   },
