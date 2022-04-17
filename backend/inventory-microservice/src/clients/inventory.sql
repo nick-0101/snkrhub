@@ -11,5 +11,5 @@ CREATE TABLE inventory (
     tax DECIMAL,
     shipping DECIMAL,
     purchaseDate DATE NOT NULL,
-    orderNumber INTEGER
+    orderNumber VARCHAR
 )

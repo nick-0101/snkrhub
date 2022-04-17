@@ -7,19 +7,22 @@ export interface User {
 }
 
 export interface AddInventoryItemArgs {
-  id: number,
+  inventoryItem: inventoryItem
+}
+
+interface inventoryItem {
   user_id: string,
   name: string,
-  styleId: string,
+  styleid: string,
   brand: string,
   colour: string,
   condition: string,
-  shoeSize: number,
-  purchasePrice: number,
+  shoesize: number,
+  purchaseprice: number,
   tax: number,
   shipping: number,
-  purchaseDate: string,
-  orderNumber: number
+  purchasedate: string,
+  ordernumber: string
 }
 
 // server.ts

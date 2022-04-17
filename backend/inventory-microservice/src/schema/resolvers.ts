@@ -1,7 +1,7 @@
 export {};
 
 // Clients
-const db = require('../clients/postgres');
+const Inventory = require('../models/inventoryModel');
 
 // Types
 import { AddInventoryItemArgs, ApolloContextData } from '../types';
@@ -14,11 +14,10 @@ const resolvers = {
   },
 
   Mutation: {
-    addInventoryItem: async (args: AddInventoryItemArgs, context: ApolloContextData) => {
+    addInventoryItem: async (parent: undefined, { inventoryItem }: AddInventoryItemArgs, context: ApolloContextData) => {
       // Add inventory item
-
-
-      return {"id": 'item id' }
+      const newInventoryItem = await Inventory.create(inventoryItem);
+      return {"id": newInventoryItem.id }
     },  
   },
 
