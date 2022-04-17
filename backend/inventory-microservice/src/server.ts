@@ -11,11 +11,11 @@ const { buildSubgraphSchema } = require('@apollo/subgraph');
 const { resolvers } = require('./schema/resolvers')
 const { typeDefs } = require('./schema/typeDefs')
 
+// Types
+import type { ApolloContext } from './types'
+
 const app = express()
 const httpServer = http.createServer(app);
-
-// Middlware
-app.use(cors())
 
 // Postgres database connection
 const connectWithRetry = () => {
@@ -38,9 +38,19 @@ firebaseApp()
 // Start server
 const startServer = async () => {
   // Start apollo
+
+  // TODO: write middleware for apollo server to check and validate firebase token on every request
   const server = new ApolloServer({
     schema: buildSubgraphSchema({ typeDefs, resolvers }),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    context: async({ req }: ApolloContext) => {
+      // simple auth check on every request
+      // const auth = req.headers && req.headers.authorization || '';
+
+      console.log(req.headers.authorization)
+
+      // return { user: { ...user.dataValues } };
+    },
   });
   await server.start()
 

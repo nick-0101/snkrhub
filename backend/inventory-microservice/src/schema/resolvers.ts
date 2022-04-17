@@ -1,7 +1,7 @@
 export {};
 
 // Types
-import { InventoryItem, AddInventoryItemArgs } from './types';
+import { InventoryItem, AddInventoryItemArgs } from '../types';
 
 interface test {
   name: string

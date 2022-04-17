@@ -10,8 +10,7 @@ const {
 } = require('../config');
 
 // connect to postgres database
-// able to reference "postgres" as docker uses dns to resolve the name of postgres
-const postgresURL = `postgres://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${POSTGRES_IP}:${POSTGRES_PORT}/${POSTGRES_DATABASE}`;
+const postgresURL = POSTGRES_PASSWORD ? `postgres://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${POSTGRES_IP}:${POSTGRES_PORT}/${POSTGRES_DATABASE}` : process.env.DATABASE_URL;
 const db = new Sequelize(postgresURL, { logging: false });
 
 module.exports = db;

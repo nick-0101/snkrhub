@@ -1,3 +1,6 @@
+import { Request } from 'express'
+
+// typeDefs.ts
 export interface User {
   id: string
   username: string
@@ -22,3 +25,8 @@ export interface InventoryItem {
     purchaseDate: string,
     orderNumber: number
 }
+
+// server.ts
+export interface ApolloContext {
+  req: Request;
+};
