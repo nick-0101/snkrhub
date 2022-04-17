@@ -21,7 +21,6 @@ const typeDefs = gql`
   }
 
   input InventoryItemInput {
-    id: Int!,
     user_id: String!,
     name: String!,
     styleid: String,
