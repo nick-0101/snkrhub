@@ -1,11 +1,10 @@
 export {};
 
-// Types
-import { InventoryItem, AddInventoryItemArgs } from '../types';
+// Clients
+const db = require('../clients/postgres');
 
-interface test {
-  name: string
-}
+// Types
+import { AddInventoryItemArgs, ApolloContextData } from '../types';
 
 const resolvers = {
   Query: {
@@ -15,13 +14,11 @@ const resolvers = {
   },
 
   Mutation: {
-    addInventoryItem: async (parent: undefined, args: AddInventoryItemArgs) => {
-      // const user = await dataSources.userAPI.findOrCreateUser({ email });
-      // if (user) {
-      //   user.token = Buffer.from(email).toString('base64');
-      //   return user;
-      // }
-      return {"name": args.name}
+    addInventoryItem: async (args: AddInventoryItemArgs, context: ApolloContextData) => {
+      // Add inventory item
+
+
+      return {"id": 'item id' }
     },  
   },
 

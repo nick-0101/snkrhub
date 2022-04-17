@@ -12,7 +12,7 @@ export interface ApolloContext {
 }
 
 export interface ApolloContextData {
-    userId: string
+  userId: string
 }
 
 export interface ApolloBuildService {

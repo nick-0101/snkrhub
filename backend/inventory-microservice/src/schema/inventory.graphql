@@ -8,25 +8,29 @@ type User {
 }
 
 type Mutation {
-  addInventoryItem(name: String!): Test!
+  addInventoryItem(inventoryItem: InventoryItemInput!): InventoryItemResponse!
 }
 
-type Test {
-  name: String!
+type InventoryResponse {
+  id: Int!
 }
 
-type InventoryItem {
+input InventoryItemInput {
   id: Int!
   user_id: String!
   name: String!
-  styleId: String
+  styleid: String
   brand: String
   colour: String
   condition: String
-  shoeSize: Int
-  purchasePrice: Int!
+  shoesize: Int
+  purchaseprice: Int!
   tax: Int
   shipping: Int
-  purchaseDate: String!
-  orderNumber: Int
+  purchasedate: String!
+  ordernumber: String
+}
+
+type InventoryItemResponse {
+  id: String!
 }

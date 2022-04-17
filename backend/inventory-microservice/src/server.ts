@@ -1,3 +1,4 @@
+import { Request } from 'express'
 const express = require('express');
 const http = require('http');
 const db = require('./clients/postgres');
@@ -7,11 +8,17 @@ const firebaseApp = require("./clients/firebase")
 const { ApolloServer } = require('apollo-server-express');
 const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
 const { buildSubgraphSchema } = require('@apollo/subgraph');
+const { ApolloError } = require('apollo-server-errors');
 const { resolvers } = require('./schema/resolvers')
 const { typeDefs } = require('./schema/typeDefs')
 
+// Controllers
+const { validateUserToken } = require('./controllers/validateUserToken.controller')
+
 // Types
-import type { ApolloContext } from './types'
+export interface ApolloContextReq {
+  req: Request;
+};
 
 const app = express()
 const httpServer = http.createServer(app);
@@ -42,13 +49,18 @@ const startServer = async () => {
   const server = new ApolloServer({
     schema: buildSubgraphSchema({ typeDefs, resolvers }),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-    context: async({ req }: ApolloContext) => {
-      // simple auth check on every request
+    context: async({ req }: ApolloContextReq) => {
+      // Extract token
       const auth = req.headers.authorization || '';
 
-      
+      // Verify token
+      const res = await validateUserToken(auth)
 
-      // return { user: { ...user.dataValues } };
+      // if(res.code) {
+      //   throw new ApolloError(res.message, res.code);
+      // }
+
+      return { userId: res };
     },
   });
   await server.start()
