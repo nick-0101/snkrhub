@@ -21,7 +21,6 @@ const resolvers = {
       //   user.token = Buffer.from(email).toString('base64');
       //   return user;
       // }
-      console.log(args)
       return {"name": args.name}
     },  
   },
