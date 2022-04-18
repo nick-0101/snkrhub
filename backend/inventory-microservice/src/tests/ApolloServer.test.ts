@@ -15,7 +15,8 @@ describe('tests creating inventory items', () => {
   it('creates an inventory item with addInventoryItem mutation', async () => {
     const testServer = new ApolloServer({
       typeDefs,
-      resolvers
+      resolvers,
+      context: () => ({ userId: 'testUserId' }),
     });
 
     const result = await testServer.executeOperation({
@@ -44,7 +45,7 @@ describe('tests creating inventory items', () => {
       },
     });
 
-    expect(result.data?.addInventoryItem).toMatchObject({ "id": "1"});
+    expect(result.data?.addInventoryItem).toMatchObject({ "id": 1 });
   });
 });
 
@@ -98,6 +99,7 @@ describe('tests reading inventory items', () => {
     expect(result.data?.fetchUserInventoryItems).toMatchObject([{ "id": 1 }, { "id": 2 }]);
   });
 })
+
 
 // Closing the DB connection allows Jest to exit successfully.
 afterAll((done) => {

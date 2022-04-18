@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1650298376854" clover="3.2.0">
-  <project timestamp="1650298376854" name="All files">
-    <metrics statements="22" coveredstatements="22" conditionals="6" coveredconditionals="5" methods="4" coveredmethods="4" elements="32" coveredelements="31" complexity="0" loc="22" ncloc="22" packages="4" files="5" classes="5"/>
+<coverage generated="1650309533685" clover="3.2.0">
+  <project timestamp="1650309533686" name="All files">
+    <metrics statements="25" coveredstatements="21" conditionals="6" coveredconditionals="5" methods="6" coveredmethods="4" elements="37" coveredelements="30" complexity="0" loc="25" ncloc="25" packages="4" files="5" classes="5"/>
     <package name="clients">
       <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
       <file name="postgres.ts" path="C:\Users\Nicola\Desktop\Code\snkrhub\backend\inventory-microservice\src\clients\postgres.ts">
@@ -27,28 +27,31 @@
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
-        <line num="60" count="1" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
       </file>
     </package>
     <package name="schema">
-      <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
+      <metrics statements="15" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="4"/>
       <file name="resolvers.ts" path="C:\Users\Nicola\Desktop\Code\snkrhub\backend\inventory-microservice\src\schema\resolvers.ts">
-        <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
+        <metrics statements="12" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="4"/>
         <line num="4" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
-        <line num="31" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
         <line num="39" count="1" type="stmt"/>
-        <line num="41" count="1" type="stmt"/>
-        <line num="42" count="1" type="stmt"/>
-        <line num="54" count="1" type="stmt"/>
+        <line num="54" count="0" type="stmt"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="66" count="0" type="stmt"/>
+        <line num="78" count="1" type="stmt"/>
       </file>
       <file name="typeDefs.ts" path="C:\Users\Nicola\Desktop\Code\snkrhub\backend\inventory-microservice\src\schema\typeDefs.ts">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="3" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
-        <line num="54" count="1" type="stmt"/>
+        <line num="52" count="1" type="stmt"/>
       </file>
     </package>
   </project>
