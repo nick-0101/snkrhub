@@ -1,9 +1,9 @@
 import { Request } from 'express'
 
-// typeDefs.ts
-export interface User {
-  id: string
-  username: string
+export interface FetchUserInventoryItemsArgs {
+  offset: number;
+  limit: number;
+  userId: string;
 }
 
 export interface AddInventoryItemArgs {
@@ -25,7 +25,6 @@ interface inventoryItem {
   ordernumber: string
 }
 
-// server.ts
 export interface ApolloContextData {
   userId: string;
 };
