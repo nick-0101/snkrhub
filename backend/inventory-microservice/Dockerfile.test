@@ -7,14 +7,18 @@ WORKDIR /usr/local/apps/inventory-app
 # Copy the package.json file to out image's filesystem
 COPY package.json ./
 
-# Set working directory to /dev
-WORKDIR /usr/local/apps/inventory-app/dev
+# Install node modules
+RUN npm install
 
-# Copy all project files including node_modules because my internet can't handle
-# installing them on every build
+# Set working directory to /test
+WORKDIR /usr/local/apps/inventory-app/test
+
+# Copy the rest of our source code
 COPY . ./
 
+# Set & expose port env
 ENV PORT 3001
 EXPOSE $PORT
 
+# Start the app
 CMD ["npm", "run", "test"]

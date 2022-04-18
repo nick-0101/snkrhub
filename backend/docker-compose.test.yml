@@ -6,15 +6,15 @@ services:
   graphql-gateway:
     build:
       context: .
-      dockerfile: ./gateway/Dockerfile.dev
+      dockerfile: ./gateway/Dockerfile.test
       args:
-        NODE_ENV: development
+        NODE_ENV: test
     volumes:
-      - ./gateway:/usr/local/apps/gateway-app/dev
-      # - exclude:/usr/local/apps/gateway-app/dev/node_modules/
+      - ./gateway:/usr/local/apps/gateway-app/test
+      - exclude:/usr/local/apps/gateway-app/test/node_modules/
     environment:
-      - NODE_ENV=development
-    command: npm run dev
+      - NODE_ENV=test
+    command: npm run test
 
   # ---------------------------
   # Inventory microservice
@@ -26,8 +26,8 @@ services:
       args:
         NODE_ENV: test
     volumes:
-      - ./inventory-microservice:/usr/local/apps/inventory-app/dev
-      # - exclude:/usr/local/apps/inventory-app/dev/node_modules/
+      - ./inventory-microservice:/usr/local/apps/inventory-app/test
+      - exclude:/usr/local/apps/inventory-app/test/node_modules/
     environment:
       - NODE_ENV=test
       - POSTGRES_USERNAME=postgres
@@ -36,7 +36,7 @@ services:
       - SESSION_SECRET=secret
     env_file:
       - ./inventory-microservice/.env
-    command: npm run dev
+    command: npm run test
     depends_on:
       - postgres
 
