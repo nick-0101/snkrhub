@@ -1,0 +1,53 @@
+version: '3.8'
+services:
+  # ---------------------------
+  # GraphQL Gateway
+  # ---------------------------
+  graphql-gateway:
+    build:
+      context: .
+      dockerfile: ./gateway/Dockerfile.dev
+      args:
+        NODE_ENV: development
+    volumes:
+      - ./gateway:/usr/local/apps/gateway-app/dev
+      # - exclude:/usr/local/apps/gateway-app/dev/node_modules/
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+
+  # ---------------------------
+  # Inventory microservice
+  # ---------------------------
+  inventory-microservice:
+    build:
+      context: ./inventory-microservice
+      dockerfile: ./Dockerfile.test
+      args:
+        NODE_ENV: test
+    volumes:
+      - ./inventory-microservice:/usr/local/apps/inventory-app/dev
+      # - exclude:/usr/local/apps/inventory-app/dev/node_modules/
+    environment:
+      - NODE_ENV=test
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=example
+      - POSTGRES_DATABASE=postgres
+      - SESSION_SECRET=secret
+    env_file:
+      - ./inventory-microservice/.env
+    command: npm run dev
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    volumes:
+      - postgres-test-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=example
+      - POSTGRES_INITDB_ROOT_PASSWORD=example
+
+# Create a volume to persist data
+volumes:
+  postgres-test-db:
