@@ -1,7 +1,7 @@
 import { FC, createContext, useContext, useEffect, useState } from 'react';
 
 // Firebase
-import firebase from "firebase/auth";
+import firebase, { getIdToken } from "firebase/auth";
 import { auth } from "../firebaseSetup";
 import { 
     signInWithEmailAndPassword, 
@@ -20,6 +20,7 @@ type ContextState = {
     signIn: (email: string, password: string) => Promise<firebase.UserCredential>,
     getUser: () => firebase.User | null, 
     forgotPassword: (email: string) => Promise<void>
+    getUserToken: () => void
 }
 
 // Create auth context
@@ -62,6 +63,13 @@ const AuthProvider: FC = ({ children }) => {
         return auth.currentUser;
     }
 
+    const getUserToken = async() => {
+        if(user) {
+            const token = await getIdToken(user)
+            console.log(token)
+        }
+    }
+
     useEffect(() => {
         setLoading(true)
 
@@ -85,7 +93,8 @@ const AuthProvider: FC = ({ children }) => {
         signIn,
         signOutUser,
         signUp,
-        loading
+        loading,
+        getUserToken
     }
 
     return (

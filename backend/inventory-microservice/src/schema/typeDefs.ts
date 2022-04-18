@@ -3,9 +3,6 @@ export {};
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
-  """
-  fetchUserInventoryItems fetches the users inventory items based on the userid. 
-  """
   type Query {
     fetchUserInventoryItems(offset: Int!, limit: Int!, userId: String!): [InventoryItem]
   }
@@ -28,6 +25,7 @@ const typeDefs = gql`
   
   type Mutation {
     addInventoryItem(inventoryItem: InventoryItemInput!): InventoryItemResponse!
+    deleteInventoryItem(itemId: Int!): InventoryItemResponse!
   }
 
   input InventoryItemInput {
@@ -46,7 +44,7 @@ const typeDefs = gql`
   }
 
   type InventoryItemResponse {
-    id: String!
+    id: Int!
   }
 
 `;

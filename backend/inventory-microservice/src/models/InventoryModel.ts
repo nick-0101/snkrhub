@@ -27,7 +27,7 @@ const Inventory = db.define('inventory', {
       allowNull: true,
     },
     shoesize: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL,
       allowNull: false,
     },
     purchaseprice: {

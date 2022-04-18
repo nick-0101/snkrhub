@@ -24,6 +24,7 @@ type InventoryItem {
 
 type Mutation {
   addInventoryItem(inventoryItem: InventoryItemInput!): InventoryItemResponse!
+  deleteInventoryItem(itemId: Int!): InventoryItemResponse!
 }
 
 input InventoryItemInput {
@@ -42,5 +43,5 @@ input InventoryItemInput {
 }
 
 type InventoryItemResponse {
-  id: String!
+  id: Int!
 }

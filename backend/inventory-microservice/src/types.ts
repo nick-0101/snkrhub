@@ -27,7 +27,7 @@ interface inventoryItem {
 
 export interface DeleteInventoryItemArgs {
   userId: string;
-  id: number;
+  itemId: number;
 }
 
 export interface ApolloContextData {

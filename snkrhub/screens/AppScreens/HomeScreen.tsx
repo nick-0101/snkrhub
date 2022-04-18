@@ -17,7 +17,7 @@ import { RootTabScreenProps } from '../../types';
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
   // Auth state
-  const { signOutUser } = useAuth();
+  const { signOutUser, getUserToken } = useAuth();
 
   return (
     <Center
@@ -33,7 +33,8 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
         >
           <VStack px="4" mt="20" mb="5">
             <VStack>
-              <Button onPress={() => signOutUser()}>Click Me</Button>
+              <Button onPress={() => getUserToken()}>Get token</Button>
+              <Button onPress={() => signOutUser()}>Sign out</Button>
             </VStack>
           </VStack>
         </Stack>

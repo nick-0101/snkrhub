@@ -44,8 +44,6 @@ firebaseApp()
 // Start server
 const startServer = async () => {
   // Start apollo
-
-  // TODO: write middleware for apollo server to check and validate firebase token on every request
   const server = new ApolloServer({
     schema: buildSubgraphSchema({ typeDefs, resolvers }),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
@@ -56,9 +54,9 @@ const startServer = async () => {
       // Verify token
       const res = await validateUserToken(auth)
 
-      // if(res.code) {
-      //   throw new ApolloError(res.message, res.code);
-      // }
+      if(res.code) {
+        throw new ApolloError(res.message, res.code);
+      }
 
       return { userId: res };
     },

@@ -21,7 +21,7 @@ const resolvers = {
       // Fetch all inventory items with matching user id & paginate
       const usersInventoryItems = await Inventory.findAll({ 
         where: {
-          user_id: args.userId,
+          user_id: context.userId,
         },
         // Skip x instances 
         offset: args.offset,
@@ -37,7 +37,7 @@ const resolvers = {
     addInventoryItem: async (parent: undefined, { inventoryItem }: AddInventoryItemArgs, context: ApolloContextData) => {
       // Add inventory item
       const newInventoryItem = await Inventory.create({ 
-        user_id: inventoryItem.user_id, // replace with context.userId
+        user_id: context.userId, // replace with context.userId
         name: inventoryItem.name,
         styleid: inventoryItem.styleid,
         brand: inventoryItem.brand,
@@ -51,19 +51,19 @@ const resolvers = {
         ordernumber: inventoryItem.ordernumber,
       });
 
-      return { "id": newInventoryItem.id }
+      return { "id": Number(newInventoryItem.id) }
     },
     
     // Delete an inventory item
     deleteInventoryItem: async (parent: undefined, args: DeleteInventoryItemArgs, context: ApolloContextData) => {
       await Inventory.destroy({
         where: {
-          id: args.id,
-          user_id: args.userId
+          id: args.itemId,
+          user_id: context.userId
         }
       });
 
-      return 
+      return { "id": args.itemId }
     }
   },
 
