@@ -17,7 +17,18 @@ const resolvers = {
       args: FetchUserInventoryItemsArgs,
       context: ApolloContextData
     ) => {
-      return { id: "1", username: "@ava" }
+      // Fetch all inventory items with matching user id & paginate
+      const usersInventoryItems = await Inventory.findAll({ 
+        where: {
+          user_id: args.userId,
+        },
+        // Skip x instances 
+        offset: args.offset,
+        // fetch the x after that 
+        limit: args.limit 
+      })
+
+      return usersInventoryItems
     }
   },
   Mutation: {
@@ -28,7 +39,7 @@ const resolvers = {
     ) => {
       // Add inventory item
       const newInventoryItem = await Inventory.create(inventoryItem);
-      return {"id": newInventoryItem.id }
+      return { "id": newInventoryItem.id }
     },  
   },
 
