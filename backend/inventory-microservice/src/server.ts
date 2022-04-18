@@ -56,9 +56,9 @@ const startServer = async () => {
       // Verify token
       const res = await validateUserToken(auth)
 
-      // if(res.code) {
-      //   throw new ApolloError(res.message, res.code);
-      // }
+      if(res.code) {
+        throw new ApolloError(res.message, res.code);
+      }
 
       return { userId: res };
     },

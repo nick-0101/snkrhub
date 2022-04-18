@@ -1,12 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { extendTheme, NativeBaseProvider, themeTools, theme as nbTheme } from 'native-base';
+import { ApolloProvider } from '@apollo/client';
 
 // App function imports
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
+import AppExtendedTheme from './constants/Theme'
 import Navigation from './navigation';
+
+// Providers
 import { AuthProvider } from './context/AuthContext';
+import { client } from './apollo/client';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -19,53 +24,7 @@ export default function App() {
   };
 
   const theme = extendTheme({
-    colors: {
-      primary: nbTheme.colors.blue,
-    },
-    components: {
-      Text: {
-        baseStyle: (props: any) => {
-          return {
-            // light: any, dark: any
-            color: themeTools.mode("gray.500", "gray.400")(props),
-          };
-        },
-      },
-      Button: {
-        defaultProps: {
-          borderRadius: '6',
-          py: '3',
-        },
-      },
-      Input: {
-        baseStyle: (props: any) => {
-          return {
-            // light: any, dark: any
-            borderColor: themeTools.mode("gray.300", "gray.800")(props),
-            background: themeTools.mode("#fff", "#262A31")(props),
-            color: themeTools.mode("gray.400", "gray.200")(props),
-          };
-        },
-        defaultProps: {
-          borderRadius: '5',
-          px: '3.5',
-          py: '4',
-          borderWidth: 1.2,
-          fontSize: "sm",
-          fontWeight: 'medium'
-        },
-      },
-      FormControl: {
-        baseStyle: (props: any) => {
-          return {
-            background: themeTools.mode("#fff", "#262A31")(props),
-          };
-        },
-        defaultProps: {
-          borderRadius: '5',
-        },
-      },
-    },
+    AppExtendedTheme,
     config
   });
 
@@ -76,8 +35,10 @@ export default function App() {
       <NativeBaseProvider theme={theme}>
         <SafeAreaProvider>
           <AuthProvider>
-            <Navigation colorScheme={colorScheme} />
-            <StatusBar />
+            <ApolloProvider client={client}>
+              <Navigation colorScheme={colorScheme} />
+              <StatusBar />
+            </ApolloProvider>
           </AuthProvider>
         </SafeAreaProvider>
       </NativeBaseProvider>
