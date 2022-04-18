@@ -1,18 +1,29 @@
 type Query {
-  me: User
+  fetchUserInventoryItems(
+    offset: Int!
+    limit: Int!
+    userId: String!
+  ): [InventoryItem]
 }
 
-type User {
-  id: ID!
-  username: String
+type InventoryItem {
+  id: Int!
+  user_id: String!
+  name: String!
+  styleid: String
+  brand: String
+  colour: String
+  condition: String
+  shoesize: Float
+  purchaseprice: Int!
+  tax: Int
+  shipping: Int
+  purchasedate: String!
+  ordernumber: String
 }
 
 type Mutation {
   addInventoryItem(inventoryItem: InventoryItemInput!): InventoryItemResponse!
-}
-
-type InventoryResponse {
-  id: Int!
 }
 
 input InventoryItemInput {
@@ -22,7 +33,7 @@ input InventoryItemInput {
   brand: String
   colour: String
   condition: String
-  shoesize: Int
+  shoesize: Float
   purchaseprice: Int!
   tax: Int
   shipping: Int

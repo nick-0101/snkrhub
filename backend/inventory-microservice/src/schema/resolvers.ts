@@ -12,7 +12,7 @@ import {
 
 const resolvers = {
   Query: {
-    fetchUserInventoryItems: async(
+    fetchUserInventoryItems: async (
       parent: undefined, 
       args: FetchUserInventoryItemsArgs,
       context: ApolloContextData
