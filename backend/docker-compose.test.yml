@@ -4,6 +4,8 @@ services:
   # GraphQL Gateway
   # ---------------------------
   graphql-gateway:
+    container_name: 'graphql-gateway'
+    hostname: 'graphql-gateway'
     build:
       context: .
       dockerfile: ./gateway/Dockerfile.test
@@ -11,9 +13,11 @@ services:
         NODE_ENV: test
     volumes:
       - ./gateway:/usr/local/apps/gateway-app/test
-      - exclude:/usr/local/apps/gateway-app/test/node_modules/
+    ports:
+      - '3000:3000'
     environment:
       - NODE_ENV=test
+      - PORT=3000
     command: npm run test
 
   # ---------------------------
@@ -27,7 +31,6 @@ services:
         NODE_ENV: test
     volumes:
       - ./inventory-microservice:/usr/local/apps/inventory-app/test
-      - exclude:/usr/local/apps/inventory-app/test/node_modules/
     environment:
       - NODE_ENV=test
       - POSTGRES_USERNAME=postgres
