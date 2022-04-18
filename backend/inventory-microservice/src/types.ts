@@ -25,6 +25,11 @@ interface inventoryItem {
   ordernumber: string
 }
 
+export interface DeleteInventoryItemArgs {
+  userId: string;
+  id: number;
+}
+
 export interface ApolloContextData {
   userId: string;
 };

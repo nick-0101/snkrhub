@@ -12,4 +12,5 @@ CREATE TABLE inventory (
     shipping DECIMAL,
     purchaseDate DATE NOT NULL,
     orderNumber VARCHAR
+    createdAt DATE NOT NULL
 )

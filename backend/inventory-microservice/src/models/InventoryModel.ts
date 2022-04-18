@@ -50,10 +50,11 @@ const Inventory = db.define('inventory', {
       type: DataTypes.STRING,
       allowNull: true,
     },
-  },
-  {
+  }, {
     tableName: 'inventory',
-    timestamps: false,
+    updatedAt: false,
+    createdAt: true,
+    timestamps: true,
   }
 );
 
