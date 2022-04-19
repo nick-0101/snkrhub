@@ -1,10 +1,8 @@
-import { useState, ReactNode} from 'react';
+import { ReactNode} from 'react';
 import {
   HStack,
-  Text,
   Icon,
   Center,
-  Box,
   Pressable
 } from "native-base";
 
@@ -56,8 +54,8 @@ export const AppTabBar = (props: BottomTabBarProps) => {
   return (
     <>
       <HStack 
-        _light={{ bg: "gray.100", borderColor: 'gray.300' }}
-        _dark={{ bg: "gray.900", borderColor: 'gray.700' }}
+        _light={{ bg: "gray.200", borderColor: 'gray.300' }}
+        _dark={{ bg: "gray.800", borderColor: 'gray.700' }} 
         alignItems="center" 
         safeAreaBottom
         borderTopWidth={1.7}

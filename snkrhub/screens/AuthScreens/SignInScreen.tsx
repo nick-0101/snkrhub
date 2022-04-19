@@ -157,17 +157,17 @@ export function SignInForm({ navigation }: any) {
                         onFocus={() => setInputFocus(2)}
                         onBlur={() => setInputFocus(null)}
                         InputLeftElement={
-                            <Icon 
+                          <Icon 
                             as={
-                                <Ionicons 
-                                name="lock-closed-outline" 
-                                />
+                              <Ionicons 
+                              name="lock-closed-outline" 
+                              />
                             } 
                             size={5} 
                             ml="4" 
                             color={inputFocus === 2 ? 'primary.500' : 'gray.400'}
                             />
-                        }
+                          }
                         />
 
                         {errors.password ? 
@@ -295,54 +295,54 @@ export default function SignIn({ navigation }: RootTabScreenProps<'SignIn'>) {
         flex="1"
       >
         <Stack
-            flexDirection={{ base: "column", md: "row" }}
-            w="100%"
-            maxW={{ md: "1016px" }}
-            flex={{ base: "1", md: "none" }}
+          flexDirection={{ base: "column", md: "row" }}
+          w="100%"
+          maxW={{ md: "1016px" }}
+          flex={{ base: "1", md: "none" }}
         >
-            <HStack px="2">
-              <Link
-                  alignItems="center"
-                  onPress={() => {
-                      navigation.navigate("SignUp");
-                  }}
-              >
-                  <IconButton
-                      variant="unstyled"
-                      pl="0"
-                      onPress={() => {
-                          navigation.navigate("SignUp");
-                      }}
-                      icon={
-                          <Icon
-                              size="5"
-                              as={Ionicons}
-                              name="chevron-back"
-                              color="gray.100"
-                          />
-                      }
+          <HStack px="2">
+            <Link
+              alignItems="center"
+              onPress={() => {
+                  navigation.navigate("SignUp");
+              }}
+            >
+              <IconButton
+                variant="unstyled"
+                pl="0"
+                onPress={() => {
+                    navigation.navigate("SignUp");
+                }}
+                icon={
+                  <Icon
+                    size="5"
+                    as={Ionicons}
+                    name="chevron-back"
+                    color="gray.100"
                   />
-                  
-                  <Text color="gray.50" fontSize="md">
-                      Sign up
-                  </Text>
-              </Link>
-            </HStack>
+                }
+              />
+              
+              <Text color="gray.50" fontSize="md">
+                  Sign up
+              </Text>
+            </Link>
+          </HStack>
             
-            <VStack px="4" mt="16" mb="5">
-              <Text
-                fontSize="md"
-                fontWeight="normal"
-                color={'gray.300'}
-              >
-                Welcome back to
-              </Text>
-              <Text fontSize="3xl" fontWeight="bold" color="gray.50">
-                SnkrHub
-              </Text>
-            </VStack>
+          <VStack px="4" mt="16" mb="5">
+            <Text
+              fontSize="md"
+              fontWeight="normal"
+              color={'gray.300'}
+            >
+              Welcome back to
+            </Text>
+            <Text fontSize="3xl" fontWeight="bold" color="gray.50">
+              SnkrHub
+            </Text>
+          </VStack>
 
-            <SignInForm navigation={navigation} />
+          <SignInForm navigation={navigation} />
         </Stack>
       </Center>
     </>
