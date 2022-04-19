@@ -1,3 +1,4 @@
+import { Platform, UIManager } from 'react-native';
 import {
   StatusBar,
   Box,
@@ -21,6 +22,12 @@ import { InventoryItem } from '../../components';
 
 // Types
 import { RootTabScreenProps } from '../../types';
+
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inventory'>) {
   // Auth state
@@ -112,6 +119,17 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
             size={10.5}
             category="unlisted"
           />
+          <InventoryItem 
+            name={"Jordan 1 retro high asdasdasdasdasdasdasdads"}
+            size={10.5}
+            category="unlisted"
+          />
+          <InventoryItem 
+            name={"Jordan 1 retro high asdasdasdasdasdasdasdads"}
+            size={10.5}
+            category="unlisted"
+          />
+
         </VStack>
       </VStack>
     </Stack>

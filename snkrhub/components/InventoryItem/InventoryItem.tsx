@@ -1,7 +1,6 @@
+import { Platform, LayoutAnimation, UIManager } from 'react-native';
 import {
   Text,
-  Stack,
-  Icon,
   VStack,
   HStack,
   Box,
@@ -16,9 +15,34 @@ type Props = {
 }
 
 const InventoryItem = (props: Props) => {
+    LayoutAnimation.configureNext({  
+        duration: 150,
+        create: {
+            property: LayoutAnimation.Properties.opacity,
+            type: LayoutAnimation.Types.linear,
+        },
+        update: {
+            property: LayoutAnimation.Properties.opacity,
+            type: LayoutAnimation.Types.linear,
+        },
+        delete: {
+            property: LayoutAnimation.Properties.opacity,
+            type: LayoutAnimation.Types.linear,
+        },
+    });
+
     return (
         <>
-            <Box display="flex" flexDirection="row">
+            <Box 
+                display="flex" 
+                flexDirection="row"
+                mb="3" 
+                pb="3" 
+                borderBottomWidth={1.5}
+                borderRadius={6}
+                _light={{ borderColor: 'gray.200' }}
+                _dark={{ borderColor: 'gray.800' }} 
+            >
                 <HStack>
                     {/* Image */}
                     <Box 
