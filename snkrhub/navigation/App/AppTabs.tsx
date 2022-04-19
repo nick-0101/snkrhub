@@ -1,18 +1,15 @@
-/**
- * If you are not familiar with React Navigation, refer to the "Fundamentals" guide:
- * https://reactnavigation.org/docs/getting-started
- *
- */
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from "@expo/vector-icons";
+import { Icon } from "native-base";
 
+// Navigator components
 import HomeScreen from '../../screens/AppScreens/HomeScreen';
+import { AppTabBar } from './AppTabBar';
+
+// Types
 import { RootTabParamList, RootTabScreenProps } from '../../types';
 
-/**
- * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
- * https://reactnavigation.org/docs/bottom-tab-navigator
- */
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function AppTabs() {
@@ -22,17 +19,16 @@ function AppTabs() {
       screenOptions={{
         headerShown: false
       }}
+      tabBar={(props) => <AppTabBar {...props} />}
     >
       <BottomTab.Screen
         name="Home"
         component={HomeScreen}
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
           title: 'Home',
-
-          // When logging out, a pop animation feels intuitive
-          // You can remove this if you want the default 'push' animation
-          animationTypeForReplace: 'pop'
-          // tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          animationTypeForReplace: 'pop',
+          tabBarIcon: () => <TabBarIcon name="home" color={'gray.500'} />,
+          tabBarIconOutline: () => <TabBarIcon name="home-outline" color={'primary.500'} />,
         })}
       />
     </BottomTab.Navigator>
@@ -42,11 +38,19 @@ function AppTabs() {
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
-// function TabBarIcon(props: {
-//   name: React.ComponentProps<typeof FontAwesome>['name'];
-//   color: string;
-// }) {
-//   return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
-// }
+function TabBarIcon(props: {
+  name: React.ComponentProps<typeof Ionicons>['name'];
+  color: string;
+}) {
+  return <Icon 
+    as={
+      <Ionicons 
+        name={props.name}
+      />
+    } 
+    size={6} 
+    color={props.color}
+  />;
+}
 
 export default AppTabs

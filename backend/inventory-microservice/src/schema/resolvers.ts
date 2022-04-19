@@ -26,7 +26,9 @@ const resolvers = {
         // Skip x instances 
         offset: args.offset,
         // fetch the x after that 
-        limit: args.limit 
+        limit: args.limit,
+        // order by creation
+        order: [['createdAt', 'DESC']]
       })
 
       return usersInventoryItems

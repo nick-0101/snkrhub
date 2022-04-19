@@ -129,9 +129,9 @@ export function SignInForm({ navigation }: any) {
                       InputLeftElement={
                           <Icon 
                           as={
-                              <Ionicons 
+                            <Ionicons 
                               name="mail-outline" 
-                              />
+                            />
                           } 
                           size={5} 
                           ml="4" 
