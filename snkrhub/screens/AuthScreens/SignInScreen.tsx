@@ -301,45 +301,45 @@ export default function SignIn({ navigation }: RootTabScreenProps<'SignIn'>) {
             flex={{ base: "1", md: "none" }}
         >
             <HStack px="2">
-                <Link
-                    alignItems="center"
-                    onPress={() => {
-                        navigation.navigate("SignUp");
-                    }}
-                >
-                    <IconButton
-                        variant="unstyled"
-                        pl="0"
-                        onPress={() => {
-                            navigation.navigate("SignUp");
-                        }}
-                        icon={
-                            <Icon
-                                size="5"
-                                as={Ionicons}
-                                name="chevron-back"
-                                color="gray.100"
-                            />
-                        }
-                    />
-                    
-                    <Text color="gray.50" fontSize="md">
-                        Sign up
-                    </Text>
-                </Link>
+              <Link
+                  alignItems="center"
+                  onPress={() => {
+                      navigation.navigate("SignUp");
+                  }}
+              >
+                  <IconButton
+                      variant="unstyled"
+                      pl="0"
+                      onPress={() => {
+                          navigation.navigate("SignUp");
+                      }}
+                      icon={
+                          <Icon
+                              size="5"
+                              as={Ionicons}
+                              name="chevron-back"
+                              color="gray.100"
+                          />
+                      }
+                  />
+                  
+                  <Text color="gray.50" fontSize="md">
+                      Sign up
+                  </Text>
+              </Link>
             </HStack>
             
             <VStack px="4" mt="16" mb="5">
-                <Text
-                    fontSize="md"
-                    fontWeight="normal"
-                    color={'gray.300'}
-                >
-                    Welcome back to
-                </Text>
-                <Text fontSize="3xl" fontWeight="bold" color="gray.50">
-                  SnkrHub
-                </Text>
+              <Text
+                fontSize="md"
+                fontWeight="normal"
+                color={'gray.300'}
+              >
+                Welcome back to
+              </Text>
+              <Text fontSize="3xl" fontWeight="bold" color="gray.50">
+                SnkrHub
+              </Text>
             </VStack>
 
             <SignInForm navigation={navigation} />

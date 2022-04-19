@@ -35,6 +35,9 @@ export const AppTabBar = (props: BottomTabBarProps) => {
     const { options }: { options: customTabOptions } = props.descriptors[route.key];
 
     const focused = props.descriptors[route.key].navigation.isFocused();
+    
+    console.log(options.tabBarIcon, options.tabBarIconOutline)
+
     return (
       <Pressable 
         key={route.key}
@@ -44,9 +47,8 @@ export const AppTabBar = (props: BottomTabBarProps) => {
         onPress={() => onSelect(props.state.index)}
       >
         <Center>
-          <Icon mb="1" as={
-              focused ? options.tabBarIcon : options.tabBarIconOutline
-            } 
+          <Icon 
+            as={focused ? options.tabBarIcon : options.tabBarIconOutline} 
             color="white" 
             size="sm" 
           />
@@ -58,10 +60,11 @@ export const AppTabBar = (props: BottomTabBarProps) => {
   return (
     <>
       <HStack 
-        _light={{ bg: "gray.100" }}
-        _dark={{ bg: "gray.900" }}
+        _light={{ bg: "gray.100", borderColor: 'gray.300' }}
+        _dark={{ bg: "gray.900", borderColor: 'gray.700' }}
         alignItems="center" 
         safeAreaBottom
+        borderTopWidth={1.7}
       >
         {props.state.routes.map(createNavigationTabForRoute)}
       </HStack>

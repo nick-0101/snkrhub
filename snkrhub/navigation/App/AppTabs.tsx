@@ -27,8 +27,8 @@ function AppTabs() {
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
           title: 'Home',
           animationTypeForReplace: 'pop',
-          tabBarIcon: () => <TabBarIcon name="home" color={'gray.500'} />,
-          tabBarIconOutline: () => <TabBarIcon name="home-outline" color={'primary.500'} />,
+          tabBarIcon: () => <TabBarIcon name="grid" color={'primary.600'} />,
+          tabBarIconOutline: () => <TabBarIcon name="grid-outline" color={'gray.500'} />,
         })}
       />
     </BottomTab.Navigator>
