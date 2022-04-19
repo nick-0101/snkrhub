@@ -8,8 +8,16 @@ import {
   Icon,
   Text
 } from "native-base";
+
+// Context
 import { useAuth } from '../../context/AuthContext'
+
+// Icons
 import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome5 } from '@expo/vector-icons'; 
+
+// Components
+import { InventoryItem } from '../../components'; 
 
 // Types
 import { RootTabScreenProps } from '../../types';
@@ -40,28 +48,52 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
       <HStack 
         _light={{ bg: "gray.200", borderColor: 'gray.300' }}
         _dark={{ bg: "gray.800", borderColor: 'gray.700' }} 
-        px="1" 
-        py="2.5" 
+        px="4"
+        py="2" 
         justifyContent="space-between" 
         alignItems="center"
         w="100%"
         borderBottomWidth={1.7}
       >
         <HStack alignItems="center">
-          <IconButton icon={<Icon size={7} as={Ionicons} name="menu-outline" color="primary.600" />} />
-          <Text
-            pl="2"
-            fontSize="xl"
-            fontWeight="medium"
-            _light={{
-              color: "gray.700",
-            }}
-            _dark={{
-              color: "gray.300", 
-            }}
-          >
-            Sign in
-          </Text>
+          <IconButton 
+            icon={
+              <Icon 
+                size={7} 
+                as={Ionicons} 
+                name="menu-outline" 
+                _light={{
+                  color: "gray.700",
+                }}
+                _dark={{
+                  color: "gray.300", 
+                }} 
+              />
+            } 
+          />
+
+          <HStack ml="3" alignItems={'center'}>
+            <Icon
+              size={5} 
+              as={FontAwesome5} 
+              name="box" 
+              color={'primary.600'}
+            />
+
+            <Text
+              pl="2.5"
+              fontSize="xl"
+              fontWeight="medium"
+              _light={{
+                color: "gray.700",
+              }}
+              _dark={{
+                color: "gray.300", 
+              }}
+            >
+              Inventory
+            </Text>
+          </HStack>
         </HStack>
         
         <HStack>
@@ -73,9 +105,13 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
         </HStack>
       </HStack>
 
-      <VStack px="4" mt="20" mb="5">
+      <VStack px="6" mt="8" mb="5">
         <VStack>
-          <Text>Inventory screen</Text>
+          <InventoryItem 
+            name={"Jordan 1 retro high asdasdasdasdasdasdasdads"}
+            size={10.5}
+            category="unlisted"
+          />
         </VStack>
       </VStack>
     </Stack>

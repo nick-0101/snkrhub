@@ -62,7 +62,7 @@ export function AnalyticsSection() {
             <Box 
               alignSelf="center" 
               ml="auto" 
-              borderRadius={9}
+              borderRadius={6}
               px="2.5"
               py="1"
               style={{backgroundColor: 'rgba(191, 219, 254, 0.3)'}}
