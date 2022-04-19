@@ -4,8 +4,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { Icon } from "native-base";
 
 // Navigator components
-import HomeScreen from '../../screens/AppScreens/HomeScreen';
 import { AppTabBar } from './AppTabBar';
+
+// Screens
+import HomeScreen from '../../screens/AppScreens/HomeScreen';
+import InventoryScreen from '../../screens/AppScreens/InventoryScreen';
 
 // Types
 import { RootTabParamList, RootTabScreenProps } from '../../types';
@@ -25,10 +28,18 @@ function AppTabs() {
         name="Home"
         component={HomeScreen}
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
-          title: 'Home',
           animationTypeForReplace: 'pop',
           tabBarIcon: () => <TabBarIcon name="grid" color={'primary.600'} />,
           tabBarIconOutline: () => <TabBarIcon name="grid-outline" color={'gray.500'} />,
+        })}
+      />
+
+      <BottomTab.Screen
+        name="Inventory"
+        component={InventoryScreen}
+        options={({ navigation }: RootTabScreenProps<'Inventory'>) => ({
+          tabBarIcon: () => <TabBarIcon name="clipboard" color={'primary.600'} />,
+          tabBarIconOutline: () => <TabBarIcon name="clipboard-outline" color={'gray.500'} />,
         })}
       />
     </BottomTab.Navigator>

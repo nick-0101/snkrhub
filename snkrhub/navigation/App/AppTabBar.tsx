@@ -25,31 +25,27 @@ interface customTabOptions extends BottomTabNavigationOptions {
 export const AppTabBar = (props: BottomTabBarProps) => {
 
   // When user clicks on tab
-  const onSelect = (index: number) => {
-    const selectedTabRoute = props.state.routeNames[index];
-    props.navigation.navigate(selectedTabRoute);
+  const onSelect = (selectedRoute: string) => {
+    props.navigation.navigate(selectedRoute);
   };
 
   // Create each tab
   const createNavigationTabForRoute = (route: RouteProp<RootTabParamList, any>) => {
     const { options }: { options: customTabOptions } = props.descriptors[route.key];
-
     const focused = props.descriptors[route.key].navigation.isFocused();
-    
-    console.log(options.tabBarIcon, options.tabBarIconOutline)
 
+    // Select route name to navigate 
+    const routeToNav = route.key.split('-', 1)[0]
     return (
       <Pressable 
         key={route.key}
-        opacity={focused ? 1 : 0.5} 
         py="3" 
         flex={1} 
-        onPress={() => onSelect(props.state.index)}
+        onPress={() => onSelect(routeToNav)}
       >
         <Center>
           <Icon 
             as={focused ? options.tabBarIcon : options.tabBarIconOutline} 
-            color="white" 
             size="sm" 
           />
         </Center>
