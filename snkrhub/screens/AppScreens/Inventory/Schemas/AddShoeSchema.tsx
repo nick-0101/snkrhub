@@ -1,10 +1,13 @@
 import * as yup from 'yup';
 
 export const AddShoeSchema = yup.object().shape({
-  email: yup
+  name: yup
     .string()
     .trim()
     .required('Name is required'),
+  styleId: yup
+    .string()
+    .trim(),
   brand: yup
     .string()
     .trim(),

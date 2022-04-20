@@ -36,7 +36,6 @@ export function SignInForm({ navigation }: any) {
   const [inputFocus, setInputFocus] = useState<number | null>(null)
   const [emailError, setEmailError] = useState('')
 
-
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={{

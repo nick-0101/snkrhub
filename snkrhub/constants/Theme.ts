@@ -25,6 +25,11 @@ const theme = extendTheme({
         py: '3',
       },
     },
+    IconButton: {
+      defaultProps: {
+        background: 'transparent'
+      }
+    },
     Input: {
       baseStyle: (props: any) => {
         return {

@@ -1,17 +1,25 @@
+import { SetStateAction, useState } from 'react';
 import {
-  StatusBar,
-  Box,
+  FormControl,
+  Input,
   VStack,
   HStack,
   Stack,
   IconButton,
   Icon,
-  Text
+  Text,
+  Button,
+  ScrollView 
 } from "native-base";
-import { Formik } from 'formik';
 
-// Icons
+// Packages
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Formik } from 'formik';
 import { Ionicons } from "@expo/vector-icons";
+import { AddShoeSchema } from './Schemas/AddShoeSchema';
+
+// Components
+import { FormError } from '../../../components'
 
 // Context
 import { useAuth } from '../../../context/AuthContext'
@@ -20,6 +28,17 @@ import { useAuth } from '../../../context/AuthContext'
 import { RootTabScreenProps } from '../../../types';
 
 export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddShoe'>) {
+  // Form state
+  const [formLoader, setFormLoading] = useState(false)
+  const [dateSelected, setDateSelected] = useState(new Date().toString());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  
+  const dateSelectedOnChange = (selectedDate: any) => {
+    const currentDate = selectedDate;
+    setDateSelected(currentDate);
+  };
+
   return (
     <>
       <Stack
@@ -56,18 +75,355 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
         </HStack>
         
         <IconButton 
-        onPress={() => navigation.goBack()}
-        icon={
-            <Icon size={7} as={Ionicons} name="close" color="primary.600" />
-        } 
+            onPress={() => navigation.goBack()}
+            icon={
+                <Icon size={7} as={Ionicons} name="close" color="primary.600" />
+            } 
         />
       </HStack>
 
-      <VStack px="6" mt="8" mb="5">
-        <VStack>
+      <ScrollView px="6" pt="5" pb="5"> 
+        {/* Form pt="5" pb="5" mt="8" mb="5"*/}
+        <Formik
+            validateOnChange={false}
+            validateOnBlur={false}
+            validationSchema={AddShoeSchema}
+            initialValues={{
+                name: '',
+                styleId: '',
+                brand: '',
+                colour: '',
+                condition: '',
+                shoeSize: '',
+                purchasePrice: '',
+                tax: '',
+                shipping: '',
+                purchaseDate: '',
+                orderNumber: ''
+            }}
+            onSubmit={async(values) => {
+                console.log(values)
+            }}
+        >
+            {({
+                handleChange,
+                handleSubmit,
+                values,
+                dirty,
+                errors
+            }) => (
+                <VStack space="5">
+                    <VStack space={{ base: "3", md: "4" }}>
+                        {/* Name Input */}
+                        <FormControl bg="transparent" isRequired isInvalid={errors.name ? true : false}>
+                            <FormControl.Label  
+                                _text={{
+                                    bold: true
+                                }}
+                            >
+                                Name{' '}
+                            </FormControl.Label> 
+                            <Input
+                                isRequired
+                                label="text"
+                                placeholder="Nike Dunk Low"
+                                defaultValue={values.name}
+                                onChangeText={handleChange('name')}
+                            />
 
-        </VStack>
-      </VStack>
+                            {errors.name ? 
+                                <FormError error={errors.name} />
+                            : null}
+                        </FormControl>
+                        
+                        {/* Styleid & brand input */}
+                        <HStack mt="2" justifyContent={'space-between'}>
+                            {/* Style ID Input */}
+                            <FormControl 
+                                bg="transparent" 
+                                isInvalid={errors.styleId ? true : false}
+                                w="48%"
+                            >
+                                <FormControl.Label  
+                                    _text={{
+                                        bold: true
+                                    }}
+                                >
+                                    Style ID{' '}
+                                </FormControl.Label> 
+                                <Input
+                                    label="text"
+                                    placeholder="DD1391-100"
+                                    defaultValue={values.styleId}
+                                    onChangeText={handleChange('styleId')}
+                                />
+
+                                {errors.styleId  ? 
+                                    <FormError error={errors.styleId} />
+                                : null}
+                            </FormControl>
+
+                            {/* Brand Input */}
+                            <FormControl 
+                                bg="transparent" 
+                                isInvalid={errors.brand ? true : false}
+                                w="48%"
+                            >
+                                <FormControl.Label  
+                                    _text={{
+                                        bold: true
+                                    }}
+                                >
+                                    Brand{' '}
+                                </FormControl.Label> 
+                                <Input
+                                    label="text"
+                                    placeholder="Nike"
+                                    defaultValue={values.brand}
+                                    onChangeText={handleChange('brand')}
+                                />
+
+                                {errors.brand  ? 
+                                    <FormError error={errors.brand} />
+                                : null}
+                            </FormControl>
+                        </HStack>
+
+                        {/* Colour & condition input */}
+                        <HStack mt="2" justifyContent={'space-between'}>
+                            {/* Colour Input */}
+                            <FormControl 
+                                bg="transparent" 
+                                isInvalid={errors.colour ? true : false}
+                                w="48%"
+                            >
+                                <FormControl.Label  
+                                    _text={{
+                                        bold: true
+                                    }}
+                                >
+                                    Colour{' '}
+                                </FormControl.Label> 
+                                <Input
+                                    label="text"
+                                    placeholder="White/Black"
+                                    defaultValue={values.colour}
+                                    onChangeText={handleChange('colour')}
+                                />
+
+                                {errors.colour  ? 
+                                    <FormError error={errors.colour} />
+                                : null}
+                            </FormControl>
+
+                            {/* Condition Input */}
+                            <FormControl 
+                                bg="transparent" 
+                                isInvalid={errors.condition ? true : false}
+                                w="48%"
+                            >
+                                <FormControl.Label  
+                                    _text={{
+                                        bold: true
+                                    }}
+                                >
+                                    Condition{' '}
+                                </FormControl.Label> 
+                                <Input
+                                    label="text"
+                                    placeholder="New"
+                                    defaultValue={values.condition}
+                                    onChangeText={handleChange('condition')}
+                                />
+
+                                {errors.condition  ? 
+                                    <FormError error={errors.condition} />
+                                : null}
+                            </FormControl>
+                        </HStack>
+
+                        {/* Shoe Size & Purchase Price input */}
+                        <HStack mt="2" justifyContent={'space-between'}>
+                            {/* Shoe Size Input */}
+                            <FormControl 
+                                bg="transparent"
+                                isRequired 
+                                isInvalid={errors.shoeSize ? true : false}
+                                w="48%"
+                            >
+                                <FormControl.Label  
+                                    _text={{
+                                        bold: true
+                                    }}
+                                >
+                                    Shoe Size{' '}
+                                </FormControl.Label> 
+                                <Input
+                                    isRequired
+                                    label="text"
+                                    placeholder="11"
+                                    defaultValue={values.shoeSize}
+                                    onChangeText={handleChange('shoeSize')}
+                                />
+
+                                {errors.shoeSize ? 
+                                    <FormError error={errors.shoeSize} />
+                                : null}
+                            </FormControl>
+
+                            {/* Purchase Price Input */}
+                            <FormControl 
+                                bg="transparent" 
+                                isRequired
+                                isInvalid={errors.purchasePrice ? true : false}
+                                w="48%"
+                            >
+                                <FormControl.Label  
+                                    _text={{
+                                        bold: true
+                                    }}
+                                >
+                                    Purchase price (USD){' '}
+                                </FormControl.Label> 
+                                <Input
+                                    isRequired
+                                    label="text"
+                                    placeholder="270"
+                                    defaultValue={values.purchasePrice}
+                                    onChangeText={handleChange('purchasePrice')}
+                                />
+
+                                {errors.purchasePrice ? 
+                                    <FormError error={errors.purchasePrice} />
+                                : null}
+                            </FormControl>
+                        </HStack>
+
+                        {/* Tax & Shipping input */}
+                        <HStack mt="2" justifyContent={'space-between'}>
+                            {/* Tax Input */}
+                            <FormControl 
+                                bg="transparent" 
+                                isInvalid={errors.tax ? true : false}
+                                w="48%"
+                            >
+                                <FormControl.Label  
+                                    _text={{
+                                        bold: true
+                                    }}
+                                >
+                                    Tax{' '}
+                                </FormControl.Label> 
+                                <Input
+                                    label="text"
+                                    placeholder="0.00"
+                                    defaultValue={values.tax}
+                                    onChangeText={handleChange('tax')}
+                                />
+
+                                {errors.tax  ? 
+                                    <FormError error={errors.tax} />
+                                : null}
+                            </FormControl>
+
+                            {/* Condition Input */}
+                            <FormControl 
+                                bg="transparent" 
+                                isInvalid={errors.shipping ? true : false}
+                                w="48%"
+                            >
+                                <FormControl.Label  
+                                    _text={{
+                                        bold: true
+                                    }}
+                                >
+                                    Shipping{' '}
+                                </FormControl.Label> 
+                                <Input
+                                    label="text"
+                                    placeholder="0.00"
+                                    defaultValue={values.shipping}
+                                    onChangeText={handleChange('shipping')}
+                                />
+
+                                {errors.shipping  ? 
+                                    <FormError error={errors.shipping} />
+                                : null}
+                            </FormControl>
+                        </HStack>
+
+                        {/* Purchase Date Input */}
+                        <FormControl bg="transparent" isRequired isInvalid={errors.purchaseDate ? true : false}>
+                            <FormControl.Label  
+                                _text={{
+                                    bold: true
+                                }}
+                            >
+                                Purchase Date{' '}
+                            </FormControl.Label> 
+                            <Input
+                                isRequired
+                                label="text"
+                                placeholder="Nike Dunk Low"
+                                defaultValue={values.purchaseDate}
+                                onChangeText={handleChange('purchaseDate')}
+                                onPressIn={() => setShowDatePicker(true)}
+                                onPressOut={() => setShowDatePicker(false)}
+                            />
+
+                            {showDatePicker && (
+                                <DateTimePicker
+                                    testID="dateTimePicker"
+                                    value={dateSelected}
+                                    mode={'date'}
+                                    is24Hour={true}
+                                    onChange={dateSelectedOnChange}
+                                />
+                            )}
+
+                            <Text>{dateSelected}</Text>
+
+                            {errors.purchaseDate ? 
+                                <FormError error={errors.purchaseDate} />
+                            : null}
+                        </FormControl>
+                    </VStack>
+                        
+                    {/* Signin button */}
+                    <Button
+                        size="md"
+                        _text={{
+                            fontSize: "sm",
+                            fontWeight: "medium",
+                        }}
+                        _loading={{
+                            _text: {
+                                color: "white"
+                            }
+                        }}
+                        _disabled={{
+                            _light: { 
+                                background: "coolGray.300",
+                                color: "gray.300"                    
+                            },
+                            _dark: { 
+                                background: "coolGray.700",
+                                color: "gray.100"                    
+                            },
+                        }}
+                        onPress={() => handleSubmit()}
+                        background="primary.600"
+                        isLoadingText="Creating item..."
+                        isLoading={formLoader}
+                        spinnerPlacement="end"
+                        isDisabled={!dirty}
+                    >
+                        Create item
+                    </Button>
+                </VStack>
+            )}
+        </Formik>
+      </ScrollView>
     </Stack>
     </>
   );
