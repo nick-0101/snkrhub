@@ -93,7 +93,6 @@ export function AnalyticsSection() {
             <Button onPress={() => signOutUser()}>Sign out</Button>
           </VStack>
         </VStack>
-
         {/* <HStack
           mb="2"
           space="1"

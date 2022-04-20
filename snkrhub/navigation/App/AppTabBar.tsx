@@ -39,6 +39,7 @@ export const AppTabBar = (props: BottomTabBarProps) => {
         key={route.key}
         py="3" 
         flex={1} 
+        testID={options.tabBarTestID}
         onPress={() => onSelect(routeToNav)}
       >
         <Center>

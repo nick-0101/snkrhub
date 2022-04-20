@@ -11,17 +11,17 @@ import {
 } from "native-base";
 
 // Context
-import { useAuth } from '../../context/AuthContext'
+import { useAuth } from '../../../context/AuthContext'
 
 // Icons
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from '@expo/vector-icons'; 
 
 // Components
-import { InventoryItem } from '../../components'; 
+import { InventoryItem } from '../../../components'; 
 
 // Types
-import { RootTabScreenProps } from '../../types';
+import { RootTabScreenProps } from '../../../types';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {

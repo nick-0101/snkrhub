@@ -8,7 +8,7 @@ import { AppTabBar } from './AppTabBar';
 
 // Screens
 import HomeScreen from '../../screens/AppScreens/HomeScreen';
-import InventoryScreen from '../../screens/AppScreens/InventoryScreen';
+import InventoryScreen from '../../screens/AppScreens/Inventory/InventoryScreen';
 
 // Types
 import { RootTabParamList, RootTabScreenProps } from '../../types';
@@ -29,6 +29,7 @@ function AppTabs() {
         component={HomeScreen}
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
           animationTypeForReplace: 'pop',
+          tabBarTestID: "HomeScreenButton",
           tabBarIcon: () => <TabBarIcon name="grid" color={'primary.600'} />,
           tabBarIconOutline: () => <TabBarIcon name="grid-outline" color={'gray.500'} />,
         })}
@@ -38,6 +39,7 @@ function AppTabs() {
         name="Inventory"
         component={InventoryScreen}
         options={({ navigation }: RootTabScreenProps<'Inventory'>) => ({
+          tabBarTestID: "InventoryScreenButton",
           tabBarIcon: () => <TabBarIcon name="clipboard" color={'primary.600'} />,
           tabBarIconOutline: () => <TabBarIcon name="clipboard-outline" color={'gray.500'} />,
         })}
