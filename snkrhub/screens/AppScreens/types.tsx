@@ -3,7 +3,7 @@ export type RootTabs = {
   
   // Inventory
   Inventory: undefined;
-  AddShoeScreen: undefined;
+  AddShoe: undefined;
 
   // Misc
   Loading: undefined;

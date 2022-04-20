@@ -6,9 +6,10 @@ import { Icon } from "native-base";
 // Navigator components
 import { AppTabBar } from './AppTabBar';
 
-// Screens
+// Screens / navigators
 import HomeScreen from '../../screens/AppScreens/HomeScreen';
 import InventoryScreen from '../../screens/AppScreens/Inventory/InventoryScreen';
+import { InventoryNavigator } from './InventoryNavigator/InventoryNavigator';
 
 // Types
 import { RootTabParamList, RootTabScreenProps } from '../../types';
@@ -37,7 +38,7 @@ function AppTabs() {
 
       <BottomTab.Screen
         name="Inventory"
-        component={InventoryScreen}
+        component={InventoryNavigator}
         options={({ navigation }: RootTabScreenProps<'Inventory'>) => ({
           tabBarTestID: "InventoryScreenButton",
           tabBarIcon: () => <TabBarIcon name="clipboard" color={'primary.600'} />,

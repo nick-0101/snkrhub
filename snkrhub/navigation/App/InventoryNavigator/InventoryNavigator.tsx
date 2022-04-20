@@ -13,16 +13,16 @@ const Stack = createStackNavigator();
 export const InventoryNavigator = () => {
   return (
     <Stack.Navigator
-      screenOptions={() => {
-        return {
-          gestureEnabled: true,
-          cardOverlayEnabled: true,
-          ...TransitionPresets.ModalPresentationIOS,
-        };
+      initialRouteName='InventoryNest'
+      screenOptions={{
+        cardOverlayEnabled: true,
+        headerShown: false,
+        gestureEnabled: true,
+        ...TransitionPresets.ModalPresentationIOS,
+        presentation: 'modal'
       }}
-      initialRouteName='Inventory'
     >
-      <Stack.Screen name={'Inventory'} component={InventoryScreen} />
+      <Stack.Screen name={'InventoryNest'} component={InventoryScreen} />
       <Stack.Screen name={'AddShoe'} component={AddShoeScreen} />
     </Stack.Navigator>
   );

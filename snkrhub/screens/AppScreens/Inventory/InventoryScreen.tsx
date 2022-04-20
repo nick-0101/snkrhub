@@ -30,9 +30,6 @@ if (Platform.OS === 'android') {
 }
 
 export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inventory'>) {
-  // Auth state
-  const { signOutUser, getUserToken } = useAuth();
-
   return (
     <Stack
       flexDirection={{ base: "column", md: "row" }}
@@ -105,6 +102,7 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
         
         <HStack>
           <IconButton 
+            onPress={() => navigation.navigate("AddShoe")}
             icon={
               <Icon size={7} as={Ionicons} name="add" color="primary.600" />
             } 

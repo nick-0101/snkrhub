@@ -10,6 +10,6 @@ The home screen will basically be an overview of everthing that is going on. We 
 
 ### Inventory
 
-The inventory tracker will start off with a few features and more will be added later. For now, a user can create a shoe. The creation of an item will be seperated into 2 tabs, the first tab will allow the user to specify the name, brand, color, condition and shoe size. The second tab will be purchase details, the user can specify purchase price, tax, place of purcahse, shipping, purchase date, and order number.
+The inventory tracker will start off with a few features and more will be added later. For now, a user can create a shoe. The creation of an item will be seperated into 2 tabs, the first tab will allow the user to specify the name, brand, color, condition and shoe size. The second tab will be purchase details, the user can specify purchase price, tax, place of purchase, shipping, purchase date, and order number.
 
 The user will also be able to swipe on a shoe to delete it.
