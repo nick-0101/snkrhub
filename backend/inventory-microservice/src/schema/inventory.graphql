@@ -1,14 +1,9 @@
 type Query {
-  fetchUserInventoryItems(
-    offset: Int!
-    limit: Int!
-    userId: String!
-  ): [InventoryItem]
+  fetchUserInventoryItems(offset: Int!, limit: Int!): [InventoryItem]
 }
 
 type InventoryItem {
   id: Int!
-  user_id: String!
   name: String!
   styleid: String
   brand: String
@@ -28,7 +23,6 @@ type Mutation {
 }
 
 input InventoryItemInput {
-  user_id: String!
   name: String!
   styleid: String
   brand: String

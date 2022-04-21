@@ -3,7 +3,6 @@ import { Request } from 'express'
 export interface FetchUserInventoryItemsArgs {
   offset: number;
   limit: number;
-  userId: string;
 }
 
 export interface AddInventoryItemArgs {
@@ -11,7 +10,6 @@ export interface AddInventoryItemArgs {
 }
 
 interface inventoryItem {
-  user_id: string,
   name: string,
   styleid: string,
   brand: string,
@@ -26,7 +24,6 @@ interface inventoryItem {
 }
 
 export interface DeleteInventoryItemArgs {
-  userId: string;
   itemId: number;
 }
 

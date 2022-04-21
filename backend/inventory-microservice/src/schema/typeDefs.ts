@@ -4,12 +4,11 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type Query {
-    fetchUserInventoryItems(offset: Int!, limit: Int!, userId: String!): [InventoryItem]
+    fetchUserInventoryItems(offset: Int!, limit: Int!): [InventoryItem]
   }
 
   type InventoryItem {
     id: Int!,
-    user_id: String!,
     name: String!,
     styleid: String,
     brand: String,
@@ -29,7 +28,6 @@ const typeDefs = gql`
   }
 
   input InventoryItemInput {
-    user_id: String!,
     name: String!,
     styleid: String,
     brand: String,
