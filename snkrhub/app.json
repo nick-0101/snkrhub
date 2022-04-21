@@ -23,6 +23,7 @@
     },
     "android": {
       "package": "com.tiger.snkrhub",
+      "softwareKeyboardLayoutMode":"pan",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
