@@ -6,7 +6,7 @@ export const FETCH_INVENTORY_ITEMS = gql`
             id
             name
             shoesize
-            brand
+            purchaseprice
         }
     }
 `;

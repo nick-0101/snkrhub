@@ -26,6 +26,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { InventoryItem } from '../../../components'; 
 
 // Types
+import { InventoryData } from '../types'
 import { RootTabScreenProps } from '../../../types';
 
 // enable animations on android
@@ -42,6 +43,7 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
   /*
   * Apollo
   */
+  const [inventoryData, setInventoryData] = useState<InventoryData[]>()
   const [userToken, setUserToken] = useState<string | undefined>('')
   const [offset, setOffset] = useState(0)
   const [limit, setLimit] = useState(2)
@@ -77,8 +79,11 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
     FETCH_INVENTORY_ITEMS
   );
 
-  console.log(data, error)
-  // if (loading) return <Text>Loading ...</Text>;
+  useEffect(() => {
+    if(data) {
+      setInventoryData(data.fetchUserInventoryItems)
+    }
+  }, [data])
   // if (error) return `Error! ${error}`;
 
   return (
@@ -163,7 +168,23 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
 
       <VStack px="6" mt="8" mb="5">
         <VStack>
-          <InventoryItem 
+          {inventoryData ? 
+            <>
+              {inventoryData.map((item: InventoryData, index: number) => {
+                  return (
+                    <InventoryItem 
+                      key={index}
+                      name={item.name}
+                      size={item.shoesize}
+                      price={item.purchaseprice}
+                    />
+                  )
+                })}
+            </>
+            :
+            null
+          }
+          {/* <InventoryItem 
             name={"Jordan 1 retro high asdasdasdasdasdasdasdads"}
             size={10.5}
             price="220"
@@ -177,7 +198,7 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
             name={"Jordan 1 retro high asdasdasdasdasdasdasdads"}
             size={10.5}
             price="110"
-          />
+          /> */}
 
         </VStack>
       </VStack>

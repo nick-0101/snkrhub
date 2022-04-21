@@ -13,7 +13,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 type Props = {
     name: string;
     size: number;
-    price: string;
+    price: number;
 }
 
 const InventoryItem = (props: Props) => {

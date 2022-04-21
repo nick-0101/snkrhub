@@ -8,3 +8,10 @@ export type RootTabs = {
   // Misc
   Loading: undefined;
 };
+
+export interface InventoryData {
+  id: number;
+  name: string;
+  shoesize: number;
+  purchaseprice: number;
+}
