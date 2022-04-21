@@ -9,7 +9,8 @@ import {
   Icon,
   Text,
   Button,
-  ScrollView 
+  ScrollView,
+  Pressable
 } from "native-base";
 
 // Packages
@@ -30,14 +31,6 @@ import { RootTabScreenProps } from '../../../types';
 export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddShoe'>) {
   // Form state
   const [formLoader, setFormLoading] = useState(false)
-  const [dateSelected, setDateSelected] = useState(new Date().toString());
-  const [showDatePicker, setShowDatePicker] = useState(false);
-
-  
-  const dateSelectedOnChange = (selectedDate: any) => {
-    const currentDate = selectedDate;
-    setDateSelected(currentDate);
-  };
 
   return (
     <>
@@ -129,6 +122,7 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                                 placeholder="Nike Dunk Low"
                                 defaultValue={values.name}
                                 onChangeText={handleChange('name')}
+                                accentColor={"#2563eb"}
                             />
 
                             {errors.name ? 
@@ -361,27 +355,14 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                             >
                                 Purchase Date{' '}
                             </FormControl.Label> 
+                            
                             <Input
                                 isRequired
                                 label="text"
                                 placeholder="Nike Dunk Low"
                                 defaultValue={values.purchaseDate}
                                 onChangeText={handleChange('purchaseDate')}
-                                onPressIn={() => setShowDatePicker(true)}
-                                onPressOut={() => setShowDatePicker(false)}
                             />
-
-                            {showDatePicker && (
-                                <DateTimePicker
-                                    testID="dateTimePicker"
-                                    value={dateSelected}
-                                    mode={'date'}
-                                    is24Hour={true}
-                                    onChange={dateSelectedOnChange}
-                                />
-                            )}
-
-                            <Text>{dateSelected}</Text>
 
                             {errors.purchaseDate ? 
                                 <FormError error={errors.purchaseDate} />

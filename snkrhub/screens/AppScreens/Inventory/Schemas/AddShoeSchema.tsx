@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import * as yup from 'yup';
 
 export const AddShoeSchema = yup.object().shape({
@@ -29,8 +30,11 @@ export const AddShoeSchema = yup.object().shape({
     .number(),
   purchaseDate: yup
     .string()
-    .trim()
-    .required('Purchase date is required'),
+    .transform(value => {
+      return value ? dayjs(value).format('YYYY-MM-DD') : value;
+    })
+    .required('Purchase date is required')
+    .typeError('Purchase date must be YYYY-MM-DD'),
   orderNumber: yup
     .string()
     .trim(),

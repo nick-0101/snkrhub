@@ -26,6 +26,7 @@
     "@testing-library/react-native": "^9.1.0",
     "@types/react-native-datepicker": "^1.7.1",
     "@types/react-test-renderer": "^17.0.1",
+    "dayjs": "^1.11.1",
     "expo": "~44.0.0",
     "expo-asset": "~8.4.4",
     "expo-constants": "~13.0.0",
