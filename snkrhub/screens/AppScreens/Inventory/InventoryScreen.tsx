@@ -1,5 +1,5 @@
 import { Platform, UIManager } from 'react-native';
-import { useEffect } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import {
   StatusBar,
   Box,
@@ -12,6 +12,8 @@ import {
 } from "native-base";
 
 // Apollo
+import { useLazyQuery } from "@apollo/client";
+import { FETCH_INVENTORY_ITEMS } from './queries'
 
 // Context
 import { useAuth } from '../../../context/AuthContext'
@@ -26,6 +28,7 @@ import { InventoryItem } from '../../../components';
 // Types
 import { RootTabScreenProps } from '../../../types';
 
+// enable animations on android
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -33,6 +36,51 @@ if (Platform.OS === 'android') {
 }
 
 export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inventory'>) {
+  // Auth
+  const { getUserToken } = useAuth()
+
+  /*
+  * Apollo
+  */
+  const [userToken, setUserToken] = useState<string | undefined>('')
+  const [offset, setOffset] = useState(0)
+  const [limit, setLimit] = useState(2)
+
+  const fetchInventoryItems = useCallback(async () => {
+    // Get users jwt on every request
+    const firebaseToken = await getUserToken()
+    setUserToken(firebaseToken)
+
+    // Call graphql query
+    getInventoryItems({ 
+      variables: {
+        offset: offset,
+        limit: limit,
+        userId: 'QgshDQqg6dWIxsbW4YNQqNC0u6n2'
+      },
+      context: {
+        headers: { 
+          Authorization: userToken ? userToken : ''
+        },
+      },
+    })
+  }, [offset])
+
+  useEffect(() => {
+    fetchInventoryItems()
+  }, [fetchInventoryItems])
+
+
+  // Because we have to wait for getUserToken to return, we need to
+  // execute the apollo query manually
+  const [getInventoryItems, { loading, error, data }] = useLazyQuery(
+    FETCH_INVENTORY_ITEMS
+  );
+
+  console.log(data, error)
+  // if (loading) return <Text>Loading ...</Text>;
+  // if (error) return `Error! ${error}`;
+
   return (
     <Stack
       flexDirection={{ base: "column", md: "row" }}
