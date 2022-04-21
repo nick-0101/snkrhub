@@ -1,4 +1,5 @@
 import { Platform, UIManager } from 'react-native';
+import { useEffect } from 'react';
 import {
   StatusBar,
   Box,
@@ -9,6 +10,8 @@ import {
   Icon,
   Text
 } from "native-base";
+
+// Apollo
 
 // Context
 import { useAuth } from '../../../context/AuthContext'
@@ -115,17 +118,17 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
           <InventoryItem 
             name={"Jordan 1 retro high asdasdasdasdasdasdasdads"}
             size={10.5}
-            category="unlisted"
+            price="220"
           />
           <InventoryItem 
             name={"Jordan 1 retro high asdasdasdasdasdasdasdads"}
             size={10.5}
-            category="unlisted"
+            price="550"
           />
           <InventoryItem 
             name={"Jordan 1 retro high asdasdasdasdasdasdasdads"}
             size={10.5}
-            category="unlisted"
+            price="110"
           />
 
         </VStack>

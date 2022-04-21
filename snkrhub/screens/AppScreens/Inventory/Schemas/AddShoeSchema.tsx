@@ -23,11 +23,17 @@ export const AddShoeSchema = yup.object().shape({
     .required('Shoe size is required'),
   purchasePrice: yup
     .number()
+    .transform((value) => (isNaN(value) ? Number(value) : value))
+    .min(0, 'Invalid currency')
     .required('Purchase price is required'),
   tax: yup
-    .number(),
+    .number()
+    .transform((value) => (isNaN(value) ? Number(value) : value))
+    .min(0, 'Invalid currency'),
   shipping: yup
-    .number(),
+    .number()
+    .transform((value) => (isNaN(value) ? Number(value) : value))
+    .min(0, 'Invalid currency'),
   purchaseDate: yup
     .string()
     .transform(value => {
