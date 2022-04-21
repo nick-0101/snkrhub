@@ -8,7 +8,8 @@ import {
   Stack,
   IconButton,
   Icon,
-  Text
+  Text,
+  Spinner
 } from "native-base";
 
 // Apollo
@@ -47,7 +48,11 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
   const [userToken, setUserToken] = useState<string | undefined>('')
   const [offset, setOffset] = useState(0)
   const [limit, setLimit] = useState(2)
-
+  
+  const [getInventoryItems, { loading, error, data }] = useLazyQuery(
+    FETCH_INVENTORY_ITEMS
+  );
+  
   const fetchInventoryItems = useCallback(async () => {
     // Get users jwt on every request
     const firebaseToken = await getUserToken()
@@ -58,7 +63,6 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
       variables: {
         offset: offset,
         limit: limit,
-        userId: 'QgshDQqg6dWIxsbW4YNQqNC0u6n2'
       },
       context: {
         headers: { 
@@ -69,22 +73,14 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
   }, [offset])
 
   useEffect(() => {
-    fetchInventoryItems()
-  }, [fetchInventoryItems])
-
-
-  // Because we have to wait for getUserToken to return, we need to
-  // execute the apollo query manually
-  const [getInventoryItems, { loading, error, data }] = useLazyQuery(
-    FETCH_INVENTORY_ITEMS
-  );
-
-  useEffect(() => {
-    if(data) {
+    if(data.fetchUserInventoryItems !== null) {
       setInventoryData(data.fetchUserInventoryItems)
+    } else {
+      fetchInventoryItems()
     }
   }, [data])
-  // if (error) return `Error! ${error}`;
+
+  console.log(data)
 
   return (
     <Stack
@@ -165,9 +161,24 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
           />
         </HStack>
       </HStack>
-
+      
+      {/* Render data */}
       <VStack px="6" mt="8" mb="5">
         <VStack>
+          {/* Loader */}
+          {loading ? 
+            <Spinner 
+              size="lg"
+              color={
+                'gray.500'
+              }
+              accessibilityLabel="Loading inventory data" 
+            /> 
+            :
+            null
+          }
+          
+          {/* Inventory items */}
           {inventoryData ? 
             <>
               {inventoryData.map((item: InventoryData, index: number) => {
