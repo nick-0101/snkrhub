@@ -84,7 +84,7 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
   }, [data])
 
   /*
-  * Item swiper view
+  * Inventory item action swiper
   */
   const [listData, setListData] = useState(Array(2).fill('').map((item, i) => ({
     key: `${i}`,
@@ -99,14 +99,13 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
 
   const deleteRow = (rowMap: InventorySwiperRow, rowKey: string) => {
     closeRow(rowMap, rowKey);
-    const newData = [...listData];
-    const prevIndex = listData.findIndex(item => item.key === rowKey);
-    newData.splice(prevIndex, 1);
-    setListData(newData);
-  };
 
-  const onRowDidOpen = (rowKey: number) => {
-    console.log('This row opened', rowKey);
+    if(inventoryData) {
+      const newData: InventoryData[] = Array.from(new Set(inventoryData));
+      const prevIndex = inventoryData.findIndex(item => item.id === Number(rowKey));
+      newData.splice(prevIndex, 1);
+      setInventoryData(newData);
+    }
   };
 
   const renderItem = ({
@@ -137,14 +136,32 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
 
   const renderHiddenItem = (rowMap: any, rowKey: any) => (
     <HStack flex={1}>
-      <Pressable mb="6" px={4} ml="auto" bg="dark.500" justifyContent="center" onPress={() => closeRow(rowMap, data.item.key)} _pressed={{
-        opacity: 0.5
-      }}>
-          <Icon name="close" color="white" as={Ionicons}/>
-        </Pressable>
-        <Pressable mb="6" px={4} bg="red.500" justifyContent="center" onPress={() => deleteRow(rowMap, data.item.key)} _pressed={{
-        opacity: 0.5
-      }}>
+      {/* Close */}
+      <Pressable 
+        mb="6" 
+        px={4} 
+        ml="auto" 
+        bg="dark.500" 
+        justifyContent="center" 
+        onPress={() => closeRow(rowMap, data.id)} 
+        _pressed={{
+          opacity: 0.5
+        }}
+      >
+        <Icon name="close" color="white" as={Ionicons}/>
+      </Pressable>
+      
+      {/* Delete item */}
+      <Pressable 
+        mb="6" 
+        px={4} 
+        bg="red.500" 
+        justifyContent="center"
+        onPress={() => deleteRow(rowMap, data.id)}
+        _pressed={{
+          opacity: 0.5
+        }}
+      >
         <Icon name="trash" color="white" as={Ionicons}/>
       </Pressable>
     </HStack>
