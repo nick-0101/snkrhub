@@ -52,8 +52,15 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
   const [offset, setOffset] = useState(0)
   const [limit, setLimit] = useState(2)
   
-  const [getInventoryItems, { loading, error, data }] = useLazyQuery(
-    FETCH_INVENTORY_ITEMS
+
+  // the problem is that uselazy query is returning null. However when I refresh the
+  // app, it returns the data.
+  //
+
+  const [getInventoryItems, { loading, error, data }] = useLazyQuery(FETCH_INVENTORY_ITEMS, {
+      fetchPolicy: "network-only",   // Used for first execution
+      onCompleted: (data) => {setInventoryData(data.fetchUserInventoryItems)}
+    }
   );
   
   const fetchInventoryItems = useCallback(async () => {
@@ -61,35 +68,30 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
     const firebaseToken = await getUserToken()
     setUserToken(firebaseToken)
 
-    // Call graphql query
-    getInventoryItems({ 
-      variables: {
-        offset: offset,
-        limit: limit,
-      },
-      context: {
-        headers: { 
-          Authorization: userToken ? userToken : ''
+    if(firebaseToken) {
+      // Call graphql query
+      getInventoryItems({ 
+        variables: {
+          offset: offset,
+          limit: limit,
         },
-      },
-    })
+        context: {
+          headers: { 
+            Authorization: userToken ? userToken : ''
+          },
+        },
+      })
+    }
+
   }, [offset])
 
   useEffect(() => {
-    if(typeof data != 'undefined' && data.fetchUserInventoryItems !== null) {
-      setInventoryData(data.fetchUserInventoryItems)
-    } else {
-      fetchInventoryItems()
-    }
-  }, [data])
+    fetchInventoryItems()
+  }, [loading, data])
 
   /*
   * Inventory item action swiper
   */
-  const [listData, setListData] = useState(Array(2).fill('').map((item, i) => ({
-    key: `${i}`,
-    item
-  })));
 
   const closeRow = (rowMap: InventorySwiperRow, rowKey: string) => {
     if (rowMap[rowKey]) {
@@ -162,7 +164,7 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
           opacity: 0.5
         }}
       >
-        <Icon name="trash" color="white" as={Ionicons}/>
+        <Text>Delete</Text>
       </Pressable>
     </HStack>
   );
@@ -258,11 +260,6 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
             accessibilityLabel="Loading inventory data" 
           /> 
           :
-          null
-        }
-        
-
-        {inventoryData ? 
           <SwipeListView 
             keyExtractor={(item, index) => item.id.toString()}
             data={inventoryData} 
@@ -273,9 +270,7 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
             previewRowKey={'0'}
             previewOpenValue={-40}
           />
-          :
-          null
-        }
+        }     
       </VStack>
     </Stack>
   );
