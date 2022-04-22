@@ -112,52 +112,44 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
   const renderItem = ({
     item,
     index
-  }: { item: InventoryData, index: number }) => 
+  }: { item: InventoryData, index: number }) => (
     <Box>
-      <Pressable onPress={() => console.log('You touched me')} alignItems="center" bg="white" borderBottomColor="trueGray.200" borderBottomWidth={1} justifyContent="center" height={50} py={8}>
-        <HStack width="100%" px={4}>
-          <HStack space={2} alignItems="center">
-            <Avatar color="white" bg={'secondary.700'}>
-              {index}
-            </Avatar>
-            <Text color={'black'}>{item.name}</Text>
-          </HStack>
+      <Pressable 
+        onPress={() => console.log('You touched me')} 
+        alignItems="center" 
+        _light={{ bg: "gray.100", borderColor: 'gray.200' }}
+        _dark={{ bg: "gray.900", borderColor: 'gray.800' }}
+        borderBottomWidth={1.5}
+        justifyContent="center"  
+        px="6"
+      >
+        <HStack width="100%">
+          <InventoryItem 
+            name={item.name}
+            size={item.shoesize}
+            price={item.purchaseprice}
+            index={index}
+          />
         </HStack>
       </Pressable>
     </Box>
-  ;
-  
-    // <>
-    //   <Box>
-    //     <Pressable onPress={() => console.log('You touched me')} alignItems="center" bg="white" borderBottomColor="trueGray.200" borderBottomWidth={1} justifyContent="center" height={50} _pressed={{
-    //     bg: 'trueGray.200'
-    //   }} py={8}>
-    //       <HStack width="100%" px={4}>
-    //           <InventoryItem 
-    //             key={index}
-    //             name={item.name}
-    //             size={item.shoesize}
-    //             price={item.purchaseprice}
-    //           />
-    //       </HStack>
-    //     </Pressable>
-    //   </Box>
-    // </>
+  );
 
-
-  const renderHiddenItem = (rowMap: any, rowKey: any) => <HStack flex={1} pl={2}>
-      <Pressable px={4} ml="auto" bg="dark.500" justifyContent="center" onPress={() => closeRow(rowMap, data.item.key)} _pressed={{
-      opacity: 0.5
-    }}>
-        <Icon name="close" color="white" as={Ionicons}/>
-      </Pressable>
-      <Pressable px={4} bg="red.500" justifyContent="center" onPress={() => deleteRow(rowMap, data.item.key)} _pressed={{
-      opacity: 0.5
-    }}>
+  const renderHiddenItem = (rowMap: any, rowKey: any) => (
+    <HStack flex={1}>
+      <Pressable mb="6" px={4} ml="auto" bg="dark.500" justifyContent="center" onPress={() => closeRow(rowMap, data.item.key)} _pressed={{
+        opacity: 0.5
+      }}>
+          <Icon name="close" color="white" as={Ionicons}/>
+        </Pressable>
+        <Pressable mb="6" px={4} bg="red.500" justifyContent="center" onPress={() => deleteRow(rowMap, data.item.key)} _pressed={{
+        opacity: 0.5
+      }}>
         <Icon name="trash" color="white" as={Ionicons}/>
       </Pressable>
-    </HStack>;
-
+    </HStack>
+  );
+  
   return (
     <Stack
       flexDirection={{ base: "column", md: "row" }}
@@ -239,61 +231,35 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
       </HStack>
       
       {/* Render data */}
-      <Box safeArea flex={1}>
+      <VStack mt="8" mb="5">   
+        {loading ? 
+          <Spinner 
+            size="lg"
+            color={
+              'gray.500'
+            }
+            accessibilityLabel="Loading inventory data" 
+          /> 
+          :
+          null
+        }
         
-         {inventoryData ? 
-            <SwipeListView 
-              keyExtractor={(item, index) => item.id.toString()}
-              data={inventoryData} 
-              renderItem={renderItem}
-              renderHiddenItem={renderHiddenItem}
-              leftOpenValue={75}
-              rightOpenValue={-150}
-              previewRowKey={'0'}
-              previewOpenValue={-40}
-              previewOpenDelay={3000}
-            />
-            :
-            null
-          }
-      </Box>
 
-      {/* <VStack px="6" mt="8" mb="5">
-        <VStack>
-          
-          {loading ? 
-            <Spinner 
-              size="lg"
-              color={
-                'gray.500'
-              }
-              accessibilityLabel="Loading inventory data" 
-            /> 
-            :
-            null
-          }
-          
-
-          {inventoryData ? 
-            <>
-              {inventoryData.map((item: InventoryData, index: number) => {
-                  return (
-                    <InventoryItem 
-                      key={index}
-                      name={item.name}
-                      size={item.shoesize}
-                      price={item.purchaseprice}
-                    />
-                  )
-                })}
-            </>
-            :
-            null
-          }
-         
-
-        </VStack>
-      </VStack> */}
+        {inventoryData ? 
+          <SwipeListView 
+            keyExtractor={(item, index) => item.id.toString()}
+            data={inventoryData} 
+            renderItem={renderItem}
+            renderHiddenItem={renderHiddenItem}
+            leftOpenValue={0}
+            rightOpenValue={-128}
+            previewRowKey={'0'}
+            previewOpenValue={-40}
+          />
+          :
+          null
+        }
+      </VStack>
     </Stack>
   );
 }

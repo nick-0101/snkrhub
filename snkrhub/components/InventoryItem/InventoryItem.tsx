@@ -4,7 +4,8 @@ import {
   VStack,
   HStack,
   Box,
-  Icon
+  Icon,
+  Avatar
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from '@expo/vector-icons'; 
@@ -14,6 +15,7 @@ type Props = {
     name: string;
     size: number;
     price: number;
+    index: number;
 }
 
 const InventoryItem = (props: Props) => {
@@ -35,18 +37,9 @@ const InventoryItem = (props: Props) => {
 
     return (
         <>
-            <Box 
-                display="flex" 
-                flexDirection="row"
-                mb="3" 
-                pb="3" 
-                borderBottomWidth={1.5}
-                borderRadius={6}
-                _light={{ borderColor: 'gray.200' }}
-                _dark={{ borderColor: 'gray.800' }} 
-            >
+            <HStack py="3.5" space={2} alignItems="center">
                 <HStack>
-                    {/* Image */}
+                    {/* Icon */}
                     <Box 
                         alignSelf="center" 
                         _light={{ bg: "gray.200" }}
@@ -63,7 +56,7 @@ const InventoryItem = (props: Props) => {
                         />
                     </Box>
 
-                    {/* Title */}
+                    {/* Title & size */}
                     <VStack 
                         mx="3"
                         my="auto"
@@ -92,9 +85,8 @@ const InventoryItem = (props: Props) => {
                             {props.size}
                         </Text>
                     </VStack>
-                
                 </HStack>
-
+                
                 {/* Price */}
                 <HStack
                     alignItems={'center'}
@@ -113,8 +105,7 @@ const InventoryItem = (props: Props) => {
                         ${props.price}
                     </Text>
                 </HStack>
-            </Box>
-
+            </HStack> 
         </>
     )
 }
