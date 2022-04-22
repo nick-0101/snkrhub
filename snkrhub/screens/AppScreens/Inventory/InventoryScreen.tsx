@@ -1,4 +1,4 @@
-import { Platform, UIManager } from 'react-native';
+import { Platform, UIManager, Dimensions, TouchableOpacity, View } from 'react-native';
 import { useEffect, useState, useCallback } from 'react';
 import {
   StatusBar,
@@ -9,8 +9,11 @@ import {
   IconButton,
   Icon,
   Text,
-  Spinner
+  Spinner,
+  Avatar,
+  Pressable
 } from "native-base";
+import { IPropsSwipeRow, RowMap, SwipeListView } from 'react-native-swipe-list-view';
 
 // Apollo
 import { useLazyQuery } from "@apollo/client";
@@ -27,7 +30,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { InventoryItem } from '../../../components'; 
 
 // Types
-import { InventoryData } from '../types'
+import { InventoryData, InventorySwiperRow } from '../types'
 import { RootTabScreenProps } from '../../../types';
 
 // enable animations on android
@@ -73,14 +76,87 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
   }, [offset])
 
   useEffect(() => {
-    if(data.fetchUserInventoryItems !== null) {
+    if(typeof data != 'undefined' && data.fetchUserInventoryItems !== null) {
       setInventoryData(data.fetchUserInventoryItems)
     } else {
       fetchInventoryItems()
     }
   }, [data])
 
-  console.log(data)
+  /*
+  * Item swiper view
+  */
+  const [listData, setListData] = useState(Array(2).fill('').map((item, i) => ({
+    key: `${i}`,
+    item
+  })));
+
+  const closeRow = (rowMap: InventorySwiperRow, rowKey: string) => {
+    if (rowMap[rowKey]) {
+      rowMap[rowKey].closeRow();
+    }
+  };
+
+  const deleteRow = (rowMap: InventorySwiperRow, rowKey: string) => {
+    closeRow(rowMap, rowKey);
+    const newData = [...listData];
+    const prevIndex = listData.findIndex(item => item.key === rowKey);
+    newData.splice(prevIndex, 1);
+    setListData(newData);
+  };
+
+  const onRowDidOpen = (rowKey: number) => {
+    console.log('This row opened', rowKey);
+  };
+
+  const renderItem = ({
+    item,
+    index
+  }: { item: InventoryData, index: number }) => 
+    <Box>
+      <Pressable onPress={() => console.log('You touched me')} alignItems="center" bg="white" borderBottomColor="trueGray.200" borderBottomWidth={1} justifyContent="center" height={50} py={8}>
+        <HStack width="100%" px={4}>
+          <HStack space={2} alignItems="center">
+            <Avatar color="white" bg={'secondary.700'}>
+              {index}
+            </Avatar>
+            <Text color={'black'}>{item.name}</Text>
+          </HStack>
+        </HStack>
+      </Pressable>
+    </Box>
+  ;
+  
+    // <>
+    //   <Box>
+    //     <Pressable onPress={() => console.log('You touched me')} alignItems="center" bg="white" borderBottomColor="trueGray.200" borderBottomWidth={1} justifyContent="center" height={50} _pressed={{
+    //     bg: 'trueGray.200'
+    //   }} py={8}>
+    //       <HStack width="100%" px={4}>
+    //           <InventoryItem 
+    //             key={index}
+    //             name={item.name}
+    //             size={item.shoesize}
+    //             price={item.purchaseprice}
+    //           />
+    //       </HStack>
+    //     </Pressable>
+    //   </Box>
+    // </>
+
+
+  const renderHiddenItem = (rowMap: any, rowKey: any) => <HStack flex={1} pl={2}>
+      <Pressable px={4} ml="auto" bg="dark.500" justifyContent="center" onPress={() => closeRow(rowMap, data.item.key)} _pressed={{
+      opacity: 0.5
+    }}>
+        <Icon name="close" color="white" as={Ionicons}/>
+      </Pressable>
+      <Pressable px={4} bg="red.500" justifyContent="center" onPress={() => deleteRow(rowMap, data.item.key)} _pressed={{
+      opacity: 0.5
+    }}>
+        <Icon name="trash" color="white" as={Ionicons}/>
+      </Pressable>
+    </HStack>;
 
   return (
     <Stack
@@ -163,9 +239,28 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
       </HStack>
       
       {/* Render data */}
-      <VStack px="6" mt="8" mb="5">
+      <Box safeArea flex={1}>
+        
+         {inventoryData ? 
+            <SwipeListView 
+              keyExtractor={(item, index) => item.id.toString()}
+              data={inventoryData} 
+              renderItem={renderItem}
+              renderHiddenItem={renderHiddenItem}
+              leftOpenValue={75}
+              rightOpenValue={-150}
+              previewRowKey={'0'}
+              previewOpenValue={-40}
+              previewOpenDelay={3000}
+            />
+            :
+            null
+          }
+      </Box>
+
+      {/* <VStack px="6" mt="8" mb="5">
         <VStack>
-          {/* Loader */}
+          
           {loading ? 
             <Spinner 
               size="lg"
@@ -178,7 +273,7 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
             null
           }
           
-          {/* Inventory items */}
+
           {inventoryData ? 
             <>
               {inventoryData.map((item: InventoryData, index: number) => {
@@ -195,24 +290,10 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
             :
             null
           }
-          {/* <InventoryItem 
-            name={"Jordan 1 retro high asdasdasdasdasdasdasdads"}
-            size={10.5}
-            price="220"
-          />
-          <InventoryItem 
-            name={"Jordan 1 retro high asdasdasdasdasdasdasdads"}
-            size={10.5}
-            price="550"
-          />
-          <InventoryItem 
-            name={"Jordan 1 retro high asdasdasdasdasdasdasdads"}
-            size={10.5}
-            price="110"
-          /> */}
+         
 
         </VStack>
-      </VStack>
+      </VStack> */}
     </Stack>
   );
 }
