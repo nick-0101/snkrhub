@@ -52,14 +52,11 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
   const [limit, setLimit] = useState(2)
 
   const [getInventory, { loading, error, data }] = useLazyQuery(FETCH_INVENTORY_ITEMS, {
-    fetchPolicy: "network-only", 
     errorPolicy: 'all',
     onCompleted: (data) => {
       setInventoryData(data.fetchUserInventoryItems)
     }
   })
-
-  console.log(data, error)
   
   const fetchInventoryItems = useCallback(async () => {
     // Get users jwt on every request
@@ -129,14 +126,27 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
         </HStack>
       </Pressable>
     </Box>
+    // <Box>
+    //   <Pressable onPress={() => console.log('You touched me')} alignItems="center" bg="white" borderBottomColor="trueGray.200" borderBottomWidth={1} justifyContent="center" height={50} _pressed={{
+    //   bg: 'trueGray.200'
+    // }}>
+    //     <HStack width="100%">
+    //       <InventoryItem 
+    //         name={item.name}
+    //         size={item.shoesize}
+    //         price={item.purchaseprice}
+    //         index={index}
+    //       />
+    //     </HStack>
+    //   </Pressable>
+    // </Box>
   );
 
   const renderHiddenItem = (rowMap: any, rowKey: any) => (
     <HStack flex={1}>
       {/* Close */}
       <Pressable 
-        mb="6" 
-        px={4} 
+        px={5} 
         ml="auto" 
         bg="dark.500" 
         justifyContent="center" 
@@ -150,16 +160,16 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
       
       {/* Delete item */}
       <Pressable 
-        mb="6" 
-        px={4} 
-        bg="red.500" 
+        px={5} 
+        _light={{ bg: "gray.100" }}
+        _dark={{ bg: "danger.500" }}
         justifyContent="center"
         onPress={() => deleteRow(rowMap, data.id)}
         _pressed={{
           opacity: 0.5
         }}
       >
-        <Text>Delete</Text>
+        <Icon name="trash" color="white" as={Ionicons}/>
       </Pressable>
     </HStack>
   );
@@ -265,7 +275,7 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
             renderItem={renderItem}
             renderHiddenItem={renderHiddenItem}
             leftOpenValue={0}
-            rightOpenValue={-128}
+            rightOpenValue={-144}
             previewRowKey={'0'}
             previewOpenValue={-40}
           />
