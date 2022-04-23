@@ -20,7 +20,7 @@ type ContextState = {
     signIn: (email: string, password: string) => Promise<firebase.UserCredential>,
     getUser: () => firebase.User | null, 
     forgotPassword: (email: string) => Promise<void>
-    getUserToken: () => any
+    getUserToken: () => Promise<string | undefined>
     userToken: string | undefined
 }
 
@@ -68,7 +68,7 @@ const AuthProvider: FC = ({ children }) => {
     const getUserToken = async() => {
         if(user) {
             const firebaseToken = await getIdToken(user, true)
-            setUserToken(firebaseToken)
+            return firebaseToken
         }
     }
 

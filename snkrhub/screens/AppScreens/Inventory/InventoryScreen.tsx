@@ -16,7 +16,7 @@ import {
 import { IPropsSwipeRow, RowMap, SwipeListView } from 'react-native-swipe-list-view';
 
 // Apollo
-import { useQuery } from "@apollo/client";
+import { useQuery, useLazyQuery } from "@apollo/client";
 import { FETCH_INVENTORY_ITEMS } from './queries'
 
 // Context
@@ -44,30 +44,14 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
   // Auth
   const { getUserToken } = useAuth()
 
-
-
   /*
   * Apollo
   */
   const [inventoryData, setInventoryData] = useState<InventoryData[]>()
-  const [userToken, setUserToken] = useState<string | null>('')
   const [offset, setOffset] = useState(0)
   const [limit, setLimit] = useState(2)
-  
 
-  // It seems to be that the problme is that the get token function wasn't returning
-  // and the query failed ebcause of that. 
-
-  const { loading, error, data } = useQuery(FETCH_INVENTORY_ITEMS, {
-    variables: { 
-      offset: offset,
-      limit: limit,
-    },
-    context: {
-      headers: { 
-        Authorization: userToken || ''
-      },
-    },
+  const [getInventory, { loading, error, data }] = useLazyQuery(FETCH_INVENTORY_ITEMS, {
     fetchPolicy: "network-only", 
     errorPolicy: 'all',
     onCompleted: (data) => {
@@ -75,17 +59,30 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
     }
   })
 
-  console.log(data, error, userToken)
+  console.log(data, error)
   
-  const fetchFirebaseToken = useCallback(async () => {
+  const fetchInventoryItems = useCallback(async () => {
     // Get users jwt on every request
     const firebaseToken = await getUserToken()
-    setUserToken(firebaseToken)
+
+    if(firebaseToken) {
+      getInventory({   
+        variables: { 
+          offset: offset,
+          limit: limit,
+        },
+        context: {
+          headers: { 
+            Authorization: firebaseToken || ''
+          },
+        }
+      })
+    }
   }, [offset])
 
   useEffect(() => {
-    fetchFirebaseToken()
-  }, [data])
+    fetchInventoryItems()
+  }, [])
 
   /*
   * Inventory item action swiper
