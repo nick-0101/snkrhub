@@ -68,8 +68,11 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
   const [removeInventoryItem, { 
     loading: removeInventoryItemLoading,
     error: removeIntenvoryItemError, 
+    data: removeInventoryItemData,
     reset
-  }] = useMutation(DELETE_INVENTORY_ITEM)
+  }] = useMutation(DELETE_INVENTORY_ITEM, {
+    notifyOnNetworkStatusChange: true
+  })
   
   // Fetch inital inventory data
   useEffect(() => {
@@ -95,6 +98,8 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
     }
   }, [offset])
 
+  console.log(removeInventoryItemLoading, removeIntenvoryItemError)
+
   /*
   * Inventory item action swiper
   */
@@ -104,7 +109,7 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
     }
   };
 
-  const deleteRow = (rowMap: InventorySwiperRow, rowKey: number) => {
+  const deleteRow = async (rowMap: InventorySwiperRow, rowKey: number) => {
     closeRow(rowMap, rowKey);
 
     if(inventoryData) {
@@ -115,9 +120,16 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
       setInventoryData(newData);
 
       // Execute mutation
+      const firebaseToken = await getUserToken()
+
       removeInventoryItem({
         variables: {
           itemId: rowKey
+        },
+        context: {
+          headers: { 
+            Authorization: firebaseToken || ''
+          },
         }
       }).catch((err) => {
         // Report error 
