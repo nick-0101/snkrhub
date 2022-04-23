@@ -10,3 +10,12 @@ export const FETCH_INVENTORY_ITEMS = gql`
         }
     }
 `;
+
+
+export const DELETE_INVENTORY_ITEM = gql`
+    mutation DeleteInventoryItem($itemId: Int!) {
+        deleteInventoryItem(itemId: $itemId) {
+            id  
+        }
+    }
+`;

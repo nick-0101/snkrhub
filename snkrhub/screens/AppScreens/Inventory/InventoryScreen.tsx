@@ -16,8 +16,11 @@ import {
 import { IPropsSwipeRow, RowMap, SwipeListView } from 'react-native-swipe-list-view';
 
 // Apollo
-import { useQuery, useLazyQuery } from "@apollo/client";
-import { FETCH_INVENTORY_ITEMS } from './queries'
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { 
+  FETCH_INVENTORY_ITEMS,
+  DELETE_INVENTORY_ITEM
+} from './queries'
 
 // Context
 import { useAuth } from '../../../context/AuthContext'
@@ -52,14 +55,21 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
   const [limit, setLimit] = useState(9)
 
   // Queries
-  const [getInventory, { loading, error, data }] = useLazyQuery(FETCH_INVENTORY_ITEMS, {
-    errorPolicy: 'all',
+  const [getInventory, { 
+    loading: getInventoryLoading, 
+    data: getInventoryData }
+  ] = useLazyQuery(FETCH_INVENTORY_ITEMS, {
     onCompleted: (data) => {
       setInventoryData(data.fetchUserInventoryItems)
     }
   })
 
   // Mutations
+  const [removeInventoryItem, { 
+    loading: removeInventoryItemLoading,
+    error: removeIntenvoryItemError, 
+    reset
+  }] = useMutation(DELETE_INVENTORY_ITEM)
   
   // Fetch inital inventory data
   useEffect(() => {
@@ -88,7 +98,6 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
   /*
   * Inventory item action swiper
   */
-
   const closeRow = (rowMap: InventorySwiperRow, rowKey: number) => {
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
@@ -102,8 +111,23 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
       // Remove invenetory item from state
       const newData: InventoryData[] = Array.from(new Set(inventoryData));
       const prevIndex = inventoryData.findIndex(item => item.id === rowKey);
-      newData.splice(prevIndex, 1);
+      const removedItem = newData.splice(prevIndex, 1);
       setInventoryData(newData);
+
+      // Execute mutation
+      removeInventoryItem({
+        variables: {
+          itemId: rowKey
+        }
+      }).catch((err) => {
+        // Report error 
+
+        // Undo ui changes
+        newData.splice(prevIndex, 0, ...removedItem)
+        setInventoryData(newData);
+
+        reset()
+      })
     }
   };
 
@@ -246,8 +270,9 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
       </HStack>
       
       {/* Render data */}
-      {loading ? 
+      {getInventoryLoading || removeInventoryItemLoading ? 
         <Spinner 
+          py="3"
           size="lg"
           color={
             'gray.500'
@@ -258,7 +283,7 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
         null
       }  
 
-      {data?.fetchUserInventoryItems ?
+      {getInventoryData?.fetchUserInventoryItems ?
         <SwipeListView 
           keyExtractor={(item, index) => item.id.toString()}
           data={inventoryData} 
