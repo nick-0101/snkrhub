@@ -10,10 +10,9 @@ import {
   Icon,
   Text,
   Spinner,
-  ScrollView,
   Pressable
 } from "native-base";
-import { IPropsSwipeRow, RowMap, SwipeListView } from 'react-native-swipe-list-view';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 // Apollo
 import { useLazyQuery, useMutation } from "@apollo/client";
@@ -43,7 +42,7 @@ if (Platform.OS === 'android') {
   }
 }
 
-export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inventory'>) {
+export default function InventoryScreen({ navigation, route }: RootTabScreenProps<'Inventory'>) {
   // Auth context
   const { getUserToken } = useAuth()
 
@@ -55,22 +54,14 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
   const [limit, setLimit] = useState(9)
 
   // Queries
-  const [getInventory, { 
-    loading: getInventoryLoading, 
-    data: getInventoryData }
-  ] = useLazyQuery(FETCH_INVENTORY_ITEMS, {
+  const [getInventory, { loading: getInventoryLoading, data: getInventoryData }] = useLazyQuery(FETCH_INVENTORY_ITEMS, {
     onCompleted: (data) => {
       setInventoryData(data.fetchUserInventoryItems)
     }
   })
 
   // Mutations
-  const [removeInventoryItem, { 
-    loading: removeInventoryItemLoading,
-    error: removeIntenvoryItemError, 
-    data: removeInventoryItemData,
-    reset
-  }] = useMutation(DELETE_INVENTORY_ITEM, {
+  const [removeInventoryItem, {  loading: removeInventoryItemLoading, error: removeIntenvoryItemError,  data: removeInventoryItemData, reset}] = useMutation(DELETE_INVENTORY_ITEM, {
     notifyOnNetworkStatusChange: true
   })
   
@@ -98,7 +89,13 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
     }
   }, [offset])
 
-  console.log(removeInventoryItemLoading, removeIntenvoryItemError)
+  // Refetch products if user has added one
+  useEffect(() => {
+    if(route.params?.addedInventory) {
+      fetchInventoryItems()
+    }
+  }, [route.params?.addedInventory])
+
 
   /*
   * Inventory item action swiper
@@ -138,6 +135,7 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
         newData.splice(prevIndex, 0, ...removedItem)
         setInventoryData(newData);
 
+        // reset the mutation's result to its initial, uncalled state
         reset()
       })
     }
@@ -282,9 +280,10 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
       </HStack>
       
       {/* Render data */}
-      {getInventoryLoading || removeInventoryItemLoading ? 
+      {getInventoryLoading ? 
         <Spinner 
-          py="3"
+          pt="5"
+          pb="3"
           size="lg"
           color={
             'gray.500'

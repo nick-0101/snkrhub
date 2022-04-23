@@ -10,14 +10,18 @@ import {
   Text,
   Button,
   ScrollView,
-  Pressable
 } from "native-base";
 
 // Packages
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { Formik } from 'formik';
 import { Ionicons } from "@expo/vector-icons";
 import { AddShoeSchema } from './Schemas/AddShoeSchema';
+
+// Apollo
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { 
+  ADD_INVENTORY_ITEM
+} from './queries'
 
 // Components
 import { FormError } from '../../../components'
@@ -29,8 +33,20 @@ import { useAuth } from '../../../context/AuthContext'
 import { RootTabScreenProps } from '../../../types';
 
 export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddShoe'>) {
-  // Form state
-  const [formLoader, setFormLoading] = useState(false)
+  // Auth context
+  const { getUserToken } = useAuth()
+  
+  /*
+  * Apollo
+  */
+
+  // Mutations
+  const [addInventoryItem, { loading: addInventoryItemLoading, error: addIntenvoryItemError, data: addInventoryItemData }] = useMutation(ADD_INVENTORY_ITEM, {
+    notifyOnNetworkStatusChange: true,
+    onCompleted: () => {
+      navigation.navigate('Inventory', { addedInventory: true })
+    }
+  })
 
   return (
     <>
@@ -84,19 +100,31 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                 validationSchema={AddShoeSchema}
                 initialValues={{
                     name: '',
-                    styleId: '',
+                    styleid: '',
                     brand: '',
                     colour: '',
                     condition: '',
-                    shoeSize: '',
-                    purchasePrice: '',
+                    shoesize: '',
+                    purchaseprice: '',
                     tax: '',
                     shipping: '',
-                    purchaseDate: '',
-                    orderNumber: ''
+                    purchasedate: '',
+                    ordernumber: ''
                 }}
                 onSubmit={async(values) => {
-                    console.log(values)
+                    // Fetch firebhase token and send request
+                    const firebaseToken = await getUserToken()
+                    addInventoryItem({
+                        variables: {
+                            inventoryItem: values 
+                        },
+                        context: {
+                            headers: { 
+                                Authorization: firebaseToken || ''
+                            },
+                        }
+                    })
+
                 }}
             >
                 {({
@@ -136,7 +164,7 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                                 {/* Style ID Input */}
                                 <FormControl 
                                     bg="transparent" 
-                                    isInvalid={errors.styleId ? true : false}
+                                    isInvalid={errors.styleid ? true : false}
                                     w="48%"
                                 >
                                     <FormControl.Label  
@@ -149,12 +177,12 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                                     <Input
                                         label="text"
                                         placeholder="DD1391-100"
-                                        defaultValue={values.styleId}
-                                        onChangeText={handleChange('styleId')}
+                                        defaultValue={values.styleid}
+                                        onChangeText={handleChange('styleid')}
                                     />
 
-                                    {errors.styleId  ? 
-                                        <FormError error={errors.styleId} />
+                                    {errors.styleid  ? 
+                                        <FormError error={errors.styleid} />
                                     : null}
                                 </FormControl>
 
@@ -243,7 +271,7 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                                 <FormControl 
                                     bg="transparent"
                                     isRequired 
-                                    isInvalid={errors.shoeSize ? true : false}
+                                    isInvalid={errors.shoesize ? true : false}
                                     w="48%"
                                 >
                                     <FormControl.Label  
@@ -257,12 +285,12 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                                         isRequired
                                         label="text"
                                         placeholder="11"
-                                        defaultValue={values.shoeSize}
-                                        onChangeText={handleChange('shoeSize')}
+                                        defaultValue={values.shoesize}
+                                        onChangeText={handleChange('shoesize')}
                                     />
 
-                                    {errors.shoeSize ? 
-                                        <FormError error={errors.shoeSize} />
+                                    {errors.shoesize ? 
+                                        <FormError error={errors.shoesize} />
                                     : null}
                                 </FormControl>
 
@@ -270,7 +298,7 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                                 <FormControl 
                                     bg="transparent" 
                                     isRequired
-                                    isInvalid={errors.purchasePrice ? true : false}
+                                    isInvalid={errors.purchaseprice ? true : false}
                                     w="48%"
                                 >
                                     <FormControl.Label  
@@ -284,12 +312,12 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                                         isRequired
                                         label="text"
                                         placeholder="270"
-                                        defaultValue={values.purchasePrice}
-                                        onChangeText={handleChange('purchasePrice')}
+                                        defaultValue={values.purchaseprice}
+                                        onChangeText={handleChange('purchaseprice')}
                                     />
 
-                                    {errors.purchasePrice ? 
-                                        <FormError error={errors.purchasePrice} />
+                                    {errors.purchaseprice ? 
+                                        <FormError error={errors.purchaseprice} />
                                     : null}
                                 </FormControl>
                             </HStack>
@@ -348,7 +376,7 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                             </HStack>
 
                             {/* Purchase Date Input */}
-                            <FormControl bg="transparent" isRequired isInvalid={errors.purchaseDate ? true : false}>
+                            <FormControl bg="transparent" isRequired isInvalid={errors.purchasedate ? true : false}>
                                 <FormControl.Label  
                                     _text={{
                                         bold: true
@@ -360,13 +388,13 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                                 <Input
                                     isRequired
                                     label="text"
-                                    placeholder="Nike Dunk Low"
-                                    defaultValue={values.purchaseDate}
-                                    onChangeText={handleChange('purchaseDate')}
+                                    placeholder="YYYY-MM-DD"
+                                    defaultValue={values.purchasedate}
+                                    onChangeText={handleChange('purchasedate')}
                                 />
 
-                                {errors.purchaseDate ? 
-                                    <FormError error={errors.purchaseDate} />
+                                {errors.purchasedate ? 
+                                    <FormError error={errors.purchasedate} />
                                 : null}
                             </FormControl>
                         </VStack>
@@ -395,8 +423,8 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                             }}
                             onPress={() => handleSubmit()}
                             background="primary.600"
-                            isLoadingText="Creating item..."
-                            isLoading={formLoader}
+                            isLoadingText="Create item..."
+                            isLoading={addInventoryItemLoading}
                             spinnerPlacement="end"
                             isDisabled={!dirty}
                         >

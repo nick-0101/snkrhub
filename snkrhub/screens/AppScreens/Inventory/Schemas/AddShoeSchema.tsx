@@ -6,7 +6,7 @@ export const AddShoeSchema = yup.object().shape({
     .string()
     .trim()
     .required('Name is required'),
-  styleId: yup
+  styleid: yup
     .string()
     .trim(),
   brand: yup
@@ -18,10 +18,10 @@ export const AddShoeSchema = yup.object().shape({
   condition: yup
     .string()
     .trim(),
-  shoeSize: yup
+  shoesize: yup
     .number()
     .required('Shoe size is required'),
-  purchasePrice: yup
+  purchaseprice: yup
     .number()
     .transform((value) => (isNaN(value) ? Number(value) : value))
     .min(0, 'Invalid currency')
@@ -34,14 +34,14 @@ export const AddShoeSchema = yup.object().shape({
     .number()
     .transform((value) => (isNaN(value) ? Number(value) : value))
     .min(0, 'Invalid currency'),
-  purchaseDate: yup
+  purchasedate: yup
     .string()
     .transform(value => {
       return value ? dayjs(value).format('YYYY-MM-DD') : value;
     })
     .required('Purchase date is required')
     .typeError('Purchase date must be YYYY-MM-DD'),
-  orderNumber: yup
+  ordernumber: yup
     .string()
     .trim(),
 });
