@@ -50,11 +50,9 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
   * Apollo
   */
   const [inventoryData, setInventoryData] = useState<InventoryData[]>()
-  const [offset, setOffset] = useState(0)
-  const [limit, setLimit] = useState(9)
 
   // Queries
-  const [getInventory, { loading: getInventoryLoading, data: getInventoryData }] = useLazyQuery(FETCH_INVENTORY_ITEMS, {
+  const [getInventory, { loading: getInventoryLoading, data: getInventoryData, fetchMore }] = useLazyQuery(FETCH_INVENTORY_ITEMS, {
     onCompleted: (data) => {
       setInventoryData(data.fetchUserInventoryItems)
     }
@@ -77,8 +75,8 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
     if(firebaseToken) {
       getInventory({   
         variables: { 
-          offset: offset,
-          limit: limit,
+          offset: 0,
+          limit: 8,
         },
         context: {
           headers: { 
@@ -87,7 +85,16 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
         }
       })
     }
-  }, [offset])
+  }, [])
+
+  // Fetches more items as user scrolls
+  const fetchMoreInventoryItems = () => {
+    fetchMore({
+      variables: {
+        offset: inventoryData?.length
+      },            
+    })
+  }
 
   // If user has returned from AddShoe screen check if we need to refresh inventory
   useEffect(() => {
@@ -304,6 +311,11 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
           rightOpenValue={-144}
           previewRowKey={'0'}
           previewOpenValue={-40}
+          onEndReached={({ distanceFromEnd }) => {
+            if (distanceFromEnd < 0) return;
+            fetchMoreInventoryItems()
+          }}
+          onEndReachedThreshold={0.5}
         />
         :
         null
