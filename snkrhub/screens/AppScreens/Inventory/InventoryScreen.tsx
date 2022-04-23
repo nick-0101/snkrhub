@@ -16,7 +16,7 @@ import {
 import { IPropsSwipeRow, RowMap, SwipeListView } from 'react-native-swipe-list-view';
 
 // Apollo
-import { useLazyQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { FETCH_INVENTORY_ITEMS } from './queries'
 
 // Context
@@ -44,50 +44,48 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
   // Auth
   const { getUserToken } = useAuth()
 
+
+
   /*
   * Apollo
   */
   const [inventoryData, setInventoryData] = useState<InventoryData[]>()
-  const [userToken, setUserToken] = useState<string | undefined>('')
+  const [userToken, setUserToken] = useState<string | null>('')
   const [offset, setOffset] = useState(0)
   const [limit, setLimit] = useState(2)
   
 
-  // the problem is that uselazy query is returning null. However when I refresh the
-  // app, it returns the data.
-  //
+  // It seems to be that the problme is that the get token function wasn't returning
+  // and the query failed ebcause of that. 
 
-  const [getInventoryItems, { loading, error, data }] = useLazyQuery(FETCH_INVENTORY_ITEMS, {
-      fetchPolicy: "network-only",   // Used for first execution
-      onCompleted: (data) => {setInventoryData(data.fetchUserInventoryItems)}
+  const { loading, error, data } = useQuery(FETCH_INVENTORY_ITEMS, {
+    variables: { 
+      offset: offset,
+      limit: limit,
+    },
+    context: {
+      headers: { 
+        Authorization: userToken || ''
+      },
+    },
+    fetchPolicy: "network-only", 
+    errorPolicy: 'all',
+    onCompleted: (data) => {
+      setInventoryData(data.fetchUserInventoryItems)
     }
-  );
+  })
+
+  console.log(data, error, userToken)
   
-  const fetchInventoryItems = useCallback(async () => {
+  const fetchFirebaseToken = useCallback(async () => {
     // Get users jwt on every request
     const firebaseToken = await getUserToken()
     setUserToken(firebaseToken)
-
-    if(firebaseToken) {
-      // Call graphql query
-      getInventoryItems({ 
-        variables: {
-          offset: offset,
-          limit: limit,
-        },
-        context: {
-          headers: { 
-            Authorization: userToken ? userToken : ''
-          },
-        },
-      })
-    }
-
   }, [offset])
 
   useEffect(() => {
-    fetchInventoryItems()
-  }, [loading, data])
+    fetchFirebaseToken()
+  }, [data])
 
   /*
   * Inventory item action swiper
@@ -260,6 +258,10 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
             accessibilityLabel="Loading inventory data" 
           /> 
           :
+          null
+        }  
+
+        {data?.fetchUserInventoryItems ?
           <SwipeListView 
             keyExtractor={(item, index) => item.id.toString()}
             data={inventoryData} 
@@ -270,7 +272,9 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
             previewRowKey={'0'}
             previewOpenValue={-40}
           />
-        }     
+          :
+          null
+        }   
       </VStack>
     </Stack>
   );

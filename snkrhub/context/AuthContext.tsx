@@ -1,4 +1,4 @@
-import { FC, createContext, useContext, useEffect, useState } from 'react';
+import { FC, createContext, useContext, useEffect, useState, SetStateAction } from 'react';
 
 // Firebase
 import firebase, { getIdToken } from "firebase/auth";
@@ -20,7 +20,8 @@ type ContextState = {
     signIn: (email: string, password: string) => Promise<firebase.UserCredential>,
     getUser: () => firebase.User | null, 
     forgotPassword: (email: string) => Promise<void>
-    getUserToken: () => Promise<string> | undefined
+    getUserToken: () => any
+    userToken: string | undefined
 }
 
 // Create auth context
@@ -40,6 +41,7 @@ const useAuth = () => {
 // Auth provider
 const AuthProvider: FC = ({ children }) => {
     const [user, setUser] = useState<User>(null)
+    const [userToken, setUserToken] = useState<string | undefined>('')
     const [loading, setLoading] = useState(true)
     
     // User functions
@@ -63,11 +65,13 @@ const AuthProvider: FC = ({ children }) => {
         return auth.currentUser;
     }
 
-    const getUserToken = () => {
+    const getUserToken = async() => {
         if(user) {
-            return getIdToken(user)
+            const firebaseToken = await getIdToken(user, true)
+            setUserToken(firebaseToken)
         }
     }
+
 
     useEffect(() => {
         setLoading(true)
@@ -93,7 +97,8 @@ const AuthProvider: FC = ({ children }) => {
         signOutUser,
         signUp,
         loading,
-        getUserToken
+        getUserToken,
+        userToken
     }
 
     return (
