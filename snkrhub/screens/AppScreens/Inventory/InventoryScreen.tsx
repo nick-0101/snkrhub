@@ -42,7 +42,7 @@ if (Platform.OS === 'android') {
   }
 }
 
-export default function InventoryScreen({ navigation, route }: RootTabScreenProps<'Inventory'>) {
+export default function InventoryScreen({ navigation, route }: RootTabScreenProps<'InventoryNest'>) {
   // Auth context
   const { getUserToken } = useAuth()
 
@@ -89,7 +89,7 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
     }
   }, [offset])
 
-  // Refetch products if user has added one
+  // If user has returned from AddShoe screen check if we need to refresh inventory
   useEffect(() => {
     if(route.params?.addedInventory) {
       fetchInventoryItems()

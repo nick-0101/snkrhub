@@ -39,12 +39,14 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
   /*
   * Apollo
   */
+ const [formLoader, setFormLoader] = useState(false)
 
   // Mutations
   const [addInventoryItem, { loading: addInventoryItemLoading, error: addIntenvoryItemError, data: addInventoryItemData }] = useMutation(ADD_INVENTORY_ITEM, {
     notifyOnNetworkStatusChange: true,
-    onCompleted: () => {
-      navigation.navigate('Inventory', { addedInventory: true })
+    errorPolicy: 'all',
+    onCompleted: (data) => {
+      navigation.navigate('InventoryNest', { addedInventory: true })
     }
   })
 
@@ -111,25 +113,43 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                     purchasedate: '',
                     ordernumber: ''
                 }}
-                onSubmit={async(values) => {
+                onSubmit={async(values) => {         
+                    setFormLoader(true)
+
                     // Fetch firebhase token and send request
                     const firebaseToken = await getUserToken()
                     addInventoryItem({
                         variables: {
-                            inventoryItem: values 
+                            inventoryItem: {
+                                name: values.name,
+                                styleid: values.styleid,
+                                brand: values.brand,
+                                colour: values.colour,
+                                condition: values.condition,
+                                shoesize: parseFloat(values.shoesize),
+                                purchaseprice: parseFloat(values.purchaseprice),
+                                tax: parseFloat(values.tax),
+                                shipping: parseFloat(values.shipping),
+                                purchasedate: values.purchasedate,
+                                ordernumber: values.ordernumber
+                            }
                         },
                         context: {
                             headers: { 
                                 Authorization: firebaseToken || ''
                             },
                         }
+                    }).catch((err) => {
+                        console.log(err.networkError.result.errors)
                     })
 
+                    setFormLoader(false)
                 }}
             >
                 {({
                     handleChange,
                     handleSubmit,
+                    setFieldValue,
                     values,
                     dirty,
                     errors
@@ -283,7 +303,8 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                                     </FormControl.Label> 
                                     <Input
                                         isRequired
-                                        label="text"
+                                        keyboardType="decimal-pad"
+                                        label="number"
                                         placeholder="11"
                                         defaultValue={values.shoesize}
                                         onChangeText={handleChange('shoesize')}
@@ -310,7 +331,8 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                                     </FormControl.Label> 
                                     <Input
                                         isRequired
-                                        label="text"
+                                        keyboardType="decimal-pad"
+                                        label="number"
                                         placeholder="270"
                                         defaultValue={values.purchaseprice}
                                         onChangeText={handleChange('purchaseprice')}
@@ -338,7 +360,8 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                                         Tax{' '}
                                     </FormControl.Label> 
                                     <Input
-                                        label="text"
+                                        keyboardType="decimal-pad"
+                                        label="number"
                                         placeholder="0.00"
                                         defaultValue={values.tax}
                                         onChangeText={handleChange('tax')}
@@ -349,7 +372,7 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                                     : null}
                                 </FormControl>
 
-                                {/* Condition Input */}
+                                {/* Shipping Input */}
                                 <FormControl 
                                     bg="transparent" 
                                     isInvalid={errors.shipping ? true : false}
@@ -363,7 +386,8 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                                         Shipping{' '}
                                     </FormControl.Label> 
                                     <Input
-                                        label="text"
+                                        keyboardType="decimal-pad"
+                                        label="number"
                                         placeholder="0.00"
                                         defaultValue={values.shipping}
                                         onChangeText={handleChange('shipping')}
@@ -424,7 +448,7 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                             onPress={() => handleSubmit()}
                             background="primary.600"
                             isLoadingText="Create item..."
-                            isLoading={addInventoryItemLoading}
+                            isLoading={formLoader}
                             spinnerPlacement="end"
                             isDisabled={!dirty}
                         >
