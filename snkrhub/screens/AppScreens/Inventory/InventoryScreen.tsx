@@ -10,7 +10,7 @@ import {
   Icon,
   Text,
   Spinner,
-  Avatar,
+  ScrollView,
   Pressable
 } from "native-base";
 import { IPropsSwipeRow, RowMap, SwipeListView } from 'react-native-swipe-list-view';
@@ -41,7 +41,7 @@ if (Platform.OS === 'android') {
 }
 
 export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inventory'>) {
-  // Auth
+  // Auth context
   const { getUserToken } = useAuth()
 
   /*
@@ -49,14 +49,22 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
   */
   const [inventoryData, setInventoryData] = useState<InventoryData[]>()
   const [offset, setOffset] = useState(0)
-  const [limit, setLimit] = useState(2)
+  const [limit, setLimit] = useState(9)
 
+  // Queries
   const [getInventory, { loading, error, data }] = useLazyQuery(FETCH_INVENTORY_ITEMS, {
     errorPolicy: 'all',
     onCompleted: (data) => {
       setInventoryData(data.fetchUserInventoryItems)
     }
   })
+
+  // Mutations
+  
+  // Fetch inital inventory data
+  useEffect(() => {
+    fetchInventoryItems()
+  }, [])
   
   const fetchInventoryItems = useCallback(async () => {
     // Get users jwt on every request
@@ -77,26 +85,23 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
     }
   }, [offset])
 
-  useEffect(() => {
-    fetchInventoryItems()
-  }, [])
-
   /*
   * Inventory item action swiper
   */
 
-  const closeRow = (rowMap: InventorySwiperRow, rowKey: string) => {
+  const closeRow = (rowMap: InventorySwiperRow, rowKey: number) => {
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
   };
 
-  const deleteRow = (rowMap: InventorySwiperRow, rowKey: string) => {
+  const deleteRow = (rowMap: InventorySwiperRow, rowKey: number) => {
     closeRow(rowMap, rowKey);
 
     if(inventoryData) {
+      // Remove invenetory item from state
       const newData: InventoryData[] = Array.from(new Set(inventoryData));
-      const prevIndex = inventoryData.findIndex(item => item.id === Number(rowKey));
+      const prevIndex = inventoryData.findIndex(item => item.id === rowKey);
       newData.splice(prevIndex, 1);
       setInventoryData(newData);
     }
@@ -126,23 +131,9 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
         </HStack>
       </Pressable>
     </Box>
-    // <Box>
-    //   <Pressable onPress={() => console.log('You touched me')} alignItems="center" bg="white" borderBottomColor="trueGray.200" borderBottomWidth={1} justifyContent="center" height={50} _pressed={{
-    //   bg: 'trueGray.200'
-    // }}>
-    //     <HStack width="100%">
-    //       <InventoryItem 
-    //         name={item.name}
-    //         size={item.shoesize}
-    //         price={item.purchaseprice}
-    //         index={index}
-    //       />
-    //     </HStack>
-    //   </Pressable>
-    // </Box>
   );
 
-  const renderHiddenItem = (rowMap: any, rowKey: any) => (
+  const renderHiddenItem = ({item}: { item: InventoryData }, rowMap: any) => (
     <HStack flex={1}>
       {/* Close */}
       <Pressable 
@@ -150,7 +141,7 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
         ml="auto" 
         bg="dark.500" 
         justifyContent="center" 
-        onPress={() => closeRow(rowMap, data.id)} 
+        onPress={() => closeRow(rowMap, item.id)} 
         _pressed={{
           opacity: 0.5
         }}
@@ -161,12 +152,12 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
       {/* Delete item */}
       <Pressable 
         px={5} 
-        _light={{ bg: "gray.100" }}
-        _dark={{ bg: "danger.500" }}
+        _light={{ bg: "danger.400", _pressed: { bg: 'danger.300' } }}
+        _dark={{ bg: "danger.500", _pressed: { bg: 'danger.400' }}}
         justifyContent="center"
-        onPress={() => deleteRow(rowMap, data.id)}
+        onPress={() => deleteRow(rowMap, item.id)}
         _pressed={{
-          opacity: 0.5
+          bg: 'danger.400'
         }}
       >
         <Icon name="trash" color="white" as={Ionicons}/>
@@ -255,34 +246,32 @@ export default function InventoryScreen({ navigation }: RootTabScreenProps<'Inve
       </HStack>
       
       {/* Render data */}
-      <VStack mt="8" mb="5">   
-        {loading ? 
-          <Spinner 
-            size="lg"
-            color={
-              'gray.500'
-            }
-            accessibilityLabel="Loading inventory data" 
-          /> 
-          :
-          null
-        }  
+      {loading ? 
+        <Spinner 
+          size="lg"
+          color={
+            'gray.500'
+          }
+          accessibilityLabel="Loading inventory data" 
+        /> 
+        :
+        null
+      }  
 
-        {data?.fetchUserInventoryItems ?
-          <SwipeListView 
-            keyExtractor={(item, index) => item.id.toString()}
-            data={inventoryData} 
-            renderItem={renderItem}
-            renderHiddenItem={renderHiddenItem}
-            leftOpenValue={0}
-            rightOpenValue={-144}
-            previewRowKey={'0'}
-            previewOpenValue={-40}
-          />
-          :
-          null
-        }   
-      </VStack>
+      {data?.fetchUserInventoryItems ?
+        <SwipeListView 
+          keyExtractor={(item, index) => item.id.toString()}
+          data={inventoryData} 
+          renderItem={renderItem}
+          renderHiddenItem={renderHiddenItem}
+          leftOpenValue={0}
+          rightOpenValue={-144}
+          previewRowKey={'0'}
+          previewOpenValue={-40}
+        />
+        :
+        null
+      }   
     </Stack>
   );
 }
