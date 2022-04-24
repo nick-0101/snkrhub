@@ -2,7 +2,6 @@ import { Request } from 'express'
 const express = require('express');
 const http = require('http');
 const db = require('./clients/postgres');
-const firebaseApp = require("./clients/firebase")
 
 // Apollo
 const { ApolloServer } = require('apollo-server-express');
@@ -11,9 +10,6 @@ const { buildSubgraphSchema } = require('@apollo/subgraph');
 const { ApolloError } = require('apollo-server-errors');
 const { resolvers } = require('./schema/resolvers')
 const { typeDefs } = require('./schema/typeDefs')
-
-// Controllers
-const { validateUserToken } = require('./controllers/validateUserToken.controller')
 
 // Types
 export interface ApolloContextReq {
@@ -37,9 +33,6 @@ const connectWithRetry = () => {
   }
 };
 connectWithRetry();
-
-// Firebase
-firebaseApp()
 
 // Start server
 const startServer = async () => {

@@ -31,23 +31,43 @@ services:
     environment:
       - NODE_ENV=development
       - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=example
+      - POSTGRES_PASSWORD=inventory-microservice
       - POSTGRES_DATABASE=postgres
       - SESSION_SECRET=secret
     env_file:
       - ./inventory-microservice/.env
     command: npm run dev
     depends_on:
-      - postgres
+      - inventory-microservice_db
 
-  postgres:
+  inventory-microservice_db:
     image: postgres
     volumes:
-      - postgres-db:/var/lib/postgresql/data
+      - inventory-microservice_db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=example
-      - POSTGRES_INITDB_ROOT_PASSWORD=example
+      - POSTGRES_PASSWORD=inventory-microservice
+      - POSTGRES_INITDB_ROOT_PASSWORD=inventory-microservice
+
+# EXAMPLE TO CREATE ANALYTICS SERVICE
+# service_c:
+#     build:
+#       dockerfile: service_c/Dockerfile
+#       context: .
+#     volumes:
+#       - ./service_c:/myapp
+#     ports:
+#       - "8082:3000"
+#     depends_on:
+#       - service_c_db
+#   service_c_db:
+#     image: mysql
+#     environment:
+#       MYSQL_ROOT_PASSWORD: service_c
+#     volumes:
+#       - ./service_c/tmp/mysqldb:/var/lib/mysql
+#     ports:
+#       - "3308:3306"
 
 # Create a volume to persist data
 volumes:
-  postgres-db:
+  inventory-microservice_db:

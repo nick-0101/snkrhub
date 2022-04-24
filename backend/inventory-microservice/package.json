@@ -1,7 +1,7 @@
 {
   "name": "inventory-microservice",
   "version": "1.0.0",
-  "description": "Starter code for node ts app running in a docker container with hot reload",
+  "description": "Microservice which handles inventory related requests",
   "scripts": {
     "build": "tsc",
     "start": "node -r dotenv/configdist/server.js",
@@ -29,7 +29,6 @@
     "apollo-server-express": "^3.6.7",
     "cors": "^2.8.5",
     "express": "^4.17.3",
-    "firebase-admin": "^10.0.2",
     "graphql": "^16.3.0",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
