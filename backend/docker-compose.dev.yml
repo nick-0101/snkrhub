@@ -48,26 +48,39 @@ services:
       - POSTGRES_PASSWORD=inventory-microservice
       - POSTGRES_INITDB_ROOT_PASSWORD=inventory-microservice
 
-# EXAMPLE TO CREATE ANALYTICS SERVICE
-# service_c:
-#     build:
-#       dockerfile: service_c/Dockerfile
-#       context: .
-#     volumes:
-#       - ./service_c:/myapp
-#     ports:
-#       - "8082:3000"
-#     depends_on:
-#       - service_c_db
-#   service_c_db:
-#     image: mysql
-#     environment:
-#       MYSQL_ROOT_PASSWORD: service_c
-#     volumes:
-#       - ./service_c/tmp/mysqldb:/var/lib/mysql
-#     ports:
-#       - "3308:3306"
+  # ---------------------------
+  # Analytics microservice
+  # ---------------------------
+  analytics-microservice:
+    build:
+      context: ./analytics-microservice
+      dockerfile: ./Dockerfile.dev
+      args:
+        NODE_ENV: development
+    volumes:
+      - ./analytics-microservice:/usr/local/apps/analytics-app/dev
+      # - exclude:/usr/local/apps/inventory-app/dev/node_modules/
+    environment:
+      - NODE_ENV=development
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=analytics-microservice
+      - POSTGRES_DATABASE=postgres
+      - SESSION_SECRET=secret
+    env_file:
+      - ./analytics-microservice/.env
+    command: npm run dev
+    depends_on:
+      - analytics-microservice_db
+
+  analytics-microservice_db:
+    image: postgres
+    volumes:
+      - analytics-microservice_db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=analytics-microservice
+      - POSTGRES_INITDB_ROOT_PASSWORD=analytics-microservice
 
 # Create a volume to persist data
 volumes:
   inventory-microservice_db:
+  analytics-microservice_db:
