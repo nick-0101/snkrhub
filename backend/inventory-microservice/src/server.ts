@@ -48,17 +48,10 @@ const startServer = async () => {
     schema: buildSubgraphSchema({ typeDefs, resolvers }),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     context: async({ req }: ApolloContextReq) => {
-      // Extract token
-      const auth = req.headers.authorization || '';
+      // Extract user id
+      const userId = req.headers['user-id']
 
-      // Verify token
-      const res = await validateUserToken(auth)
-
-      if(res.code) {
-        throw new ApolloError(res.message, res.code);
-      }
-
-      return { userId: res };
+      return { userId };
     },
   });
   await server.start()

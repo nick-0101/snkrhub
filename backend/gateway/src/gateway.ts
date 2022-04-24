@@ -58,7 +58,7 @@ const gateway = new ApolloGateway({
       url,
       willSendRequest({ request, context }: ApolloContext) {
         // pass the user's id from the context to underlying services as a header called `authorization`
-        request.http.headers.set('authorization', context.userId ? context.userId : null);
+        request.http.headers.set('user-id', context.userId ? context.userId : null);
       },
     });
   },
@@ -92,7 +92,7 @@ const server = new ApolloServer({
     }
 
     // Add the user ID to the context
-    return { userId: token };
+    return { userId: res };
   },
 });
 

@@ -22,6 +22,13 @@ export function AnalyticsSection() {
   // Auth state
   const { signOutUser, getUserToken } = useAuth();
 
+
+  const logToken = async() => {
+    const firebaseToken = await getUserToken()
+
+    console.log(firebaseToken)
+  }
+
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={{
@@ -89,7 +96,7 @@ export function AnalyticsSection() {
       >      
         <VStack space="7">
           <VStack>
-            <Button onPress={() => getUserToken()}>Get token</Button>
+            <Button onPress={() => logToken()}>Get token</Button>
             <Button onPress={() => signOutUser()}>Sign out</Button>
           </VStack>
         </VStack>
