@@ -23,3 +23,15 @@ services:
       - '3001:3001'
     environment:
       - PORT=3001
+
+  # ---------------------------
+  # Analytics microservice
+  # ---------------------------
+  analytics-microservice:
+    container_name: 'analytics-microservice'
+    hostname: 'analytics-microservice'
+    build: ./analytics-microservice
+    ports:
+      - '3002:3002'
+    environment:
+      - PORT=3002
