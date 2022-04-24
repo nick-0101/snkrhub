@@ -1,9 +1,21 @@
+// Apollo
 const { ApolloServer, GraphQLResponse } = require('apollo-server');
+const { ApolloError } = require('apollo-server-errors');
 const { ApolloGateway, externalSupergraphUpdateCallback, RemoteGraphQLDataSource} = require('@apollo/gateway');
 const { watch, readFileSync } = require('fs');
+require('dotenv').config()
+
+// Clients
+const firebaseApp = require("./clients/firebase")
+
+// Controllers
+const { validateUserToken } = require('./controllers/validateUserToken.controller')
 
 // Types
 import { ApolloRequest, ApolloContext, ApolloBuildService } from './types'
+
+// Firebase
+firebaseApp()
 
 // Initialize an ApolloGateway instance and pass it the supergraph schema
 let supergraphUpdate;
@@ -69,8 +81,15 @@ const server = new ApolloServer({
       }
     }
   ],
-  context: ({ req }: ApolloRequest) => {
+  context: async({ req }: ApolloRequest) => {
     const token = req.headers.authorization || '';
+
+    // Verify token
+    const res = await validateUserToken(token)
+
+    if(res.code) {
+      throw new ApolloError(res.message, res.code);
+    }
 
     // Add the user ID to the context
     return { userId: token };

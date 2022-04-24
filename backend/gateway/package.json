@@ -6,19 +6,20 @@
     "build": "tsc",
     "start": "node dist/gateway.js",
     "dev": "nodemon -L --exec npx ts-node src/gateway.ts",
-    "test": "nodemon -L --exec npx ts-node src/gateway.ts"
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --runInBand --coverage"
   },
   "author": "phoenixbeats01",
   "license": "ISC",
   "dependencies": {
     "@apollo/gateway": "^2.0.1",
     "apollo-server": "^3.6.7",
-    "graphql": "^16.3.0",
-    "wait-on": "^6.0.1"
+    "apollo-server-errors": "^3.3.1",
+    "graphql": "^16.3.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.24",
     "apollo-server-types": "^3.5.2",
+    "dotenv": "^16.0.0",
     "nodemon": "^2.0.15",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3"
