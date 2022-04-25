@@ -1,22 +1,6 @@
 version: '3.8'
 services:
   # ---------------------------
-  # GraphQL Gateway
-  # ---------------------------
-  # graphql-gateway:
-  #   build:
-  #     context: .
-  #     dockerfile: ./gateway/Dockerfile.dev
-  #     args:
-  #       NODE_ENV: development
-  #   volumes:
-  #     - ./gateway:/usr/local/apps/gateway-app/dev
-  #     # - exclude:/usr/local/apps/gateway-app/dev/node_modules/
-  #   environment:
-  #     - NODE_ENV=development
-  #   command: npm run dev
-
-  # ---------------------------
   # Inventory microservice
   # ---------------------------
   inventory-microservice:
@@ -31,8 +15,8 @@ services:
     environment:
       - NODE_ENV=development
       - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=inventory-microservice
-      - POSTGRES_DATABASE=snkrhub_inventory
+      - POSTGRES_PASSWORD=inventory_microservice
+      - POSTGRES_DATABASE=postgres
       - SESSION_SECRET=secret
     env_file:
       - ./inventory-microservice/.env
@@ -41,15 +25,12 @@ services:
       - inventory-microservice_db
 
   inventory-microservice_db:
-    hostname: 'inventory-microservice_db'
     image: postgres
     volumes:
       - inventory-microservice_db:/var/lib/postgresql/data
-    ports:
-      - '5432:5432'
     environment:
-      - POSTGRES_PASSWORD=inventory-microservice
-      - POSTGRES_INITDB_ROOT_PASSWORD=inventory-microservice
+      - POSTGRES_PASSWORD=inventory_microservice
+      - POSTGRES_INITDB_ROOT_PASSWORD=inventory_microservice
 
   # ---------------------------
   # Analytics microservice
@@ -66,8 +47,8 @@ services:
     environment:
       - NODE_ENV=development
       - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=analytics-microservice
-      - POSTGRES_DATABASE=snkrhub_analytics
+      - POSTGRES_PASSWORD=analytics_microservice
+      - POSTGRES_DATABASE=postgres
       - SESSION_SECRET=secret
     env_file:
       - ./analytics-microservice/.env
@@ -76,15 +57,12 @@ services:
       - analytics-microservice_db
 
   analytics-microservice_db:
-    hostname: 'analytics-microservice_db'
     image: postgres
     volumes:
       - analytics-microservice_db:/var/lib/postgresql/data
-    ports:
-      - '5433:5432'
     environment:
-      - POSTGRES_PASSWORD=analytics-microservice
-      - POSTGRES_INITDB_ROOT_PASSWORD=analytics-microservice
+      - POSTGRES_PASSWORD=analytics_microservice
+      - POSTGRES_INITDB_ROOT_PASSWORD=analytics_microservice
 
 # Create a volume to persist data
 volumes:

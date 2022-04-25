@@ -13,4 +13,4 @@ CREATE TABLE inventory (
     purchaseDate DATE NOT NULL,
     orderNumber VARCHAR
     createdAt DATE NOT NULL
-)
+);

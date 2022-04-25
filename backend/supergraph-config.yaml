@@ -4,3 +4,8 @@ subgraphs:
     routing_url: http://localhost:3001/graphql
     schema:
       file: ./inventory-microservice/src/schema/inventory.graphql
+
+  analytics:
+    routing_url: http://localhost:3002/graphql
+    schema:
+      file: ./analytics-microservice/src/schema/analytics.graphql
