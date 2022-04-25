@@ -37,8 +37,6 @@ services:
       - POSTGRES_PASSWORD=inventory-microservice
       - POSTGRES_DATABASE=postgres
       - SESSION_SECRET=secret
-    env_file:
-      - ./inventory-microservice/.env
     command: npm run test
     depends_on:
       - postgres-inventory-test-db
@@ -68,8 +66,6 @@ services:
       - POSTGRES_PASSWORD=analytics-microservice
       - POSTGRES_DATABASE=postgres
       - SESSION_SECRET=secret
-    env_file:
-      - ./analytics-microservice/.env
     command: npm run test
     depends_on:
       - postgres-analytics-test-db
