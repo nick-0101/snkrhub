@@ -34,8 +34,6 @@ services:
       - POSTGRES_PASSWORD=inventory-microservice
       - POSTGRES_DATABASE=snkrhub_inventory
       - SESSION_SECRET=secret
-    env_file:
-      - ./inventory-microservice/.env
     command: npm run dev
     depends_on:
       - inventory-microservice_db
@@ -69,8 +67,6 @@ services:
       - POSTGRES_PASSWORD=analytics-microservice
       - POSTGRES_DATABASE=snkrhub_analytics
       - SESSION_SECRET=secret
-    env_file:
-      - ./analytics-microservice/.env
     command: npm run dev
     depends_on:
       - analytics-microservice_db
