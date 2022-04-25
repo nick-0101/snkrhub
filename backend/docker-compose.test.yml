@@ -34,23 +34,55 @@ services:
     environment:
       - NODE_ENV=test
       - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=example
+      - POSTGRES_PASSWORD=inventory-microservice
       - POSTGRES_DATABASE=postgres
       - SESSION_SECRET=secret
     env_file:
       - ./inventory-microservice/.env
     command: npm run test
     depends_on:
-      - postgres
+      - postgres-inventory-test-db
 
-  postgres:
+  postgres-inventory-test-db:
     image: postgres
     volumes:
-      - postgres-test-db:/var/lib/postgresql/data
+      - postgres-inventory-test-db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=example
-      - POSTGRES_INITDB_ROOT_PASSWORD=example
+      - POSTGRES_PASSWORD=inventory-microservice
+      - POSTGRES_INITDB_ROOT_PASSWORD=inventory-microservice
+
+  # ---------------------------
+  # Inventory microservice
+  # ---------------------------
+  analytics-microservice:
+    build:
+      context: ./analytics-microservice
+      dockerfile: ./Dockerfile.test
+      args:
+        NODE_ENV: test
+    volumes:
+      - ./analytics-microservice:/usr/local/apps/analytics-app/test
+    environment:
+      - NODE_ENV=test
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=analytics-microservice
+      - POSTGRES_DATABASE=postgres
+      - SESSION_SECRET=secret
+    env_file:
+      - ./analytics-microservice/.env
+    command: npm run test
+    depends_on:
+      - postgres-analytics-test-db
+
+  postgres-analytics-test-db:
+    image: postgres
+    volumes:
+      - postgres-analytics-test-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=analytics-microservice
+      - POSTGRES_INITDB_ROOT_PASSWORD=analytics-microservice
 
 # Create a volume to persist data
 volumes:
-  postgres-test-db:
+  postgres-inventory-test-db:
+  postgres-analytics-test-db:

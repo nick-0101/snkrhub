@@ -32,7 +32,7 @@ services:
       - NODE_ENV=development
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=inventory-microservice
-      - POSTGRES_DATABASE=postgres
+      - POSTGRES_DATABASE=snkrhub_inventory
       - SESSION_SECRET=secret
     env_file:
       - ./inventory-microservice/.env
@@ -41,9 +41,12 @@ services:
       - inventory-microservice_db
 
   inventory-microservice_db:
+    hostname: 'inventory-microservice_db'
     image: postgres
     volumes:
       - inventory-microservice_db:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
     environment:
       - POSTGRES_PASSWORD=inventory-microservice
       - POSTGRES_INITDB_ROOT_PASSWORD=inventory-microservice
@@ -64,7 +67,7 @@ services:
       - NODE_ENV=development
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=analytics-microservice
-      - POSTGRES_DATABASE=postgres
+      - POSTGRES_DATABASE=snkrhub_analytics
       - SESSION_SECRET=secret
     env_file:
       - ./analytics-microservice/.env
@@ -73,9 +76,12 @@ services:
       - analytics-microservice_db
 
   analytics-microservice_db:
+    hostname: 'analytics-microservice_db'
     image: postgres
     volumes:
       - analytics-microservice_db:/var/lib/postgresql/data
+    ports:
+      - '5433:5432'
     environment:
       - POSTGRES_PASSWORD=analytics-microservice
       - POSTGRES_INITDB_ROOT_PASSWORD=analytics-microservice
