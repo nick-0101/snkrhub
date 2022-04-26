@@ -1,6 +1,7 @@
 export {};
 
 // Clients
+const db = require('../clients/postgres');
 const InventoryAnalytics = require('../models/InventoryAnalyticsModel');
 const InventoryValue = require('../models/InventoryValueModel');
 
@@ -33,9 +34,6 @@ const resolvers = {
             inventoryvalue: 0.00
           },
         );
-
-        console.log(userInventoryDefaultAnalytics)
-
         return {
           inventoryCount: userInventoryDefaultAnalytics.inventorycount,
           itemSpend: userInventoryDefaultAnalytics.itemspend,
@@ -53,7 +51,7 @@ const resolvers = {
       await InventoryAnalytics.increment({
         inventorycount: 1,
         itemspend: inventoryItem.purchaseprice,  
-        inventoryvalue: inventoryItem.purchaseprice - (inventoryItem.shipping + inventoryItem.tax)
+        inventoryvalue: inventoryItem.purchaseprice
       }, { 
         where: {
           user_id: context.userId
@@ -67,7 +65,50 @@ const resolvers = {
       });
     
       return 'updated stats'
+    },
+    updateAnalyticsForItemDelete: async (parent: undefined, { inventoryItem }: UpdateInventoryAnalyticsArgs, context: ApolloContextData) => {      
+      // Sequeliuze transaction
+      const t = await db.transaction();
+
+      try {
+        // Decrement user inventory stats
+        await InventoryAnalytics.increment({
+          inventorycount: -1,
+          itemspend: -inventoryItem.purchaseprice,  
+          inventoryvalue: -inventoryItem.purchaseprice
+        }, { 
+          where: {
+            user_id: context.userId
+          } 
+        }, { transaction: t })
+
+        // Find row with matching purchase price in inventory value table
+        const inventoryValueRow = await InventoryValue.findAll({
+          limit: 1,
+          where: {
+            user_id: context.userId
+          },
+          order: [ [ 'id', 'DESC' ]],
+        }, { transaction: t });
+
+        // Delete row from inventory value
+        await InventoryValue.destroy({
+          where: {
+            user_id: context.userId,
+            inventoryvalue: inventoryValueRow[0]
+          }
+        });
+
+        // Commit the transaction.
+        await t.commit();
+      } catch (error) {
+        // We rollback the transaction.
+        await t.rollback();
+      }
+    
+      return 'updated stats'
     }
+    
   }
 };
 

@@ -8,7 +8,4 @@ export interface UpdateInventoryAnalyticsArgs {
 
 interface inventoryItem {
   purchaseprice: number,
-  tax: number,
-  shipping: number,
-  purchasedate: string,
 }
