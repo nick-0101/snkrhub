@@ -3,7 +3,7 @@ CREATE TABLE inventory_analytics (
     id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     user_id VARCHAR(128) NOT NULL UNIQUE,
     inventoryCount INTEGER NOT NULL,
-    netIncome DECIMAL NOT NULL,
+    itemSpend DECIMAL NOT NULL,
     inventorySold INTEGER NOT NULL,
     inventoryValue DECIMAL NOT NULL,
 );

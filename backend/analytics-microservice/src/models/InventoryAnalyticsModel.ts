@@ -10,12 +10,12 @@ const InventoryAnalytics = db.define('inventory_analytics', {
       unique: true
     },
     inventorycount: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
-    netincome: {
-        type: DataTypes.DECIMAL,
-        allowNull: false
+    itemspend: {
+      type: DataTypes.DECIMAL,
+      allowNull: false
     },
     inventorysold: {
       type: DataTypes.INTEGER,

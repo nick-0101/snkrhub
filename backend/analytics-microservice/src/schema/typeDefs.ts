@@ -10,7 +10,7 @@ const typeDefs = gql`
 
   type InventoryAnalytics {
     inventorycount: Int!,
-    netincome: Int!,
+    itemspend: Int!,
     inventorysold: Int!
     inventoryvalue: Int!
   }
@@ -21,13 +21,13 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    updateUserInventoryAnalytics(inventoryItem: InventoryAnalyticsItemInput!): String
+    updateAnalyticsForItemAdd(inventoryItem: InventoryAnalyticsItemAddInput!): String
   }
 
-  input InventoryAnalyticsItemInput {
+  input InventoryAnalyticsItemAddInput {
     purchaseprice: Int!,
-    tax: Int,
-    shipping: Int,
+    tax: Int!,
+    shipping: Int!,
     purchasedate: String!,
   }
 
