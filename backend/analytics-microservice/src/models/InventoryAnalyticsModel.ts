@@ -3,30 +3,34 @@ export {}
 const db = require('../clients/postgres');
 const { DataTypes } = require('sequelize');
 
-const InventoryValue = db.define('inventory_value', {
+const InventoryAnalytics = db.define('inventory_analytics', {
     user_id: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true
     },
-    inventoryCount: {
+    inventorycount: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    netIncome: {
+    netincome: {
         type: DataTypes.DECIMAL,
         allowNull: false
     },
-    inventorySold: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+    inventorysold: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    inventoryvalue: {
+      type: DataTypes.DECIMAL,
+      allowNull: false
     }
   }, {
     freezeTableName: true,
     updatedAt: false,
-    createdAt: true,
+    createdAt: false,
     timestamps: true,
   }
 );
 
-module.exports = InventoryValue;
+module.exports = InventoryAnalytics;

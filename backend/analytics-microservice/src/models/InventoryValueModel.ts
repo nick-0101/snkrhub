@@ -8,7 +8,7 @@ const InventoryValue = db.define('inventory_value', {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    inventoryValue: {
+    inventoryvalue: {
       type: DataTypes.DECIMAL,
       allowNull: false,
     },  

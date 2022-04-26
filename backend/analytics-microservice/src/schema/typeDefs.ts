@@ -9,14 +9,14 @@ const typeDefs = gql`
   }
 
   type InventoryAnalytics {
-    inventoryCount: Int!,
-    netIncome: Int!,
-    inventorySold: Int!
-    inventoryValue: [InventoryValueAnalytics]
+    inventorycount: Int!,
+    netincome: Int!,
+    inventorysold: Int!
+    inventoryvalue: Int!
   }
-
+  
   type InventoryValueAnalytics {
-    inventoryValue: Int!,
+    inventoryvalue: Int!,
     createdAt: String!
   }
 
