@@ -140,7 +140,7 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                             },
                         }
                     }).catch((err) => {
-                        console.log(err.networkError.result.errors)
+                        console.log(err)
                     })
 
                     setFormLoader(false)

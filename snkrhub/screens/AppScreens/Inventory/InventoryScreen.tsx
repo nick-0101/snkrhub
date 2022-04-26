@@ -71,20 +71,18 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
   const fetchInventoryItems = useCallback(async () => {
     // Get users jwt on every request
     const firebaseToken = await getUserToken()
-
-    if(firebaseToken) {
-      getInventory({   
-        variables: { 
-          offset: 0,
-          limit: 8,
+    
+    getInventory({   
+      variables: { 
+        offset: 0,
+        limit: 8,
+      },
+      context: {
+        headers: { 
+          Authorization: firebaseToken || ''
         },
-        context: {
-          headers: { 
-            Authorization: firebaseToken || ''
-          },
-        }
-      })
-    }
+      }
+    })
   }, [])
 
   // Fetches more items as user scrolls
