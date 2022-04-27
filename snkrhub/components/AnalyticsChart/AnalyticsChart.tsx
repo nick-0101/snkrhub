@@ -7,6 +7,9 @@ import {
   HorizontalAxis,
 } from 'react-native-responsive-linechart';
 
+// Components
+import AnalyticsChartTooltip  from './AnalyticsChartTooltip';
+
 // Types
 
 
@@ -62,7 +65,14 @@ const AnalyticsChart = () => {
                       },
                     }}
                   />
-                <Line theme={{ stroke: { color: '#44bd32', width: 5 } }} />
+                <Line
+                    smoothing='cubic-spline'
+                    hideTooltipOnDragEnd
+                    tooltipComponent={<AnalyticsChartTooltip />}
+                    theme={{
+                      stroke: { color: 'rgb(51, 102, 255)', width: 3 },
+                    }}
+                />
             </Chart>
         </>
     )
