@@ -100,6 +100,7 @@ const resolvers = {
           where: {
             user_id: context.userId
           },
+          raw: true,
           order: [ [ 'id', 'DESC' ]],
         }, { transaction: t });
 
@@ -107,7 +108,7 @@ const resolvers = {
         await InventoryValue.destroy({
           where: {
             user_id: context.userId,
-            inventoryvalue: inventoryValueRow[0]
+            inventoryvalue: inventoryValueRow[0].inventoryvalue
           }
         }, { transaction: t });
 

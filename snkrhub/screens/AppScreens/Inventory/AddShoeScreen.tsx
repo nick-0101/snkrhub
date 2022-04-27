@@ -48,7 +48,7 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
     errorPolicy: 'all',
   })
 
-  const [addInventoryAnalytics, { error }] = useMutation(ADD_INVENTORY_ANALYTICS, {
+  const [addInventoryAnalytics] = useMutation(ADD_INVENTORY_ANALYTICS, {
     notifyOnNetworkStatusChange: true,
     errorPolicy: 'all',
     onCompleted: (data) => {
