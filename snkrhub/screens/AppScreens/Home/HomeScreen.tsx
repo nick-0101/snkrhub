@@ -1,10 +1,9 @@
+import { useEffect, useState, useCallback } from 'react';
 import {
   Button,
-  Checkbox,
   HStack,
   VStack,
   Text,
-  Link,
   Center,
   StatusBar,
   Box,
@@ -12,11 +11,21 @@ import {
 } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+// Dayjs
+import dayjs from 'dayjs'
+
+// Apollo
+import { useLazyQuery } from "@apollo/client";
+import { 
+  FETCH_INVENTORY_ANALYTICS
+} from './queries'
+
 // Context
-import { useAuth } from '../../context/AuthContext'
+import { useAuth } from '../../../context/AuthContext'
 
 // Types
-import { RootTabScreenProps } from '../../types';
+import { AnalyticsData } from '../types'
+import { RootTabScreenProps } from '../../../types';
 
 export function AnalyticsSection() {
   // Auth state
@@ -28,6 +37,44 @@ export function AnalyticsSection() {
 
     console.log(firebaseToken)
   }
+
+  /*
+  * Apollo
+  */
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsData>()
+  const [currentDate] = useState({
+    day: dayjs().date(),
+    month: dayjs().locale('en').format("MMMM DD, YYYY"),
+    year: dayjs().year()
+  })
+
+  // Queries
+  const [getInventoryAnalytics, { 
+    loading: inventoryAnalyticsLoading, 
+    data: inventoryAnalyticsData, 
+  }] = useLazyQuery(FETCH_INVENTORY_ANALYTICS, {
+    fetchPolicy: "network-only",
+    onCompleted: (data) => {
+      setAnalyticsData(data.fetchInventoryAnalytics)
+    }
+  })
+
+  // Fetch inital analytics data
+  useEffect(() => {
+    fetchInventoryAnalytics()
+  }, [])
+
+  const fetchInventoryAnalytics = useCallback(async () => {
+    // Get users jwt on every request
+    const firebaseToken = await getUserToken()
+    getInventoryAnalytics({   
+      context: {
+        headers: { 
+          Authorization: firebaseToken
+        },
+      }
+    })
+  }, [])
 
   return (
     <KeyboardAwareScrollView
@@ -62,9 +109,15 @@ export function AnalyticsSection() {
           {/* Value */}
           <HStack alignItems={'center'}>
             <Text fontSize="lg" color="gray.50" pr="1" fontWeight="bold">$</Text>
-            <Text fontSize="4xl" fontWeight="bold" color="gray.50">
-              1202.00
-            </Text>
+            {inventoryAnalyticsData?.fetchInventoryAnalytics ? 
+              <Text fontSize="4xl" fontWeight="bold" color="gray.50">
+                {analyticsData?.inventoryvalue}
+              </Text>
+              :
+              <Text fontSize="4xl" fontWeight="bold" color="gray.50">
+                0.00
+              </Text>
+            }
 
             <Box 
               alignSelf="center" 
@@ -81,7 +134,17 @@ export function AnalyticsSection() {
           </HStack>
 
           {/* Info */}
-          <Text color="blue.200">25 items on April 17, 2022</Text>
+          {inventoryAnalyticsData?.fetchInventoryAnalytics ?
+            <Text color="blue.200">
+              {analyticsData?.inventorycount} items on {currentDate.month} 
+            </Text>
+          :
+            <Text color="blue.200">
+              0 items on {new Date().toLocaleString('default', { month: 'long' })} {new Date().getDay()}, {new Date().getFullYear()} 
+            </Text>
+          }
+
+           {/* 0 items on ${new Date().toLocaleString('default', { month: 'long' })} */}
         </VStack>
       </VStack>
 

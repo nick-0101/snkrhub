@@ -12,6 +12,10 @@ export type RootTabs = {
   Loading: undefined;
 };
 
+/*
+* Inventory
+*/
+
 // Inventory item data
 export interface InventoryData {
   id: number;
@@ -22,3 +26,13 @@ export interface InventoryData {
 
 // Inventory item swiper
 export type InventorySwiperRow = RowMap<{ key: string; text: string }>
+
+/*
+* Analytics
+*/
+export interface AnalyticsData {
+  inventorycount: number;
+  inventorysold: number;
+  inventoryvalue: number;
+  itemspend: number;
+}

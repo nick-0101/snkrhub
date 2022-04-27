@@ -1,5 +1,5 @@
 import { Platform, UIManager } from 'react-native';
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import {
   StatusBar,
   Box,
@@ -54,7 +54,11 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
   const [inventoryData, setInventoryData] = useState<InventoryData[]>()
 
   // Queries
-  const [getInventory, { loading: getInventoryLoading, data: getInventoryData, fetchMore }] = useLazyQuery(FETCH_INVENTORY_ITEMS, {
+  const [getInventory, { 
+    loading: getInventoryLoading, 
+    data: getInventoryData, 
+    fetchMore
+  }] = useLazyQuery(FETCH_INVENTORY_ITEMS, {
     fetchPolicy: "network-only",
     nextFetchPolicy: "cache-first",
     onCompleted: (data) => {
@@ -81,7 +85,6 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
   const fetchInventoryItems = useCallback(async () => {
     // Get users jwt on every request
     const firebaseToken = await getUserToken()
-    
     getInventory({   
       variables: { 
         offset: 0,
@@ -171,6 +174,9 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
       }).catch((err) => {
         console.log(err)
       })
+
+      // Refetch inventory query
+      fetchInventoryItems()
     }
   };
 
@@ -345,10 +351,12 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
           onEndReachedThreshold={0.5}
         />
         :
-        // No inventory items 
+        null
+      }
+
+      {/* No inventory items */}
+      {!getInventoryLoading && !getInventoryData?.fetchUserInventoryItems ? 
         <VStack
-          // _light={{ bg: "gray.200", borderColor: 'gray.300' }}
-          // _dark={{ bg: "gray.800", borderColor: 'gray.700' }} 
           my="auto"
           justifyContent="center" 
           alignItems="center"
@@ -358,8 +366,10 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
           >
             No inventory items
           </Text>
-        </VStack>
-      }   
+        </VStack>  
+      : 
+        null
+      }
     </Stack>
   );
 }

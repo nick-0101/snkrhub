@@ -7,7 +7,7 @@ import { Icon } from "native-base";
 import { AppTabBar } from './AppTabBar';
 
 // Screens / navigators
-import HomeScreen from '../../screens/AppScreens/HomeScreen';
+import HomeScreen from '../../screens/AppScreens/Home/HomeScreen';
 import InventoryScreen from '../../screens/AppScreens/Inventory/InventoryScreen';
 import { InventoryNavigator } from './InventoryNavigator/InventoryNavigator';
 
