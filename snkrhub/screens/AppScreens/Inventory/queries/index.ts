@@ -27,3 +27,15 @@ export const ADD_INVENTORY_ITEM = gql`
         }
     }
 `;
+
+export const ADD_INVENTORY_ANALYTICS = gql`
+    mutation UpdateAnalyticsForItemAdd($inventoryItem: InventoryAnalyticsItemAddInput!) {
+        updateAnalyticsForItemAdd(inventoryItem: $inventoryItem)
+    }
+`
+
+export const DELETE_INVENTORY_ANALYTICS = gql`
+    mutation UpdateAnalyticsForItemAdd($inventoryItem: InventoryAnalyticsItemAddInput!) {
+        updateAnalyticsForItemAdd(inventoryItem: $inventoryItem)
+    }
+`

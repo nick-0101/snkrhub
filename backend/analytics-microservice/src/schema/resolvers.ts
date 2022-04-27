@@ -23,8 +23,8 @@ const resolvers = {
         raw: true
       })
 
+      // If no record exists in inventory_analytics table, then create a document with base stats
       if(!userInventoryAnalytics || !userInventoryAnalytics.length) {
-        // If no record exists in inventory_analytics table, then create a document with base stats
         const userInventoryDefaultAnalytics = await InventoryAnalytics.create(
           { 
             user_id: context.userId,
@@ -41,28 +41,40 @@ const resolvers = {
           inventoryValue: userInventoryDefaultAnalytics.inventoryvalue
         }
       } else {
+        // Return user stats
         return userInventoryAnalytics[0]
       }
     }
   },
   Mutation: {
     updateAnalyticsForItemAdd: async (parent: undefined, { inventoryItem }: UpdateInventoryAnalyticsArgs, context: ApolloContextData) => {      
-      // Increment user inventory stats
-      await InventoryAnalytics.increment({
-        inventorycount: 1,
-        itemspend: inventoryItem.purchaseprice,  
-        inventoryvalue: inventoryItem.purchaseprice
-      }, { 
-        where: {
-          user_id: context.userId
-        } 
-      })
+       // Sequeliuze transaction
+      const t = await db.transaction();
+      
+      try {
+        // Increment user inventory stats
+        await InventoryAnalytics.increment({
+          inventorycount: 1,
+          itemspend: inventoryItem.purchaseprice,  
+          inventoryvalue: inventoryItem.purchaseprice
+        }, { 
+          where: {
+            user_id: context.userId
+          } 
+        }, { transaction: t })
+  
+        // Insert row into inventory value table
+        await InventoryValue.create({ 
+          user_id: context.userId,
+          inventoryvalue: inventoryItem.purchaseprice
+        }, { transaction: t });
 
-      // Insert row into inventory value table
-      await InventoryValue.create({ 
-        user_id: context.userId,
-        inventoryvalue: inventoryItem.purchaseprice
-      });
+        // Commit the transaction.
+        await t.commit();
+      } catch (error) {
+        await t.rollback();
+      }
+
     
       return 'updated stats'
     },
@@ -97,12 +109,11 @@ const resolvers = {
             user_id: context.userId,
             inventoryvalue: inventoryValueRow[0]
           }
-        });
+        }, { transaction: t });
 
         // Commit the transaction.
         await t.commit();
       } catch (error) {
-        // We rollback the transaction.
         await t.rollback();
       }
     

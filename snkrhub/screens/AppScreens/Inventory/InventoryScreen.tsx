@@ -1,5 +1,5 @@
-import { Platform, UIManager, Dimensions, TouchableOpacity, View } from 'react-native';
-import { useEffect, useState, useCallback } from 'react';
+import { Platform, UIManager } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   StatusBar,
   Box,
@@ -10,7 +10,8 @@ import {
   Icon,
   Text,
   Spinner,
-  Pressable
+  Pressable,
+  Button
 } from "native-base";
 import { SwipeListView } from 'react-native-swipe-list-view';
 
@@ -18,7 +19,8 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { 
   FETCH_INVENTORY_ITEMS,
-  DELETE_INVENTORY_ITEM
+  DELETE_INVENTORY_ITEM,
+  DELETE_INVENTORY_ANALYTICS
 } from './queries'
 
 // Context
@@ -53,13 +55,21 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
 
   // Queries
   const [getInventory, { loading: getInventoryLoading, data: getInventoryData, fetchMore }] = useLazyQuery(FETCH_INVENTORY_ITEMS, {
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
     onCompleted: (data) => {
       setInventoryData(data.fetchUserInventoryItems)
     }
   })
 
   // Mutations
-  const [removeInventoryItem, {  loading: removeInventoryItemLoading, error: removeIntenvoryItemError,  data: removeInventoryItemData, reset}] = useMutation(DELETE_INVENTORY_ITEM, {
+  const [removeInventoryItem, { 
+    reset: removeInventoryItemReset
+  }] = useMutation(DELETE_INVENTORY_ITEM, {
+    notifyOnNetworkStatusChange: true
+  })
+
+  const [removeInventoryAnalytics] = useMutation(DELETE_INVENTORY_ANALYTICS, {
     notifyOnNetworkStatusChange: true
   })
   
@@ -79,7 +89,7 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
       },
       context: {
         headers: { 
-          Authorization: firebaseToken || ''
+          Authorization: firebaseToken
         },
       }
     })
@@ -115,33 +125,47 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
     closeRow(rowMap, rowKey);
 
     if(inventoryData) {
-      // Remove invenetory item from state
+      // Find item index
       const newData: InventoryData[] = Array.from(new Set(inventoryData));
       const prevIndex = inventoryData.findIndex(item => item.id === rowKey);
+      
+      // Keep track of inventory item price for analytics mutation
+      const purchasePrice = inventoryData[prevIndex].purchaseprice
+
+      // Remove item
       const removedItem = newData.splice(prevIndex, 1);
       setInventoryData(newData);
-
-      // Execute mutation
+      
+      // Remove inventory item from inventory database
       const firebaseToken = await getUserToken()
-
       removeInventoryItem({
         variables: {
           itemId: rowKey
         },
         context: {
           headers: { 
-            Authorization: firebaseToken || ''
+            Authorization: firebaseToken
           },
         }
       }).catch((err) => {
-        // Report error 
-
         // Undo ui changes
         newData.splice(prevIndex, 0, ...removedItem)
         setInventoryData(newData);
 
         // reset the mutation's result to its initial, uncalled state
-        reset()
+        removeInventoryItemReset()
+      })
+
+      // Update inventory analytics database
+      removeInventoryAnalytics({
+        variables: {
+          purchaseprice: purchasePrice
+        },
+        context: {
+          headers: { 
+            Authorization: firebaseToken
+          },
+        }
       })
     }
   };
@@ -300,6 +324,7 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
       }  
 
       {getInventoryData?.fetchUserInventoryItems ?
+        // Inventory items
         <SwipeListView 
           keyExtractor={(item, index) => item.id.toString()}
           data={inventoryData} 
@@ -316,7 +341,20 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
           onEndReachedThreshold={0.5}
         />
         :
-        null
+        // No inventory items 
+        <VStack
+          // _light={{ bg: "gray.200", borderColor: 'gray.300' }}
+          // _dark={{ bg: "gray.800", borderColor: 'gray.700' }} 
+          my="auto"
+          justifyContent="center" 
+          alignItems="center"
+        >
+          <Text
+            fontSize="xl"
+          >
+            No inventory items
+          </Text>
+        </VStack>
       }   
     </Stack>
   );
