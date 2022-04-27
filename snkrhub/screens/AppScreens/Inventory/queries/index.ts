@@ -35,7 +35,7 @@ export const ADD_INVENTORY_ANALYTICS = gql`
 `
 
 export const DELETE_INVENTORY_ANALYTICS = gql`
-    mutation UpdateAnalyticsForItemAdd($inventoryItem: InventoryAnalyticsItemAddInput!) {
-        updateAnalyticsForItemAdd(inventoryItem: $inventoryItem)
+    mutation UpdateAnalyticsForItemDelete($inventoryItem: InventoryAnalyticsItemDelete!) {
+        updateAnalyticsForItemDelete(inventoryItem: $inventoryItem) 
     }
 `

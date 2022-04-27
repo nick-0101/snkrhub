@@ -18,9 +18,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { AddShoeSchema } from './Schemas/AddShoeSchema';
 
 // Apollo
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { 
-  ADD_INVENTORY_ITEM
+  ADD_INVENTORY_ITEM,
+  ADD_INVENTORY_ANALYTICS
 } from './queries'
 
 // Components
@@ -42,7 +43,12 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
  const [formLoader, setFormLoader] = useState(false)
 
   // Mutations
-  const [addInventoryItem, { loading: addInventoryItemLoading, error: addIntenvoryItemError, data: addInventoryItemData }] = useMutation(ADD_INVENTORY_ITEM, {
+  const [addInventoryItem] = useMutation(ADD_INVENTORY_ITEM, {
+    notifyOnNetworkStatusChange: true,
+    errorPolicy: 'all',
+  })
+
+  const [addInventoryAnalytics, { error }] = useMutation(ADD_INVENTORY_ANALYTICS, {
     notifyOnNetworkStatusChange: true,
     errorPolicy: 'all',
     onCompleted: (data) => {
@@ -141,6 +147,22 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                         }
                     }).catch((err) => {
                         console.log(err)
+                    })
+
+                    // Update inventory analytics database
+                    addInventoryAnalytics({
+                        variables: {
+                            inventoryItem: {
+                                purchaseprice: parseFloat(values.purchaseprice)
+                            }
+                        },
+                        context: {
+                            headers: { 
+                                Authorization: firebaseToken || ''
+                            },
+                        }
+                    }).catch((err) => {
+                        console.log(err.networkError.result.errors)
                     })
 
                     setFormLoader(false)

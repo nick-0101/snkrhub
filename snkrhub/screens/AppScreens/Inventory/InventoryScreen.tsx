@@ -159,13 +159,17 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
       // Update inventory analytics database
       removeInventoryAnalytics({
         variables: {
-          purchaseprice: purchasePrice
+          inventoryItem: {
+            purchaseprice: purchasePrice
+          }
         },
         context: {
           headers: { 
             Authorization: firebaseToken
           },
         }
+      }).catch((err) => {
+        console.log(err)
       })
     }
   };
