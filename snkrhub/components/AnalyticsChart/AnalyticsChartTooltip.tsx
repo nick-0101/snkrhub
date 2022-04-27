@@ -2,10 +2,10 @@ import Svg, { Line, G, Text as TextSvg, Rect } from 'react-native-svg';
 
 type Props = {
     position: { x: number, y: number},
-    value: { x: number, y: number}
+    value: { x: number, y: number, meta?: any }
 }
 
-const AnalyticsChartTooltip = (props: Props) => {
+const AnalyticsChartTooltip = (props?: any) => {
     const { x, y } = props.position;
     const { x: xValue, y: yValue } = props.value;
 
@@ -13,8 +13,8 @@ const AnalyticsChartTooltip = (props: Props) => {
         <>
             <G>
                 {/* Tooltip */}
-                <G x={x - 63 / 2} y={-30}>
-                    <Rect height={27} width={63} fill={'rgb(34, 43, 69)'} rx={4} />
+                <G x={x - 63 / 2} y={-20}>
+                    <Rect height={27} width={63} fill={'#27272a'} rx={4} />
                     <TextSvg x={63 / 2} dy={18} textAnchor={'middle'} stroke={'white'}>
                     {`${yValue}`}
                     </TextSvg>
@@ -25,7 +25,7 @@ const AnalyticsChartTooltip = (props: Props) => {
                     <Rect
                     height={10}
                     width={10}
-                    fill={'rgb(51, 102, 255)'}
+                    fill={'#2563eb'}
                     stroke={'#151a30'}
                     rx={100}
                     />
@@ -36,8 +36,8 @@ const AnalyticsChartTooltip = (props: Props) => {
                     key={'zero-axis'}
                     x1={x + 2}
                     x2={x}
-                    y1={0}
-                    y2={240 - 55}
+                    y1={7}
+                    y2={160}
                     stroke={'rgb(143, 155, 179, 0.40)'}
                     // style={{ opacity: 0.3 }}
                     strokeWidth={1.5}
