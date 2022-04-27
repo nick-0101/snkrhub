@@ -23,6 +23,9 @@ import {
 // Context
 import { useAuth } from '../../../context/AuthContext'
 
+// Components
+import { AnalyticsChart } from '../../../components';
+
 // Types
 import { AnalyticsData } from '../types'
 import { RootTabScreenProps } from '../../../types';
@@ -42,11 +45,6 @@ export function AnalyticsSection() {
   * Apollo
   */
   const [analyticsData, setAnalyticsData] = useState<AnalyticsData>()
-  const [currentDate] = useState({
-    day: dayjs().date(),
-    month: dayjs().locale('en').format("MMMM DD, YYYY"),
-    year: dayjs().year()
-  })
 
   // Queries
   const [getInventoryAnalytics, { 
@@ -136,11 +134,11 @@ export function AnalyticsSection() {
           {/* Info */}
           {inventoryAnalyticsData?.fetchInventoryAnalytics ?
             <Text color="blue.200">
-              {analyticsData?.inventorycount} items on {currentDate.month} 
+              {analyticsData?.inventorycount} items on {dayjs().locale('en').format("MMMM DD, YYYY")} 
             </Text>
           :
             <Text color="blue.200">
-              0 items on {new Date().toLocaleString('default', { month: 'long' })} {new Date().getDay()}, {new Date().getFullYear()} 
+              0 items on {dayjs().locale('en').format("MMMM DD, YYYY")} 
             </Text>
           }
 
@@ -173,6 +171,9 @@ export function AnalyticsSection() {
         >
 
         </HStack> */}
+
+
+        <AnalyticsChart />
       </VStack>
     </KeyboardAwareScrollView>
   )
