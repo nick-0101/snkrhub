@@ -11,9 +11,12 @@ import {
 import AnalyticsChartTooltip  from './AnalyticsChartTooltip';
 
 // Types
+type Props = {
+    changeInventoryValue: (amount: number) => void
+    changeInventoryValueToDefault: (shouldChange: boolean) => void
+}
 
-
-const AnalyticsChart = () => {
+const AnalyticsChart = (props: Props) => {
     return (
         <>
            <Chart
@@ -56,7 +59,6 @@ const AnalyticsChart = () => {
                           dx: -10,
                           color: '#71717a',
                         },
-                        formatter: (v) => v.toFixed(0),
                       },
                       ticks: { visible: false },
                       axis: { visible: false },
@@ -73,7 +75,12 @@ const AnalyticsChart = () => {
                 <Line
                     smoothing='cubic-spline'
                     hideTooltipOnDragEnd
-                    tooltipComponent={<AnalyticsChartTooltip />}
+                    onTooltipSelectEnd={() => props.changeInventoryValueToDefault(true)}
+                    tooltipComponent={
+                        <AnalyticsChartTooltip 
+                            changeInventoryValue={props.changeInventoryValue}
+                        />
+                    }
                     theme={{
                       stroke: { color: '#2563eb', width: 3 },
                     }}

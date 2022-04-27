@@ -1,13 +1,23 @@
+import { useEffect } from 'react';
 import Svg, { Line, G, Text as TextSvg, Rect } from 'react-native-svg';
 
 type Props = {
     position: { x: number, y: number},
-    value: { x: number, y: number, meta?: any }
+    value: { x: number, y: number, meta?: any },
+    changeInventoryValue: (amount: number) => void
 }
 
 const AnalyticsChartTooltip = (props?: any) => {
     const { x, y } = props.position;
     const { x: xValue, y: yValue } = props.value;
+
+    useEffect(() => {
+        props.changeInventoryValue(yValue)
+    }, [yValue])
+
+    useEffect(() => {
+        console.log(xValue)
+    }, [xValue])
 
     return (
         <>

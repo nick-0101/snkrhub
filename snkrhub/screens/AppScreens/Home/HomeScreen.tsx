@@ -34,7 +34,7 @@ export function AnalyticsSection() {
   // Auth state
   const { signOutUser, getUserToken } = useAuth();
 
-
+  // Extra
   const logToken = async() => {
     const firebaseToken = await getUserToken()
 
@@ -74,6 +74,23 @@ export function AnalyticsSection() {
     })
   }, [])
 
+  /*
+  * Chart
+  */
+  const [inventoryValueSlider, setInventoryValueSlider] = useState(0)
+
+  // Called by tooltip as user moves over chart
+  const changeInventoryValue = (amount: number) => {
+    setInventoryValueSlider(amount)
+  }
+
+  // Set inventory value to default value once user stops dragging tooltip
+  const changeInventoryValueToDefault = (shouldChange: boolean) => {
+    if(shouldChange && analyticsData) {
+      setInventoryValueSlider(analyticsData.inventoryvalue)
+    }
+  }
+
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={{
@@ -88,7 +105,8 @@ export function AnalyticsSection() {
       >
         <VStack
           px="6"
-          py="9"
+          pt="9"
+          pb="6"
           background={'primary.600'}
           justifyContent="space-between"
           borderBottomRightRadius={{ base: "3xl", }}
@@ -109,7 +127,16 @@ export function AnalyticsSection() {
             <Text fontSize="lg" color="gray.50" pr="1" fontWeight="bold">$</Text>
             {inventoryAnalyticsData?.fetchInventoryAnalytics ? 
               <Text fontSize="4xl" fontWeight="bold" color="gray.50">
-                {analyticsData?.inventoryvalue}
+                
+                {inventoryValueSlider === 0 ?
+                  <> 
+                    {analyticsData?.inventoryvalue}
+                  </>
+                : 
+                  <>
+                    {inventoryValueSlider}
+                  </>
+                }
               </Text>
               :
               <Text fontSize="4xl" fontWeight="bold" color="gray.50">
@@ -134,7 +161,7 @@ export function AnalyticsSection() {
           {/* Info */}
           {inventoryAnalyticsData?.fetchInventoryAnalytics ?
             <Text color="blue.200">
-              {analyticsData?.inventorycount} items on {dayjs().locale('en').format("MMMM DD, YYYY")} 
+              {analyticsData?.inventorycount} Items on {dayjs().locale('en').format("MMMM DD, YYYY")} 
             </Text>
           :
             <Text color="blue.200">
@@ -142,7 +169,6 @@ export function AnalyticsSection() {
             </Text>
           }
 
-           {/* 0 items on ${new Date().toLocaleString('default', { month: 'long' })} */}
         </VStack>
       </VStack>
 
@@ -173,7 +199,10 @@ export function AnalyticsSection() {
         </HStack> */}
 
 
-        <AnalyticsChart />
+        <AnalyticsChart 
+          changeInventoryValue={changeInventoryValue}
+          changeInventoryValueToDefault={changeInventoryValueToDefault}
+        />
       </VStack>
     </KeyboardAwareScrollView>
   )
