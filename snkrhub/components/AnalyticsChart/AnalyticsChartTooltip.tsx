@@ -15,10 +15,6 @@ const AnalyticsChartTooltip = (props?: any) => {
         props.changeInventoryValue(yValue)
     }, [yValue])
 
-    useEffect(() => {
-        console.log(xValue)
-    }, [xValue])
-
     return (
         <>
             <G>

@@ -10,6 +10,7 @@ import {
   Stack,
 } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { CountUp } from 'use-count-up'
 
 // Dayjs
 import dayjs from 'dayjs'
@@ -77,6 +78,7 @@ export function AnalyticsSection() {
   /*
   * Chart
   */
+  const [num, setNum] = useState(331231);
   const [inventoryValueSlider, setInventoryValueSlider] = useState(0)
 
   // Called by tooltip as user moves over chart
@@ -130,7 +132,7 @@ export function AnalyticsSection() {
                 
                 {inventoryValueSlider === 0 ?
                   <> 
-                    {analyticsData?.inventoryvalue}
+                    <CountUp isCounting start={0} end={analyticsData?.inventoryvalue} duration={0.7} />
                   </>
                 : 
                   <>

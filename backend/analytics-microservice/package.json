@@ -27,6 +27,7 @@
     "apollo-server-core": "^3.6.7",
     "apollo-server-errors": "^3.3.1",
     "apollo-server-express": "^3.6.7",
+    "dayjs": "^1.11.1",
     "express": "^4.17.3",
     "graphql": "^16.3.0",
     "pg": "^8.7.3",

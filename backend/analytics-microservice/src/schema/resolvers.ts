@@ -1,14 +1,19 @@
 export {};
 
+const dayjs = require('dayjs')
+
 // Clients
+const { Op } = require("sequelize");
 const db = require('../clients/postgres');
 const InventoryAnalytics = require('../models/InventoryAnalyticsModel');
 const InventoryValue = require('../models/InventoryValueModel');
 
+
 // Types
 import { 
   UpdateInventoryAnalyticsArgs,
-  ApolloContextData 
+  ApolloContextData,
+  FetchInventoryValueRangeArgs
 } from '../types';
 
 const resolvers = {
@@ -44,11 +49,71 @@ const resolvers = {
         // Return user stats
         return userInventoryAnalytics[0]
       }
+    }, 
+    fetchInventoryValueRange: async(parent: undefined, args: FetchInventoryValueRangeArgs, context: ApolloContextData) => {
+      // Fetch documents based on date range provided
+      switch (args.rangeInDays) {
+        case 7:
+          const sevenDayValueRange = await InventoryValue.findAll({
+            where: {
+              user_id: context.userId,
+              createdAt: {
+                [Op.between]: [
+                  dayjs().subtract(1, 'day').locale('en').format("YYYY-MM-DD"), // current date
+                  dayjs().add(7, 'day').locale('en').format("YYYY-MM-DD") // 7 days from now
+                ]
+              }
+            }
+          });
+
+          return sevenDayValueRange
+        
+        case 30:
+          const thirtyDayValueRange = await InventoryValue.findAll({
+            where: {
+              user_id: context.userId,
+              createdAt: {
+                [Op.between]: [
+                  dayjs().subtract(1, 'day').locale('en').format("YYYY-MM-DD"), // current date
+                  dayjs().add(30, 'day').locale('en').format("YYYY-MM-DD") // 30 days from now
+                ]
+              }
+            }
+          });
+
+          return thirtyDayValueRange
+         
+        case 90:
+          const ninetyDayValueRange = await InventoryValue.findAll({
+            where: {
+              user_id: context.userId,
+              createdAt: {
+                [Op.between]: [
+                  dayjs().subtract(1, 'day').locale('en').format("YYYY-MM-DD"), // current date
+                  dayjs().add(90, 'day').locale('en').format("YYYY-MM-DD") // 90 days from now
+                ]
+              }
+            }
+          });
+
+          return ninetyDayValueRange
+
+        case Infinity:
+          const allRange = await InventoryValue.findAll({
+            where: {
+              user_id: context.userId,
+            }
+          });
+
+          return allRange
+        default:
+          return 'invalid range'
+      }
     }
   },
   Mutation: {
     updateAnalyticsForItemAdd: async (parent: undefined, { inventoryItem }: UpdateInventoryAnalyticsArgs, context: ApolloContextData) => {      
-       // Sequeliuze transaction
+      // Sequeliuze transaction
       const t = await db.transaction();
       
       try {

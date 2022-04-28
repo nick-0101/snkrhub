@@ -9,3 +9,7 @@ export interface UpdateInventoryAnalyticsArgs {
 interface inventoryItem {
   purchaseprice: number,
 }
+
+export interface FetchInventoryValueRangeArgs {
+  rangeInDays: number
+}
