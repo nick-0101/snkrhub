@@ -77,9 +77,9 @@ const AnalyticsChart = (props: Props) => {
                     hideTooltipOnDragEnd
                     onTooltipSelectEnd={() => props.changeInventoryValueToDefault(true)}
                     tooltipComponent={
-                        <AnalyticsChartTooltip 
-                            changeInventoryValue={props.changeInventoryValue}
-                        />
+                      <AnalyticsChartTooltip 
+                          changeInventoryValue={props.changeInventoryValue}
+                      />
                     }
                     theme={{
                       stroke: { color: '#2563eb', width: 3 },

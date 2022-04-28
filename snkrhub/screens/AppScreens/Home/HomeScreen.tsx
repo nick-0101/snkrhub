@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   Button,
   HStack,
@@ -8,6 +9,7 @@ import {
   StatusBar,
   Box,
   Stack,
+  Spinner,
 } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { CountUp } from 'use-count-up'
@@ -18,7 +20,8 @@ import dayjs from 'dayjs'
 // Apollo
 import { useLazyQuery } from "@apollo/client";
 import { 
-  FETCH_INVENTORY_ANALYTICS
+  FETCH_INVENTORY_ANALYTICS,
+  FETCH_INVENTORY_RANGE
 } from './queries'
 
 // Context
@@ -28,7 +31,7 @@ import { useAuth } from '../../../context/AuthContext'
 import { AnalyticsChart } from '../../../components';
 
 // Types
-import { AnalyticsData } from '../types'
+import { AnalyticsData, AnalyticsRangeData } from '../types'
 import { RootTabScreenProps } from '../../../types';
 
 export function AnalyticsSection() {
@@ -46,15 +49,25 @@ export function AnalyticsSection() {
   * Apollo
   */
   const [analyticsData, setAnalyticsData] = useState<AnalyticsData>()
+  const [analyticsRangeData, setAnalyticsRangeData] = useState<AnalyticsRangeData[]>()
 
   // Queries
   const [getInventoryAnalytics, { 
-    loading: inventoryAnalyticsLoading, 
     data: inventoryAnalyticsData, 
   }] = useLazyQuery(FETCH_INVENTORY_ANALYTICS, {
     fetchPolicy: "network-only",
     onCompleted: (data) => {
       setAnalyticsData(data.fetchInventoryAnalytics)
+    }
+  })
+
+  const [getInventoryAnalyticsRange, { 
+    loading: inventoryAnalyticsRangeLoading, 
+    data: inventoryAnalyticsRangeData, 
+  }] = useLazyQuery(FETCH_INVENTORY_RANGE, {
+    fetchPolicy: "network-only",
+    onCompleted: (data) => {
+      setAnalyticsRangeData(data.fetchInventoryAnalytics)
     }
   })
 
@@ -66,6 +79,8 @@ export function AnalyticsSection() {
   const fetchInventoryAnalytics = useCallback(async () => {
     // Get users jwt on every request
     const firebaseToken = await getUserToken()
+    
+    // Basic inventory analytics
     getInventoryAnalytics({   
       context: {
         headers: { 
@@ -73,12 +88,40 @@ export function AnalyticsSection() {
         },
       }
     })
+
+    // Inventory chart data
+    getInventoryAnalyticsRange({
+      variables: {
+        rangeInDays: 7
+      },
+      context: {
+        headers: { 
+          Authorization: firebaseToken
+        },
+      }
+    }).catch((err) => {
+      console.log(err)
+    })
   }, [])
+
+  const fetchInventoryAnalyticsRange = async(range: number) => {
+    // Get users jwt on every request
+    const firebaseToken = await getUserToken()
+    getInventoryAnalyticsRange({
+      variables: {
+        rangeInDays: range
+      },
+      context: {
+        headers: { 
+          Authorization: firebaseToken
+        },
+      }
+    })
+  }
 
   /*
   * Chart
   */
-  const [num, setNum] = useState(331231);
   const [inventoryValueSlider, setInventoryValueSlider] = useState(0)
 
   // Called by tooltip as user moves over chart
@@ -200,11 +243,29 @@ export function AnalyticsSection() {
 
         </HStack> */}
 
+        {/* Inventory value chart */}
+        {inventoryAnalyticsRangeLoading ? 
+          <Spinner 
+            pt="5"
+            pb="3"
+            size="sm"
+            color={
+              'gray.500'
+            }
+            accessibilityLabel="Loading chart data" 
+          /> 
+          :
+          null
+        }  
 
-        <AnalyticsChart 
-          changeInventoryValue={changeInventoryValue}
-          changeInventoryValueToDefault={changeInventoryValueToDefault}
-        />
+        {inventoryAnalyticsRangeData?.fetchInventoryValueRange ? 
+          <AnalyticsChart 
+            changeInventoryValue={changeInventoryValue}
+            changeInventoryValueToDefault={changeInventoryValueToDefault}
+          />
+        :
+          null
+        }
       </VStack>
     </KeyboardAwareScrollView>
   )

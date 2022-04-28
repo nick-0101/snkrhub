@@ -36,3 +36,8 @@ export interface AnalyticsData {
   inventoryvalue: number;
   itemspend: number;
 }
+
+export interface AnalyticsRangeData {
+  inventoryvalue: number;
+  createdAt: string;
+}

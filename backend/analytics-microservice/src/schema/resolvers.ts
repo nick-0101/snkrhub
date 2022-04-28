@@ -98,7 +98,7 @@ const resolvers = {
 
           return ninetyDayValueRange
 
-        case Infinity:
+        case 10000:
           const allRange = await InventoryValue.findAll({
             where: {
               user_id: context.userId,

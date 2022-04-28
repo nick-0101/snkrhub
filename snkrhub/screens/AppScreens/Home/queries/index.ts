@@ -10,3 +10,12 @@ export const FETCH_INVENTORY_ANALYTICS = gql`
         }
     }
 `;
+
+export const FETCH_INVENTORY_RANGE = gql`
+    query FetchInventoryValueRange($rangeInDays: Int!) {
+        fetchInventoryValueRange(rangeInDays: $rangeInDays) {
+            inventoryvalue
+            createdAt
+        }
+    }
+`
