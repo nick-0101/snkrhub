@@ -49,10 +49,11 @@ export function AnalyticsSection() {
   }
 
 
-  // TODO
-  // 1. Create function to format chart data in x,y coordinates.
-  // 2. 
-  //
+  // READ
+  // The inventory value system was created wrong, instead of storing each inventory
+  // value in a seperate record, you need to store the total value. When a user adds
+  // a new shoe, you take the previous inventory value and add the value of the new shoe
+  // too it, you then store this value as a new record.
 
   /*
   * Apollo
@@ -111,7 +112,7 @@ export function AnalyticsSection() {
     // Inventory chart data
     getInventoryAnalyticsRange({
       variables: {
-        rangeInDays: 7
+        rangeInDays: 10000
       },
       context: {
         headers: { 

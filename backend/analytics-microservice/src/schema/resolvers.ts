@@ -60,7 +60,7 @@ const resolvers = {
               createdAt: {
                 [Op.between]: [
                   dayjs().subtract(1, 'day').locale('en').format("YYYY-MM-DD"), // current date
-                  dayjs().add(7, 'day').locale('en').format("YYYY-MM-DD") // 7 days from now
+                  dayjs().subtract(7, 'day').locale('en').format("YYYY-MM-DD") // 7 days from now
                 ]
               }
             }
@@ -75,7 +75,7 @@ const resolvers = {
               createdAt: {
                 [Op.between]: [
                   dayjs().subtract(1, 'day').locale('en').format("YYYY-MM-DD"), // current date
-                  dayjs().add(30, 'day').locale('en').format("YYYY-MM-DD") // 30 days from now
+                  dayjs().subtract(30, 'day').locale('en').format("YYYY-MM-DD") // 30 days from now
                 ]
               }
             }
@@ -90,7 +90,7 @@ const resolvers = {
               createdAt: {
                 [Op.between]: [
                   dayjs().subtract(1, 'day').locale('en').format("YYYY-MM-DD"), // current date
-                  dayjs().add(90, 'day').locale('en').format("YYYY-MM-DD") // 90 days from now
+                  dayjs().subtract(90, 'day').locale('en').format("YYYY-MM-DD") // 90 days ago
                 ]
               }
             }
@@ -102,7 +102,10 @@ const resolvers = {
           const allRange = await InventoryValue.findAll({
             where: {
               user_id: context.userId,
-            }
+            },
+            order: [
+              ['createdAt', 'DESC']
+            ]
           });
 
           return allRange

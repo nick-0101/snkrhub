@@ -26,25 +26,25 @@ const AnalyticsChart = (props: Props) => {
            <Chart
                 style={{ height: 200, width: '100%', }}
                 data={
-                  // props.analyticsRangeData
-                [
-                  { x: 0, y: 15 },
-                  { x: 1, y: 10 },
-                  { x: 2, y: 12 },
-                  { x: 3, y: 7 },
-                  { x: 4, y: 6 },
-                ]
+                  props.analyticsRangeData
+                // [
+                //   { x: 0, y: 15 },
+                //   { x: 1, y: 10 },
+                //   { x: 2, y: 12 },
+                //   { x: 3, y: 7 },
+                //   { x: 4, y: 6 },
+                // ]
                 }
-                padding={{ left: 24, bottom: 20, top: 20 }}
+                padding={{ left: 32, bottom: 20, top: 20 }}
 
-                // xDomain={{ min: 0, max: props.analyticsRangeData?.length ? props.analyticsRangeData.length : 0 }}
-                // yDomain={{ min: 0, max: props.maxYValue }}
+                xDomain={{ min: 0, max: props.analyticsRangeData?.length ? props.analyticsRangeData.length : 0 }}
+                yDomain={{ min: 0, max: props.maxYValue }}
 
-                xDomain={{ min: 0, max: 4 }}
-                yDomain={{ min: 5, max: 17 }}
+                // xDomain={{ min: 0, max: 4 }}
+                // yDomain={{ min: 5, max: 17 }}
             >
                 <VerticalAxis
-                    tickCount={5}
+                    tickCount={3}
                     theme={{
                       grid: {
                         visible: true,
