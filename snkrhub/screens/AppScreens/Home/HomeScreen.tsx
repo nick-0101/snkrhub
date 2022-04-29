@@ -45,6 +45,12 @@ export function AnalyticsSection() {
     console.log(firebaseToken)
   }
 
+
+  // TODO
+  // 1. Create function to format chart data in x,y coordinates.
+  // 2. 
+  //
+
   /*
   * Apollo
   */
@@ -99,8 +105,6 @@ export function AnalyticsSection() {
           Authorization: firebaseToken
         },
       }
-    }).catch((err) => {
-      console.log(err)
     })
   }, [])
 
