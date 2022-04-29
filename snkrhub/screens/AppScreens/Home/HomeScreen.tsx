@@ -79,15 +79,15 @@ export function AnalyticsSection() {
   }] = useLazyQuery(FETCH_INVENTORY_RANGE, {
     fetchPolicy: "network-only",
     onCompleted: (data) => {
-      // setAnalyticsRangeData(data.fetchInventoryAnalytics)
-
-      const formattedChart = formatChart(data.fetchInventoryValueRange)
-
-      // Set chart data
-      setAnalyticsRangeData(formattedChart.chartFormattedData)
-
-      // Set max y value for chart
-      setMaxYValue(formattedChart.chartYMax)
+      if(data.fetchInventoryValueRange || data.fetchInventoryValueRange.length) {
+        const formattedChart = formatChart(data.fetchInventoryValueRange)
+  
+        // Set chart data
+        setAnalyticsRangeData(formattedChart.chartFormattedData)
+  
+        // Set max y value for chart
+        setMaxYValue(formattedChart.chartYMax)
+      }
     }
   })
 
@@ -119,8 +119,6 @@ export function AnalyticsSection() {
           Authorization: firebaseToken
         },
       }
-    }).catch((err) => {
-      console.log(err)
     })
   }, [])
 
@@ -286,7 +284,7 @@ export function AnalyticsSection() {
           null
         }  
 
-        {inventoryAnalyticsRangeData?.fetchInventoryValueRange ? 
+        {analyticsRangeData?.length ? 
           <AnalyticsChart 
             changeInventoryValue={changeInventoryValue}
             changeInventoryValueToDefault={changeInventoryValueToDefault}

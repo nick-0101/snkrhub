@@ -26,7 +26,7 @@ const AnalyticsChart = (props: Props) => {
            <Chart
                 style={{ height: 200, width: '100%', }}
                 data={
-                  props.analyticsRangeData
+                  props.analyticsRangeData ? props.analyticsRangeData : []
                 // [
                 //   { x: 0, y: 15 },
                 //   { x: 1, y: 10 },
@@ -38,7 +38,7 @@ const AnalyticsChart = (props: Props) => {
                 padding={{ left: 32, bottom: 20, top: 20 }}
 
                 xDomain={{ min: 0, max: props.analyticsRangeData?.length ? props.analyticsRangeData.length : 0 }}
-                yDomain={{ min: 0, max: props.maxYValue }}
+                yDomain={{ min: 0, max: props.maxYValue ? props.maxYValue : 0 }}
 
                 // xDomain={{ min: 0, max: 4 }}
                 // yDomain={{ min: 5, max: 17 }}

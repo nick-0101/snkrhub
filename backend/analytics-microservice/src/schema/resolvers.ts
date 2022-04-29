@@ -30,20 +30,36 @@ const resolvers = {
 
       // If no record exists in inventory_analytics table, then create a document with base stats
       if(!userInventoryAnalytics || !userInventoryAnalytics.length) {
-        const userInventoryDefaultAnalytics = await InventoryAnalytics.create(
-          { 
+        // Sequeliuze transaction
+        const t = await db.transaction();
+
+        try {
+          // Insert base inventory stats
+          await InventoryAnalytics.create({ 
             user_id: context.userId,
             inventorycount: 0,
             itemspend: 0.00,
             inventorysold: 0,
             inventoryvalue: 0.00
-          },
-        );
+          }, { transaction: t });
+
+          await InventoryValue.create({ 
+            user_id: context.userId,
+            inventoryvalue: 0
+          }, { transaction: t });
+          
+
+          // Commit the transaction.
+          await t.commit();
+        } catch (error) {
+          await t.rollback();
+        }
+
         return {
-          inventoryCount: userInventoryDefaultAnalytics.inventorycount,
-          itemSpend: userInventoryDefaultAnalytics.itemspend,
-          inventorySold: userInventoryDefaultAnalytics.inventorysold,
-          inventoryValue: userInventoryDefaultAnalytics.inventoryvalue
+          inventoryCount: 0,
+          itemSpend: 0,
+          inventorySold: 0,
+          inventoryValue: 0
         }
       } else {
         // Return user stats
@@ -130,11 +146,21 @@ const resolvers = {
             user_id: context.userId
           } 
         }, { transaction: t })
-  
+        
+        // Select last inventory value row
+        const previousInventoryVal = await InventoryValue.findAll({
+          limit: 1,
+          where: {
+            user_id: context.userId,
+          },
+          raw: true,
+          order: [ [ 'createdAt', 'DESC' ]]
+        })
+
         // Insert row into inventory value table
         await InventoryValue.create({ 
           user_id: context.userId,
-          inventoryvalue: inventoryItem.purchaseprice
+          inventoryvalue: previousInventoryVal[0].inventoryvalue + inventoryItem.purchaseprice
         }, { transaction: t });
 
         // Commit the transaction.
