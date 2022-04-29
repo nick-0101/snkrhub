@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import {
   Button,
@@ -24,6 +24,9 @@ import {
   FETCH_INVENTORY_RANGE
 } from './queries'
 
+// Functions
+import { formatChart } from '../../../functions/formatChart';
+
 // Context
 import { useAuth } from '../../../context/AuthContext'
 
@@ -31,7 +34,7 @@ import { useAuth } from '../../../context/AuthContext'
 import { AnalyticsChart } from '../../../components';
 
 // Types
-import { AnalyticsData, AnalyticsRangeData } from '../types'
+import { AnalyticsData, FormattedAnalyticsData } from '../types'
 import { RootTabScreenProps } from '../../../types';
 
 export function AnalyticsSection() {
@@ -55,7 +58,9 @@ export function AnalyticsSection() {
   * Apollo
   */
   const [analyticsData, setAnalyticsData] = useState<AnalyticsData>()
-  const [analyticsRangeData, setAnalyticsRangeData] = useState<AnalyticsRangeData[]>()
+  const [analyticsRangeData, setAnalyticsRangeData] = useState<FormattedAnalyticsData[]>()
+  const [maxYValue, setMaxYValue] = useState(0)
+  const [rangeSelected, setRangeSelected]= useState(7)
 
   // Queries
   const [getInventoryAnalytics, { 
@@ -73,7 +78,15 @@ export function AnalyticsSection() {
   }] = useLazyQuery(FETCH_INVENTORY_RANGE, {
     fetchPolicy: "network-only",
     onCompleted: (data) => {
-      setAnalyticsRangeData(data.fetchInventoryAnalytics)
+      // setAnalyticsRangeData(data.fetchInventoryAnalytics)
+
+      const formattedChart = formatChart(data.fetchInventoryValueRange)
+
+      // Set chart data
+      setAnalyticsRangeData(formattedChart.chartFormattedData)
+
+      // Set max y value for chart
+      setMaxYValue(formattedChart.chartYMax)
     }
   })
 
@@ -105,6 +118,8 @@ export function AnalyticsSection() {
           Authorization: firebaseToken
         },
       }
+    }).catch((err) => {
+      console.log(err)
     })
   }, [])
 
@@ -120,6 +135,14 @@ export function AnalyticsSection() {
           Authorization: firebaseToken
         },
       }
+    }).then((response) => {
+      const formattedChart = formatChart(response.data.fetchInventoryValueRange)
+
+      // Set chart data
+      setAnalyticsRangeData(formattedChart.chartFormattedData)
+
+      // Set max y value for chart
+      setMaxYValue(formattedChart.chartYMax)
     })
   }
 
@@ -266,6 +289,9 @@ export function AnalyticsSection() {
           <AnalyticsChart 
             changeInventoryValue={changeInventoryValue}
             changeInventoryValueToDefault={changeInventoryValueToDefault}
+
+            analyticsRangeData={analyticsRangeData}
+            maxYValue={maxYValue}
           />
         :
           null

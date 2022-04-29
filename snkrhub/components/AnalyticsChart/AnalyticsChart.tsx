@@ -6,14 +6,18 @@ import {
   Tooltip,
   HorizontalAxis,
 } from 'react-native-responsive-linechart';
+import { FormattedAnalyticsData } from '../../screens/AppScreens/types';
 
 // Components
 import AnalyticsChartTooltip  from './AnalyticsChartTooltip';
 
 // Types
 type Props = {
-    changeInventoryValue: (amount: number) => void
-    changeInventoryValueToDefault: (shouldChange: boolean) => void
+  changeInventoryValue: (amount: number) => void
+  changeInventoryValueToDefault: (shouldChange: boolean) => void
+
+  analyticsRangeData: FormattedAnalyticsData[] | undefined
+  maxYValue: number
 }
 
 const AnalyticsChart = (props: Props) => {
@@ -21,24 +25,23 @@ const AnalyticsChart = (props: Props) => {
         <>
            <Chart
                 style={{ height: 200, width: '100%', }}
-                data={[
-                    { x: -2, y: 15 },
-                    { x: -1, y: 10 },
-                    { x: 0, y: 12 },
-                    { x: 1, y: 7 },
-                    { x: 2, y: 6 },
-                    { x: 3, y: 3 },
-                    { x: 4, y: 5 },
-                    { x: 5, y: 8 },
-                    { x: 6, y: 12 },
-                    { x: 7, y: 14 },
-                    { x: 8, y: 12 },
-                    { x: 9, y: 13.5 },
-                    { x: 10, y: 18 },
-                ]}
+                data={
+                  // props.analyticsRangeData
+                [
+                  { x: 0, y: 15 },
+                  { x: 1, y: 10 },
+                  { x: 2, y: 12 },
+                  { x: 3, y: 7 },
+                  { x: 4, y: 6 },
+                ]
+                }
                 padding={{ left: 24, bottom: 20, top: 20 }}
-                xDomain={{ min: -2, max: 10 }}
-                yDomain={{ min: -4, max: 20 }}
+
+                // xDomain={{ min: 0, max: props.analyticsRangeData?.length ? props.analyticsRangeData.length : 0 }}
+                // yDomain={{ min: 0, max: props.maxYValue }}
+
+                xDomain={{ min: 0, max: 4 }}
+                yDomain={{ min: 5, max: 17 }}
             >
                 <VerticalAxis
                     tickCount={5}
