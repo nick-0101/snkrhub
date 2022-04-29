@@ -155,7 +155,7 @@ const resolvers = {
           },
           raw: true,
           order: [ [ 'createdAt', 'DESC' ]]
-        })
+        }, { transaction: t })
 
         // Insert row into inventory value table
         await InventoryValue.create({ 
@@ -188,22 +188,20 @@ const resolvers = {
           } 
         }, { transaction: t })
 
-        // Find row with matching purchase price in inventory value table
-        const inventoryValueRow = await InventoryValue.findAll({
+       // Select last inventory value row
+        const previousInventoryVal = await InventoryValue.findAll({
           limit: 1,
           where: {
-            user_id: context.userId
+            user_id: context.userId,
           },
           raw: true,
-          order: [ [ 'id', 'DESC' ]],
-        }, { transaction: t });
+          order: [ [ 'createdAt', 'DESC' ]]
+        }, { transaction: t })
 
-        // Delete row from inventory value
-        await InventoryValue.destroy({
-          where: {
-            user_id: context.userId,
-            inventoryvalue: inventoryValueRow[0].inventoryvalue
-          }
+        // Insert row into inventory value table with decreased inventory value
+        await InventoryValue.create({ 
+          user_id: context.userId,
+          inventoryvalue: Math.abs(previousInventoryVal[0].inventoryvalue - inventoryItem.purchaseprice)
         }, { transaction: t });
 
         // Commit the transaction.

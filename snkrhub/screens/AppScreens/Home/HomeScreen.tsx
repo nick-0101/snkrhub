@@ -55,6 +55,11 @@ export function AnalyticsSection() {
   // a new shoe, you take the previous inventory value and add the value of the new shoe
   // too it, you then store this value as a new record.
 
+  // TODO
+  //
+  // I need to change the updateAnalyticsForItemDelete resolver to get the last record,
+  // subtract the purchase amount by the last value, and create a new record
+
   /*
   * Apollo
   */
