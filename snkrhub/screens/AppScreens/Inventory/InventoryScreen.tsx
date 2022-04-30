@@ -60,7 +60,6 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
     fetchMore
   }] = useLazyQuery(FETCH_INVENTORY_ITEMS, {
     fetchPolicy: "network-only",
-    nextFetchPolicy: "cache-first",
     onCompleted: (data) => {
       setInventoryData(data.fetchUserInventoryItems)
     }

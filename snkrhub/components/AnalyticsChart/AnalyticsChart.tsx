@@ -25,7 +25,7 @@ const AnalyticsChart = (props: Props) => {
         <>
         {props.analyticsRangeData?.length &&
           <>
-            {/* {props.analyticsRangeData[0].y > 0 &&  */}
+            {props.analyticsRangeData[1]?.y > 0 && 
             <Chart
                   style={{ height: 200, width: '100%', }}
                   data={
@@ -92,7 +92,7 @@ const AnalyticsChart = (props: Props) => {
                       }}
                   />
               </Chart>
-              {/* } */}
+              }
             </>
           }
         </>

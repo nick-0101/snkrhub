@@ -74,7 +74,9 @@ export function AnalyticsSection() {
   }] = useLazyQuery(FETCH_INVENTORY_ANALYTICS, {
     fetchPolicy: "network-only",
     onCompleted: (data) => {
-      setAnalyticsData(data.fetchInventoryAnalytics)
+      if(data.fetchInventoryAnalytics || data.fetchInventoryAnalytics.length) {
+        setAnalyticsData(data.fetchInventoryAnalytics)
+      }
     }
   })
 
