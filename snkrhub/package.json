@@ -48,10 +48,11 @@
     "react-native-responsive-linechart": "^5.7.1",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
-    "react-native-svg": "9.13",
+    "react-native-svg": "12.1.1",
     "react-native-swipe-list-view": "^3.2.9",
     "react-native-web": "0.17.1",
     "use-count-up": "^3.0.1",
+    "victory-native": "^36.3.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {

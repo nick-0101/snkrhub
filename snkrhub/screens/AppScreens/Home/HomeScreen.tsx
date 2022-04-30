@@ -142,14 +142,6 @@ export function AnalyticsSection() {
           Authorization: firebaseToken
         },
       }
-    }).then((response) => {
-      const formattedChart = formatChart(response.data.fetchInventoryValueRange)
-
-      // Set chart data
-      setAnalyticsRangeData(formattedChart.chartFormattedData)
-
-      // Set max y value for chart
-      setMaxYValue(formattedChart.chartYMax)
     })
   }
 
@@ -169,6 +161,11 @@ export function AnalyticsSection() {
       setInventoryValueSlider(analyticsData.inventoryvalue)
     }
   }
+
+  // When range selected changes, refetch chart
+  // useEffect(() => {
+  //   fetchInventoryAnalyticsRange(rangeSelected)
+  // }, [rangeSelected])
 
   return (
     <KeyboardAwareScrollView
@@ -277,28 +274,32 @@ export function AnalyticsSection() {
           </Text>
 
           {/* Range selector */}
-          <HStack justifyContent={'space-evenly'} alignItems={'center'} mt="-3">
+          <HStack justifyContent={'space-evenly'} alignItems={'center'} mt="-3">           
             <Button 
               size="sm"
-              variant="chartRangeFocused"
+              variant={rangeSelected === 7 ? "chartRangeFocused" : 'chartRangeUnFocused'}
+              onPress={() => setRangeSelected(7)}
             >
               7 days
             </Button>
             <Button 
               size="sm"
-              variant="chartRangeUnFocused"
+              variant={rangeSelected === 30 ? "chartRangeFocused" : 'chartRangeUnFocused'}
+              onPress={() => setRangeSelected(30)}
             >
               1 month
             </Button>
             <Button 
               size="sm"
-              variant="chartRangeUnFocused"
+              variant={rangeSelected === 90 ? "chartRangeFocused" : 'chartRangeUnFocused'}
+              onPress={() => setRangeSelected(90)}
             >
               3 months
             </Button>
             <Button 
               size="sm"
-              variant="chartRangeUnFocused"
+              variant={rangeSelected === 10000 ? "chartRangeFocused" : 'chartRangeUnFocused'}
+              onPress={() => setRangeSelected(10000)}
             >
               All
             </Button>

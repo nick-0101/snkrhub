@@ -6,6 +6,7 @@ import {
   Tooltip,
   HorizontalAxis,
 } from 'react-native-responsive-linechart';
+import { VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
 import { FormattedAnalyticsData } from '../../screens/AppScreens/types';
 
 // Components
@@ -20,82 +21,93 @@ type Props = {
   maxYValue: number
 }
 
+const data = [
+  { quarter: 1, earnings: 13000 },
+  { quarter: 2, earnings: 16500 },
+  { quarter: 3, earnings: 14250 },
+  { quarter: 4, earnings: 19000 }
+];
+
+
 const AnalyticsChart = (props: Props) => {
     return (
-        <>
-        {props.analyticsRangeData?.length &&
-          <>
-            {props.analyticsRangeData[1]?.y > 0 && 
-            <Chart
-                  style={{ height: 200, width: '100%', }}
-                  data={
-                    props.analyticsRangeData ? props.analyticsRangeData : []
-                  // [
-                  //   { x: 0, y: 15 },
-                  //   { x: 1, y: 10 },
-                  //   { x: 2, y: 12 },
-                  //   { x: 3, y: 7 },
-                  //   { x: 4, y: 6 },
-                  // ]
-                  }
-                  padding={{ left: 32, bottom: 20, top: 20 }}
+      <VictoryChart width={350}>
+        <VictoryBar data={data} x="quarter" y="earnings" />
+      </VictoryChart>
+        // <>
+        // {props.analyticsRangeData?.length &&
+        //   <>
+        //     {props.analyticsRangeData[1]?.y > 0 && 
+        //     <Chart
+        //           style={{ height: 200, width: '100%', }}
+        //           data={
+        //             props.analyticsRangeData ? props.analyticsRangeData : []
+        //           // [
+        //           //   { x: 0, y: 15 },
+        //           //   { x: 1, y: 10 },
+        //           //   { x: 2, y: 12 },
+        //           //   { x: 3, y: 7 },
+        //           //   { x: 4, y: 6 },
+        //           // ]
+        //           }
+        //           padding={{ left: 32, bottom: 20, top: 20 }}
 
-                  xDomain={{ min: 0, max: props.analyticsRangeData?.length ? props.analyticsRangeData.length : 0 }}
-                  yDomain={{ min: 0, max: props.maxYValue ? props.maxYValue : 0 }}
+        //           xDomain={{ min: 0, max: props.analyticsRangeData?.length ? props.analyticsRangeData.length : 0 }}
+        //           yDomain={{ min: 0, max: props.maxYValue ? props.maxYValue : 0 }}
 
-                  // xDomain={{ min: 0, max: 4 }}
-                  // yDomain={{ min: 5, max: 17 }}
-              >
-                  <VerticalAxis
-                      tickCount={3}
-                      theme={{
-                        grid: {
-                          visible: true,
-                          stroke: {
-                            color: 'rgb(143, 155, 179, 0.40)',
-                            width: 1,
-                            opacity: 0.3,
-                          },
-                        },
-                        labels: {
-                          visible: true,
-                          label: {
-                            fontSize: 11,
-                            fontWeight: 600,
-                            dx: -10,
-                            color: '#71717a',
-                          },
-                        },
-                        ticks: { visible: false },
-                        axis: { visible: false },
-                      }}
-                  />
-                  <Area
-                      theme={{
-                        gradient: {
-                          from: { color: '#2563eb', opacity: 0.31 },
-                          to: { color: '#2563eb', opacity: 0.31 },
-                        },
-                      }}
-                    />
-                  <Line
-                      smoothing='cubic-spline'
-                      hideTooltipOnDragEnd
-                      onTooltipSelectEnd={() => props.changeInventoryValueToDefault(true)}
-                      tooltipComponent={
-                        <AnalyticsChartTooltip 
-                            changeInventoryValue={props.changeInventoryValue}
-                        />
-                      }
-                      theme={{
-                        stroke: { color: '#2563eb', width: 3 },
-                      }}
-                  />
-              </Chart>
-              }
-            </>
-          }
-        </>
+        //           // xDomain={{ min: 0, max: 4 }}
+        //           // yDomain={{ min: 5, max: 17 }}
+        //       >
+        //           <VerticalAxis
+        //               tickCount={3}
+        //               theme={{
+        //                 grid: {
+        //                   visible: true,
+        //                   stroke: {
+        //                     color: 'rgb(143, 155, 179, 0.40)',
+        //                     width: 1,
+        //                     opacity: 0.3,
+        //                   },
+        //                 },
+        //                 labels: {
+        //                   visible: true,
+        //                   label: {
+        //                     fontSize: 11,
+        //                     fontWeight: 600,
+        //                     dx: -10,
+        //                     color: '#71717a',
+        //                   },
+        //                 },
+        //                 ticks: { visible: false },
+        //                 axis: { visible: false },
+        //               }}
+        //           />
+        //           <Area
+        //               theme={{
+        //                 gradient: {
+        //                   from: { color: '#2563eb', opacity: 0.31 },
+        //                   to: { color: '#2563eb', opacity: 0.31 },
+        //                 },
+        //               }}
+        //             />
+        //           <Line
+        //             smoothing='cubic-spline'
+        //             hideTooltipOnDragEnd
+        //             onTooltipSelectEnd={() => props.changeInventoryValueToDefault(true)}
+        //             tooltipComponent={
+        //               <AnalyticsChartTooltip 
+        //                   changeInventoryValue={props.changeInventoryValue}
+        //               />
+        //             }
+        //             theme={{
+        //               stroke: { color: '#2563eb', width: 3 },
+        //             }}
+        //           />
+        //       </Chart>
+        //       }
+        //     </>
+        //   }
+        // </>
     )
 }
 
