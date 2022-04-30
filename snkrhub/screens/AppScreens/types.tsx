@@ -4,7 +4,7 @@ export type RootTabs = {
   Home: undefined;
   
   // Inventory
-  InventoryNest: { addedInventory: boolean } | undefined;
+  InventoryNest: { addedInventory: boolean | null } | undefined;
   Inventory: undefined;
   AddShoe: undefined;
 

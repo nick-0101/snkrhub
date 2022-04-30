@@ -22,8 +22,29 @@ const theme = extendTheme({
     Button: {
       defaultProps: {
         borderRadius: '6',
-        py: '3',
+        // py: '3',
       },
+      variants: {
+        chartRangeUnFocused: (props: any) => {
+          return {
+            borderColor: themeTools.mode("gray.200", "gray.700")(props),
+            borderWidth: 1.2,
+            bg: `transparent`,
+            fontSize: '6px',
+            width: '23%',
+            color: themeTools.mode("#fff", "#262A31")(props)
+          };
+        },
+        chartRangeFocused: (props: any) => {
+          return {
+            borderColor: 'transparent',
+            borderWidth: 1.2,
+            bg: `primary.500`,
+            fontSize: '6px',
+            width: '23%',
+          };
+        }
+      }
     },
     IconButton: {
       defaultProps: {

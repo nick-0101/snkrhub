@@ -31,7 +31,7 @@ import { formatChart } from '../../../functions/formatChart';
 import { useAuth } from '../../../context/AuthContext'
 
 // Components
-import { AnalyticsChart } from '../../../components';
+import { AnalyticsChart, AnalyticCard } from '../../../components';
 
 // Types
 import { AnalyticsData, FormattedAnalyticsData } from '../types'
@@ -198,7 +198,7 @@ export function AnalyticsSection() {
             fontWeight="semibold"
             color="gray.50"
           >
-            Inventory Value
+            Inventory Value Overview
           </Text>
 
           {/* Value */}
@@ -259,8 +259,78 @@ export function AnalyticsSection() {
         space="3"
         justifyContent="space-between"
         flex="1"
-      >      
+      >
+        {/* Inventory value chart */}      
         <VStack space="7">
+          {/* Title */}
+          <Text
+            fontSize="md"
+            fontWeight="bold"
+            _light={{
+              color: "gray.700",
+            }}
+            _dark={{
+              color: "gray.300", 
+            }}
+          >
+            Inventory Value Statistics
+          </Text>
+
+          {/* Range selector */}
+          <HStack justifyContent={'space-evenly'} alignItems={'center'} mt="-3">
+            <Button 
+              size="sm"
+              variant="chartRangeFocused"
+            >
+              7 days
+            </Button>
+            <Button 
+              size="sm"
+              variant="chartRangeUnFocused"
+            >
+              1 month
+            </Button>
+            <Button 
+              size="sm"
+              variant="chartRangeUnFocused"
+            >
+              3 months
+            </Button>
+            <Button 
+              size="sm"
+              variant="chartRangeUnFocused"
+            >
+              All
+            </Button>
+          </HStack>
+
+          {/* Chart */}
+          {analyticsRangeData?.length ? 
+            <AnalyticsChart 
+              changeInventoryValue={changeInventoryValue}
+              changeInventoryValueToDefault={changeInventoryValueToDefault}
+
+              analyticsRangeData={analyticsRangeData}
+              maxYValue={maxYValue}
+            />
+          :
+            <>
+              {inventoryAnalyticsRangeLoading ? 
+                <Spinner 
+                  pt="5"
+                  pb="3"
+                  size="sm"
+                  color={
+                    'gray.500'
+                  }
+                  accessibilityLabel="Loading chart data" 
+                /> 
+              : 
+                null
+              }
+            </>
+          }
+
           <VStack>
             <Button onPress={() => logToken()}>Get token</Button>
             <Button onPress={() => signOutUser()}>Sign out</Button>
@@ -276,33 +346,6 @@ export function AnalyticsSection() {
         >
 
         </HStack> */}
-
-        {/* Inventory value chart */}
-        {inventoryAnalyticsRangeLoading ? 
-          <Spinner 
-            pt="5"
-            pb="3"
-            size="sm"
-            color={
-              'gray.500'
-            }
-            accessibilityLabel="Loading chart data" 
-          /> 
-          :
-          null
-        }  
-
-        {analyticsRangeData?.length ? 
-          <AnalyticsChart 
-            changeInventoryValue={changeInventoryValue}
-            changeInventoryValueToDefault={changeInventoryValueToDefault}
-
-            analyticsRangeData={analyticsRangeData}
-            maxYValue={maxYValue}
-          />
-        :
-          null
-        }
       </VStack>
     </KeyboardAwareScrollView>
   )

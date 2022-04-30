@@ -48,6 +48,10 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
   // Auth context
   const { getUserToken } = useAuth()
 
+  const clearParams = () => {
+    navigation.setParams({ addedInventory: null })
+  }
+
   /*
   * Apollo
   */
@@ -309,7 +313,7 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
         
         <HStack>
           <IconButton 
-            onPress={() => navigation.navigate("AddShoe")}
+            onPress={() => {navigation.navigate("AddShoe"), clearParams()}}
             icon={
               <Icon size={7} as={Ionicons} name="add" color="primary.600" />
             } 
