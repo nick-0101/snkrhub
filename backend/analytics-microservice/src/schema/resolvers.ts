@@ -147,20 +147,20 @@ const resolvers = {
           } 
         }, { transaction: t })
         
-        // Select last inventory value row
+        // Select most recent inventory value row
         const previousInventoryVal = await InventoryValue.findAll({
           limit: 1,
           where: {
             user_id: context.userId,
           },
           raw: true,
-          order: [ [ 'createdAt', 'DESC' ]]
+          order: [ [ 'id', 'DESC' ]]
         }, { transaction: t })
 
         // Insert row into inventory value table
         await InventoryValue.create({ 
           user_id: context.userId,
-          inventoryvalue: previousInventoryVal[0].inventoryvalue + inventoryItem.purchaseprice
+          inventoryvalue: parseInt(previousInventoryVal[0].inventoryvalue) + inventoryItem.purchaseprice
         }, { transaction: t });
 
         // Commit the transaction.
@@ -188,20 +188,20 @@ const resolvers = {
           } 
         }, { transaction: t })
 
-       // Select last inventory value row
+        // Select most recent inventory value row
         const previousInventoryVal = await InventoryValue.findAll({
           limit: 1,
           where: {
             user_id: context.userId,
           },
           raw: true,
-          order: [ [ 'createdAt', 'DESC' ]]
+          order: [ [ 'id', 'DESC' ]]
         }, { transaction: t })
 
         // Insert row into inventory value table with decreased inventory value
         await InventoryValue.create({ 
           user_id: context.userId,
-          inventoryvalue: Math.abs(previousInventoryVal[0].inventoryvalue - inventoryItem.purchaseprice)
+          inventoryvalue: Math.abs(parseInt(previousInventoryVal[0].inventoryvalue) - inventoryItem.purchaseprice)
         }, { transaction: t });
 
         // Commit the transaction.

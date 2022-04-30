@@ -83,6 +83,7 @@ export function AnalyticsSection() {
     data: inventoryAnalyticsRangeData, 
   }] = useLazyQuery(FETCH_INVENTORY_RANGE, {
     fetchPolicy: "network-only",
+    nextFetchPolicy: "network-only",
     onCompleted: (data) => {
       if(data.fetchInventoryValueRange || data.fetchInventoryValueRange.length) {
         const formattedChart = formatChart(data.fetchInventoryValueRange)
