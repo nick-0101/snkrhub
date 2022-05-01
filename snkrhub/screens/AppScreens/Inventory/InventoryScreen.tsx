@@ -178,7 +178,6 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
       updateInventoryAnalyticsItemSold({
         variables: {
           inventoryItem: {
-            id: itemId,
             purchaseprice: itemPurchasePrice
           }
         },

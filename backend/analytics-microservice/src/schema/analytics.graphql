@@ -34,6 +34,5 @@ input InventoryAnalyticsItemDelete {
 }
 
 input InventoryAnalyticsItemSold {
-  id: Int!
   purchaseprice: Int!
 }

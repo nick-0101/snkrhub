@@ -223,7 +223,7 @@ const resolvers = {
     
       return 'updated stats'
     },
-    updateAnalyticsForItemSold: async (parent: undefined, args: UpdateInventoryAnalyticsItemSoldArgs, context: ApolloContextData) => {
+    updateAnalyticsForItemSold: async (parent: undefined, { inventoryItem }: UpdateInventoryAnalyticsItemSoldArgs, context: ApolloContextData) => {
       // Sequeliuze transaction
       const t = await db.transaction();
       
@@ -232,7 +232,7 @@ const resolvers = {
         await InventoryAnalytics.increment({
           inventorysold: 1,
           inventorycount: -1,
-          inventoryvalue: -args.purchaseprice
+          inventoryvalue: -inventoryItem.purchaseprice
         }, { 
           where: {
             user_id: context.userId
@@ -252,12 +252,13 @@ const resolvers = {
         // Insert row into inventory value table
         await InventoryValue.create({ 
           user_id: context.userId,
-          inventoryvalue: parseInt(previousInventoryVal[0].inventoryvalue) - args.purchaseprice
+          inventoryvalue: parseInt(previousInventoryVal[0].inventoryvalue) - inventoryItem.purchaseprice
         }, { transaction: t });
 
         // Commit the transaction.
         await t.commit();
       } catch (error) {
+        console.log(error)
         await t.rollback();
       }
 

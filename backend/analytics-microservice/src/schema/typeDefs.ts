@@ -35,7 +35,6 @@ const typeDefs = gql`
   }
 
   input InventoryAnalyticsItemSold {
-    id: Int!
     purchaseprice: Int!
   }
 
