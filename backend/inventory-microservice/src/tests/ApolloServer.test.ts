@@ -169,8 +169,6 @@ describe('tests marking inventory item as sold', () => {
       },
     });
 
-    console.log(result)
-
     expect(result.data?.markInventoryItemSold).toMatchObject({ "id": 1 });
   });
 });

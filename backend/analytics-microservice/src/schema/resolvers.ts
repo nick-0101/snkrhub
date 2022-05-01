@@ -13,7 +13,8 @@ const InventoryValue = require('../models/InventoryValueModel');
 import { 
   UpdateInventoryAnalyticsArgs,
   ApolloContextData,
-  FetchInventoryValueRangeArgs
+  FetchInventoryValueRangeArgs,
+  UpdateInventoryAnalyticsItemSoldArgs
 } from '../types';
 
 const resolvers = {
@@ -190,7 +191,8 @@ const resolvers = {
         // Decrement user inventory stats
         await InventoryAnalytics.increment({
           inventorycount: -1,
-          inventoryvalue: -inventoryItem.purchaseprice
+          inventoryvalue: -inventoryItem.purchaseprice,
+          itemspend: -inventoryItem.purchaseprice
         }, { 
           where: {
             user_id: context.userId
@@ -220,8 +222,49 @@ const resolvers = {
       }
     
       return 'updated stats'
-    }
+    },
+    updateAnalyticsForItemSold: async (parent: undefined, args: UpdateInventoryAnalyticsItemSoldArgs, context: ApolloContextData) => {
+      // Update inventory analytic table, increment items sold, 
+      // Sequeliuze transaction
+      const t = await db.transaction();
+      
+      try {
+        // Update user inventory stats
+        await InventoryAnalytics.increment({
+          inventorysold: 1,
+          inventorycount: -1,
+          inventoryvalue: -args.purchaseprice
+        }, { 
+          where: {
+            user_id: context.userId
+          } 
+        }, { transaction: t })
+        
+        // Select most recent inventory value row
+        const previousInventoryVal = await InventoryValue.findAll({
+          limit: 1,
+          where: {
+            user_id: context.userId,
+          },
+          raw: true,
+          order: [ [ 'id', 'DESC' ]]
+        }, { transaction: t })
+
+        // Insert row into inventory value table
+        await InventoryValue.create({ 
+          user_id: context.userId,
+          inventoryvalue: parseInt(previousInventoryVal[0].inventoryvalue) - args.purchaseprice
+        }, { transaction: t });
+
+        // Commit the transaction.
+        await t.commit();
+      } catch (error) {
+        await t.rollback();
+      }
+
     
+      return 'updated stats'
+    }
   }
 };
 

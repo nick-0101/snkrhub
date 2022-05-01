@@ -23,6 +23,7 @@ const typeDefs = gql`
   type Mutation {
     updateAnalyticsForItemAdd(inventoryItem: InventoryAnalyticsItemAddInput!): String
     updateAnalyticsForItemDelete(inventoryItem: InventoryAnalyticsItemDelete!): String
+    updateAnalyticsForItemSold(inventoryItem: InventoryAnalyticsItemSold): String
   }
 
   input InventoryAnalyticsItemAddInput {
@@ -31,6 +32,11 @@ const typeDefs = gql`
 
   input InventoryAnalyticsItemDelete {
     purchaseprice: Int!,
+  }
+
+  input InventoryAnalyticsItemSold {
+    id: Int!
+    purchaseprice: Int!
   }
 
 `;
