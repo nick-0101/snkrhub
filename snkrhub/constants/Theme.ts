@@ -30,8 +30,8 @@ const theme = extendTheme({
             borderColor: themeTools.mode("gray.200", "gray.700")(props),
             borderWidth: 1.2,
             bg: `transparent`,
-            fontSize: '6px',
-            width: '23%',
+            fontSize: 'xs',
+            width: '18%',
             color: themeTools.mode("#fff", "#262A31")(props)
           };
         },
@@ -40,8 +40,8 @@ const theme = extendTheme({
             borderColor: 'transparent',
             borderWidth: 1.2,
             bg: `primary.500`,
-            fontSize: '6px',
-            width: '23%',
+            fontSize: 'xs',
+            width: '18%',
           };
         }
       }

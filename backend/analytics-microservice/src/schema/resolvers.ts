@@ -69,6 +69,16 @@ const resolvers = {
     fetchInventoryValueRange: async(parent: undefined, args: FetchInventoryValueRangeArgs, context: ApolloContextData) => {
       // Fetch documents based on date range provided      
       switch (args.rangeInDays) {
+        case 1:
+          const oneDayValueRange = await InventoryValue.findAll({
+            where: {
+              user_id: context.userId,
+              createdAt: dayjs().locale('en').format("YYYY-MM-DD")
+            }
+          });
+
+          return oneDayValueRange
+
         case 7:
           const sevenDayValueRange = await InventoryValue.findAll({
             where: {

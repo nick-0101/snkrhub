@@ -190,7 +190,7 @@ export function AnalyticsSection() {
               </Text>
             }
 
-            <Box 
+            {/* <Box 
               alignSelf="center" 
               ml="auto" 
               borderRadius={6}
@@ -201,7 +201,7 @@ export function AnalyticsSection() {
               <Text fontSize="sm" color="blue.50" fontWeight="bold" opacity={100}>
                 + 2.32%
               </Text>
-            </Box>
+            </Box> */}
           </HStack>
 
           {/* Info */}
@@ -246,27 +246,39 @@ export function AnalyticsSection() {
           {/* Range selector */}
           <HStack justifyContent={'space-evenly'} alignItems={'center'} mt="4" mb="2">           
             <Button 
+              borderRadius={50}
+              size="sm"
+              variant={rangeSelected === 1 ? "chartRangeFocused" : 'chartRangeUnFocused'}
+              onPress={() => fetchInventoryAnalyticsRange(1)}
+            >
+              1d
+            </Button>
+            <Button 
+              borderRadius={50}
               size="sm"
               variant={rangeSelected === 7 ? "chartRangeFocused" : 'chartRangeUnFocused'}
               onPress={() => fetchInventoryAnalyticsRange(7)}
             >
-              7 days
+              7d
             </Button>
             <Button 
+              borderRadius={50}
               size="sm"
               variant={rangeSelected === 30 ? "chartRangeFocused" : 'chartRangeUnFocused'}
               onPress={() => fetchInventoryAnalyticsRange(30)}
             >
-              1 month
+              1m
             </Button>
             <Button 
+              borderRadius={50}
               size="sm"
               variant={rangeSelected === 90 ? "chartRangeFocused" : 'chartRangeUnFocused'}
               onPress={() => fetchInventoryAnalyticsRange(90)}
             >
-              3 months
+              3m
             </Button>
             <Button 
+              borderRadius={50}
               size="sm"
               variant={rangeSelected === 10000 ? "chartRangeFocused" : 'chartRangeUnFocused'}
               onPress={() => fetchInventoryAnalyticsRange(10000)}
@@ -314,7 +326,7 @@ export function AnalyticsSection() {
           
           {/* Inventory statistic cards */}
           {inventoryAnalyticsData?.fetchInventoryAnalytics ? 
-            <VStack>
+            <VStack mt="2">
               <HStack justifyContent="space-around">
                 {/* Item Spend */}
                 <AnalyticCard 
