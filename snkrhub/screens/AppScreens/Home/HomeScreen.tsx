@@ -10,7 +10,9 @@ import {
   Box,
   Stack,
   Spinner,
+  Icon
 } from "native-base";
+import { FontAwesome5, MaterialIcons } from '@expo/vector-icons'; 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { CountUp } from 'use-count-up'
 
@@ -279,15 +281,20 @@ export function AnalyticsSection() {
               analyticsRangeData={analyticsRangeData}
             />
             :
-            <Spinner 
-              pt="5"
-              pb="3"
-              size="sm"
-              color={
-                'gray.500'
-              }
-              accessibilityLabel="Loading chart data" 
-            /> 
+            <Box
+              w="100%"
+              h="300"
+            >
+              <Spinner 
+                pt="5"
+                pb="3"
+                size="sm"
+                color={
+                  'gray.500'
+                }
+                accessibilityLabel="Loading chart data" 
+              />
+            </Box> 
           }
 
           {/* Inventory statistics */}
@@ -306,17 +313,83 @@ export function AnalyticsSection() {
           </Text>
           
           {/* Inventory statistic cards */}
-          <VStack>
-            <HStack justifyContent="space-around">
-              <AnalyticCard />
-              <AnalyticCard />
-            </HStack>
+          {inventoryAnalyticsData?.fetchInventoryAnalytics ? 
+            <VStack>
+              <HStack justifyContent="space-around">
+                {/* Item Spend */}
+                <AnalyticCard 
+                  mainStat={analyticsData ? analyticsData.itemspend : 0}
+                  subtext="Total item spend"
+                  prefix={"$"}
+                  width="33%"
+                  cardIcon={<Icon 
+                    as={FontAwesome5} 
+                    name="chart-pie" 
+                    size="3"
+                    color="white"
+                  />}
+                />
+                
+                {/* Inventory count */}
+                <AnalyticCard 
+                  mainStat={analyticsData ? analyticsData.inventorycount : 0}
+                  width="35%"
+                  subtext="Inventory count"
+                  cardIcon={<Icon 
+                    as={FontAwesome5} 
+                    name="boxes" 
+                    size="3"
+                    color="white"
+                  />}
+                />
+              </HStack>
 
-            <HStack justifyContent="space-around">
-              <AnalyticCard />
-              <AnalyticCard />
-            </HStack>
-          </VStack>
+              <HStack justifyContent="space-around">
+                {/* Inventory sold */}
+                <AnalyticCard 
+                  mainStat={analyticsData ? analyticsData.inventorysold : 0}
+                  width="38%"
+                  subtext="Inventory sold"
+                  cardIcon={<Icon 
+                    as={FontAwesome5} 
+                    name="shopping-bag" 
+                    size="3"
+                    color="white"
+                    ml="0.2"
+                  />}
+                />
+
+                {/* Inventory value */}
+                <AnalyticCard 
+                  mainStat={analyticsData ? analyticsData.inventoryvalue : 0}
+                  subtext="Inventory value"
+                  prefix={"$"}
+                  width="35%"
+                  cardIcon={<Icon 
+                    as={FontAwesome5} 
+                    name="chart-area" 
+                    size="3"
+                    color="white"
+                  />}
+                />
+              </HStack>
+            </VStack>
+            :
+            <Box
+              w="100%"
+              h="300"
+            >
+              <Spinner 
+                pt="5"
+                pb="3"
+                size="sm"
+                color={
+                  'gray.500'
+                }
+                accessibilityLabel="Loading chart data" 
+              />
+            </Box>         
+          }
 
 
           {/* <VStack>

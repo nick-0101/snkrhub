@@ -180,7 +180,6 @@ const resolvers = {
         // Decrement user inventory stats
         await InventoryAnalytics.increment({
           inventorycount: -1,
-          itemspend: -inventoryItem.purchaseprice,  
           inventoryvalue: -inventoryItem.purchaseprice
         }, { 
           where: {

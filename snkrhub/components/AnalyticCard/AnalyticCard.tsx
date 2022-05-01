@@ -3,15 +3,23 @@ import {
   Stack,
   Icon,
   VStack,
-  Button
+  Button,
+  PresenceTransition
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import { FontAwesome5, MaterialIcons } from '@expo/vector-icons'; 
 
 // Types
+import { InterfaceIconProps } from "native-base/lib/typescript/components/primitives/Icon/types";
+type Props = {
+    mainStat: number;
+    prefix?: string;
+    width?: string;
+    subtext: string;
+    cardIcon: React.ComponentProps<typeof FontAwesome5 | typeof MaterialIcons>
+}
 
-
-const AnalyticCard = () => {
+const AnalyticCard = (props: Props) => {
     return (
         <>
             <Stack 
@@ -29,31 +37,40 @@ const AnalyticCard = () => {
                     <Button
                         borderRadius="50"
                         px="0"
-                        w="30%"
+                        w={props.width}
                         bg="primary.500"
                     >
-                        <Icon 
-                            as={FontAwesome5} 
-                            name="chart-pie" 
-                            size="3"
-                            color="white"
-                        />
+                        {props.cardIcon}
                     </Button>
 
                     {/* Main Stat */}
-                    <Text
-                        pt="3"
-                        fontSize="lg"
-                        fontWeight="bold"
-                        _light={{
-                            color: "gray.700",
-                        }}
-                        _dark={{
-                            color: "gray.300", 
+                    <PresenceTransition 
+                        visible={props.mainStat || props.mainStat == 0 ? true : false} 
+                        initial={{
+                            opacity: 0
+                        }} 
+                        animate={{
+                            opacity: 1,
+                            transition: {
+                                duration: 250
+                            }
                         }}
                     >
-                        $25012
-                    </Text>
+                        <Text
+                            pt="3"
+                            fontSize="lg"
+                            fontWeight="bold"
+                            _light={{
+                                color: "gray.700",
+                            }}
+                            _dark={{
+                                color: "gray.300", 
+                            }}
+                        >
+                            {props.prefix}{props.mainStat}   
+                        </Text>
+                    </PresenceTransition>
+                    
 
                     {/* Subtext */}
                     <Text
@@ -65,7 +82,13 @@ const AnalyticCard = () => {
                             color: "gray.300", 
                         }}
                     >
-                        Total item spend
+                        {props.subtext ? 
+                            <>
+                                {props.subtext}
+                            </>
+                            : 
+                            null
+                        }  
                     </Text>
                 </VStack>
             </Stack>
