@@ -27,7 +27,6 @@ import { FormError } from '../../components'
 
 // Types
 import { RootTabScreenProps } from '../../types';
-import { background } from "native-base/lib/typescript/theme/styled-system";
 
 export function ForgotPasswordForm({ navigation }: any) {
   const { forgotPassword } = useAuth()
