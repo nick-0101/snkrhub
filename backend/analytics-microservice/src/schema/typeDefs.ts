@@ -23,7 +23,7 @@ const typeDefs = gql`
   type Mutation {
     updateAnalyticsForItemAdd(inventoryItem: InventoryAnalyticsItemAddInput!): String
     updateAnalyticsForItemDelete(inventoryItem: InventoryAnalyticsItemDelete!): String
-    updateAnalyticsForItemSold(inventoryItem: InventoryAnalyticsItemSold): String
+    updateAnalyticsForItemSold(inventoryItem: InventoryAnalyticsItemSold!): String
   }
 
   input InventoryAnalyticsItemAddInput {

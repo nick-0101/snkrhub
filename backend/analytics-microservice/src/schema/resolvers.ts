@@ -87,7 +87,7 @@ const resolvers = {
               createdAt: {
                 [Op.between]: [
                   dayjs().subtract(7, 'day').locale('en').format("YYYY-MM-DD"), // 7 days from now
-                  dayjs().subtract(1, 'day').locale('en').format("YYYY-MM-DD") // current date
+                  dayjs().locale('en').format("YYYY-MM-DD") // current date
                 ]
               }
             }
@@ -102,7 +102,7 @@ const resolvers = {
               createdAt: {
                 [Op.between]: [
                   dayjs().subtract(30, 'day').locale('en').format("YYYY-MM-DD"), // 30 days from now 
-                  dayjs().subtract(1, 'day').locale('en').format("YYYY-MM-DD") // current date 
+                  dayjs().locale('en').format("YYYY-MM-DD") // current date 
                 ]
               }
             }
@@ -117,7 +117,7 @@ const resolvers = {
               createdAt: {
                 [Op.between]: [
                   dayjs().subtract(90, 'day').locale('en').format("YYYY-MM-DD"), // 30 days from now 
-                  dayjs().subtract(1, 'day').locale('en').format("YYYY-MM-DD") // current date 
+                  dayjs().locale('en').format("YYYY-MM-DD") // current date 
                 ]
               }
             }
@@ -224,7 +224,6 @@ const resolvers = {
       return 'updated stats'
     },
     updateAnalyticsForItemSold: async (parent: undefined, args: UpdateInventoryAnalyticsItemSoldArgs, context: ApolloContextData) => {
-      // Update inventory analytic table, increment items sold, 
       // Sequeliuze transaction
       const t = await db.transaction();
       
@@ -263,7 +262,7 @@ const resolvers = {
       }
 
     
-      return 'updated stats'
+      return 'marked sold'
     }
   }
 };

@@ -18,17 +18,21 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 // Apollo
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { 
+  // Inventory
   FETCH_INVENTORY_ITEMS,
   DELETE_INVENTORY_ITEM,
-  DELETE_INVENTORY_ANALYTICS
+  MARK_INVENTORY_ITEM_SOLD,
+
+  // Analytics
+  DELETE_INVENTORY_ANALYTICS,
+  UPDATE_INVENTORY_ANALYTICS_ITEM_SOLD
 } from './queries'
 
 // Context
 import { useAuth } from '../../../context/AuthContext'
 
 // Icons
-import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 
 // Components
 import { InventoryItem } from '../../../components'; 
@@ -127,6 +131,10 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
     }
   };
 
+  const markSold = (rowMap: InventorySwiperRow, rowKey: number) => {
+    closeRow(rowMap, rowKey);
+  }
+
   const deleteRow = async (rowMap: InventorySwiperRow, rowKey: number) => {
     closeRow(rowMap, rowKey);
 
@@ -213,16 +221,24 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
     <HStack flex={1}>
       {/* Close */}
       <Pressable 
-        px={5} 
+        px={3}  
         ml="auto" 
-        bg="dark.500" 
+        _light={{ bg: "success.400", _pressed: { bg: 'success.300' } }}
+        _dark={{ bg: "success.500", _pressed: { bg: 'success.400' }}}
         justifyContent="center" 
-        onPress={() => closeRow(rowMap, item.id)} 
+        onPress={() => markSold(rowMap, item.id)} 
         _pressed={{
-          opacity: 0.5
+          bg: 'success.400'
         }}
       >
-        <Icon name="close" color="white" as={Ionicons}/>
+        {/* <Icon name="tag" size="28" color="white" as={FontAwesome5}/> */}
+        <Text
+          fontSize={'sm'}
+          color="white"
+          fontWeight={'bold'}
+        >
+          Mark sold
+        </Text>
       </Pressable>
       
       {/* Delete item */}
@@ -236,7 +252,13 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
           bg: 'danger.400'
         }}
       >
-        <Icon name="trash" color="white" as={Ionicons}/>
+        <Text
+          fontSize={'sm'}
+          color="white"
+          fontWeight={'bold'}
+        >
+          Delete
+        </Text>
       </Pressable>
     </HStack>
   );
@@ -344,7 +366,7 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
           renderItem={renderItem}
           renderHiddenItem={renderHiddenItem}
           leftOpenValue={0}
-          rightOpenValue={-144}
+          rightOpenValue={-167}
           previewRowKey={'0'}
           previewOpenValue={-40}
           onEndReached={({ distanceFromEnd }) => {
