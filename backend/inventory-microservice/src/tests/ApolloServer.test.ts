@@ -24,7 +24,8 @@ describe('tests reading inventory items', () => {
         tax: 10,
         shipping: 0.00,
         purchasedate: "2022-11-02",
-        ordernumber: "sadfsdfsdf"
+        ordernumber: "sadfsdfsdf",
+        markedsold: false
       }
       await Inventory.bulkCreate([item, item, item, item]);
   })
@@ -39,8 +40,8 @@ describe('tests reading inventory items', () => {
     // Query for first 2 items 
     const result = await testServer.executeOperation({
       query: `
-        query Query($offset: Int!, $limit: Int!, $userId: String!) {
-          fetchUserInventoryItems(offset: $offset, limit: $limit, userId: $userId) {
+        query Query($offset: Int!, $limit: Int!) {
+          fetchUserInventoryItems(offset: $offset, limit: $limit) {
             id
           }
         }
@@ -80,7 +81,6 @@ describe('tests creating inventory items', () => {
       `,
       variables: {
         inventoryItem: {
-          user_id: "testUserId",
           name: "Nike air force",
           styleid: "DHAG",
           brand: "Nike",
@@ -91,16 +91,15 @@ describe('tests creating inventory items', () => {
           tax: 10,
           shipping: 0.00,
           purchasedate: "2022-11-02",
-          ordernumber: "sadfsdfsdf"
+          ordernumber: "sadfsdfsdf",
         }
       },
-    });
+    })
 
     expect(result.data?.addInventoryItem).toMatchObject({ "id": 1 });
   });
 });
 
-// Write tests for delete, then start on client
 describe('tests deleting inventory items', () => {
   it('deletes an inventory item with deleteInventoryItem mutation', async () => {
     const testServer = new ApolloServer({
@@ -123,6 +122,56 @@ describe('tests deleting inventory items', () => {
     });
 
     expect(result.data?.deleteInventoryItem).toMatchObject({ "id": 1 });
+  });
+});
+
+describe('tests marking inventory item as sold', () => {
+  beforeAll(async () => {
+    // Regenreate database
+    await db.sync({ force: true })
+
+    // Generate mock data
+    const item = {
+      user_id: "testUserId",
+      name: "Nike air force",
+      styleid: "DHAG",
+      brand: "Nike",
+      colour: "Black/White",
+      condition: "Used",
+      shoesize: 11,
+      purchaseprice: 110,
+      tax: 10,
+      shipping: 0.00,
+      purchasedate: "2022-11-02",
+      ordernumber: "sadfsdfsdf",
+      markedsold: false
+    }
+    await Inventory.create(item);
+  })
+
+  it('marks an inventory item as sold', async () => {
+    const testServer = new ApolloServer({
+      typeDefs,
+      resolvers,
+      context: () => ({ userId: 'testUserId' }),
+    });
+
+    const result = await testServer.executeOperation({
+      query: `
+        mutation MarkInventoryItemSold($itemId: Int!) {
+          markInventoryItemSold(itemId: $itemId) {
+            id
+          }
+        }
+      `,
+      variables: {
+        itemId: 1
+      },
+    });
+
+    console.log(result)
+
+    expect(result.data?.markInventoryItemSold).toMatchObject({ "id": 1 });
   });
 });
 

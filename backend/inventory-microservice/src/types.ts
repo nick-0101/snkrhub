@@ -20,10 +20,14 @@ interface inventoryItem {
   tax: number,
   shipping: number,
   purchasedate: string,
-  ordernumber: string
+  ordernumber: string,
 }
 
 export interface DeleteInventoryItemArgs {
+  itemId: number;
+}
+
+export interface MarkInventoryItemSoldArgs {
   itemId: number;
 }
 

@@ -50,6 +50,10 @@ const Inventory = db.define('inventory', {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    markedsold: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    }
   }, {
     tableName: 'inventory',
     updatedAt: false,

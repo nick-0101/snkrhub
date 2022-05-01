@@ -15,11 +15,13 @@ type InventoryItem {
   shipping: Int
   purchasedate: String!
   ordernumber: String
+  markedSold: Boolean
 }
 
 type Mutation {
   addInventoryItem(inventoryItem: InventoryItemInput!): InventoryItemResponse!
   deleteInventoryItem(itemId: Int!): InventoryItemResponse!
+  markInventoryItemSold(itemId: Int!): InventoryItemResponse!
 }
 
 input InventoryItemInput {

@@ -26,6 +26,7 @@ const typeDefs = gql`
   type Mutation {
     addInventoryItem(inventoryItem: InventoryItemInput!): InventoryItemResponse!
     deleteInventoryItem(itemId: Int!): InventoryItemResponse!
+    markInventoryItemSold(itemId: Int!): InventoryItemResponse!
   }
 
   input InventoryItemInput {

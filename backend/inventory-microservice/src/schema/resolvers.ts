@@ -8,6 +8,7 @@ import {
   FetchUserInventoryItemsArgs,
   AddInventoryItemArgs, 
   DeleteInventoryItemArgs,
+  MarkInventoryItemSoldArgs,
   ApolloContextData 
 } from '../types';
 
@@ -61,6 +62,18 @@ const resolvers = {
     // Delete an inventory item
     deleteInventoryItem: async (parent: undefined, args: DeleteInventoryItemArgs, context: ApolloContextData) => {
       await Inventory.destroy({
+        where: {
+          id: args.itemId,
+          user_id: context.userId
+        }
+      });
+
+      return { "id": args.itemId }
+    },
+
+    // Marks an inventory item as sold
+    markInventoryItemSold: async(parent: undefined, args: MarkInventoryItemSoldArgs, context: ApolloContextData) => {
+      await Inventory.update({ markedsold: true }, {
         where: {
           id: args.itemId,
           user_id: context.userId
