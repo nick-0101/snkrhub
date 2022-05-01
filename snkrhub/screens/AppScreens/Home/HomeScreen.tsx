@@ -87,13 +87,13 @@ export function AnalyticsSection() {
     fetchPolicy: "network-only",
     onCompleted: (data) => {
       if(data.fetchInventoryValueRange || data.fetchInventoryValueRange.length) {
-        const formattedChart = formatChart(data.fetchInventoryValueRange)
+        // const formattedChart = formatChart(data.fetchInventoryValueRange)
   
         // Set chart data
-        setAnalyticsRangeData(formattedChart.chartFormattedData)
+        setAnalyticsRangeData(data.fetchInventoryValueRange)
   
         // Set max y value for chart
-        setMaxYValue(formattedChart.chartYMax)
+        // setMaxYValue(formattedChart.chartYMax)
       }
     }
   })
@@ -147,20 +147,6 @@ export function AnalyticsSection() {
   /*
   * Chart
   */
-  const [inventoryValueSlider, setInventoryValueSlider] = useState(0)
-
-  // Called by tooltip as user moves over chart
-  const changeInventoryValue = (amount: number) => {
-    setInventoryValueSlider(amount)
-  }
-
-  // Set inventory value to default value once user stops dragging tooltip
-  const changeInventoryValueToDefault = (shouldChange: boolean) => {
-    if(shouldChange && analyticsData) {
-      setInventoryValueSlider(analyticsData.inventoryvalue)
-    }
-  }
-
   // When range selected changes, refetch chart
   // useEffect(() => {
   //   fetchInventoryAnalyticsRange(rangeSelected)
@@ -202,16 +188,7 @@ export function AnalyticsSection() {
             <Text fontSize="lg" color="gray.50" pr="1" fontWeight="bold">$</Text>
             {inventoryAnalyticsData?.fetchInventoryAnalytics ? 
               <Text fontSize="4xl" fontWeight="bold" color="gray.50">
-                
-                {inventoryValueSlider === 0 ?
-                  <> 
-                    <CountUp isCounting start={0} end={analyticsData?.inventoryvalue} duration={0.7} />
-                  </>
-                : 
-                  <>
-                    {inventoryValueSlider}
-                  </>
-                }
+                <CountUp isCounting start={0} end={analyticsData?.inventoryvalue} duration={0.7} />
               </Text>
               :
               <Text fontSize="4xl" fontWeight="bold" color="gray.50">
@@ -274,7 +251,7 @@ export function AnalyticsSection() {
 
           {/* Range selector */}
           <HStack justifyContent={'space-evenly'} alignItems={'center'} mt="-3">           
-            <Button 
+            {/* <Button 
               size="sm"
               variant={rangeSelected === 7 ? "chartRangeFocused" : 'chartRangeUnFocused'}
               onPress={() => setRangeSelected(7)}
@@ -301,34 +278,31 @@ export function AnalyticsSection() {
               onPress={() => setRangeSelected(10000)}
             >
               All
-            </Button>
+            </Button> */}
           </HStack>
 
           {/* Chart */}
-          {analyticsRangeData?.length ? 
-            <AnalyticsChart 
-              changeInventoryValue={changeInventoryValue}
-              changeInventoryValueToDefault={changeInventoryValueToDefault}
-
-              analyticsRangeData={analyticsRangeData}
-              maxYValue={maxYValue}
-            />
-          :
+          {inventoryAnalyticsRangeLoading ? 
             <>
-              {inventoryAnalyticsRangeLoading ? 
-                <Spinner 
-                  pt="5"
-                  pb="3"
-                  size="sm"
-                  color={
-                    'gray.500'
-                  }
-                  accessibilityLabel="Loading chart data" 
-                /> 
-              : 
-                null
-              }
+              <Spinner 
+                pt="5"
+                pb="3"
+                size="sm"
+                color={
+                  'gray.500'
+                }
+              /> 
             </>
+          : 
+            null
+          }
+
+          {inventoryAnalyticsRangeData?.fetchInventoryValueRange ?
+            <AnalyticsChart 
+              analyticsRangeDataTest={analyticsRangeData}
+            />
+            :
+            null
           }
 
           <VStack>
