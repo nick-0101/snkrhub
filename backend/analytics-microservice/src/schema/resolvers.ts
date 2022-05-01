@@ -131,7 +131,7 @@ const resolvers = {
               user_id: context.userId,
             },
             order: [
-              ['createdAt', 'DESC']
+              ['createdAt', 'ASC']
             ]
           });
 
@@ -258,7 +258,6 @@ const resolvers = {
         // Commit the transaction.
         await t.commit();
       } catch (error) {
-        console.log(error)
         await t.rollback();
       }
 

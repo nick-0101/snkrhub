@@ -147,7 +147,6 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
       const prevIndex = inventoryData.findIndex(item => item.id === rowKey);
       
       // Keep track of inventory item price and id for analytics mutation
-      const itemId = inventoryData[prevIndex].id
       const itemPurchasePrice = inventoryData[prevIndex].purchaseprice
 
       // Remove item

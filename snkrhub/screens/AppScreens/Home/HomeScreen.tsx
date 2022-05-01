@@ -114,7 +114,7 @@ export function AnalyticsSection() {
     // Inventory chart data
     getInventoryAnalyticsRange({
       variables: {
-        rangeInDays: 10000
+        rangeInDays: 7
       },
       context: {
         headers: { 
