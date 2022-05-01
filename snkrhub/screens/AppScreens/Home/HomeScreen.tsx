@@ -37,15 +37,6 @@ import { AnalyticsChart, AnalyticCard } from '../../../components';
 import { AnalyticsData, FormattedAnalyticsData } from '../types'
 import { RootTabScreenProps } from '../../../types';
 
-import { VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
-
-const data = [
-  { quarter: 1, earnings: 13000 },
-  { quarter: 2, earnings: 16500 },
-  { quarter: 3, earnings: 14250 },
-  { quarter: 4, earnings: 19000 }
-];
-
 export function AnalyticsSection() {
   // Auth state
   const { signOutUser, getUserToken } = useAuth();
@@ -235,10 +226,10 @@ export function AnalyticsSection() {
         flex="1"
       >
         {/* Inventory value chart */}      
-        <VStack space="7">
+        <VStack>
           {/* Title */}
           <Text
-            fontSize="md"
+            fontSize="lg"
             fontWeight="bold"
             _light={{
               color: "gray.700",
@@ -247,11 +238,11 @@ export function AnalyticsSection() {
               color: "gray.300", 
             }}
           >
-            Inventory Value Statistics
+            Inventory Overview
           </Text>
 
           {/* Range selector */}
-          <HStack justifyContent={'space-evenly'} alignItems={'center'} mt="-3">           
+          <HStack justifyContent={'space-evenly'} alignItems={'center'} mt="4" mb="2">           
             <Button 
               size="sm"
               variant={rangeSelected === 7 ? "chartRangeFocused" : 'chartRangeUnFocused'}
@@ -285,7 +276,7 @@ export function AnalyticsSection() {
           {/* Chart */}
           {inventoryAnalyticsRangeData?.fetchInventoryValueRange ?
             <AnalyticsChart 
-              analyticsRangeDataTest={analyticsRangeData}
+              analyticsRangeData={analyticsRangeData}
             />
             :
             <Spinner 
@@ -299,11 +290,41 @@ export function AnalyticsSection() {
             /> 
           }
 
+          {/* Inventory statistics */}
+          <Text
+            mt="-16"
+            fontSize="lg"
+            fontWeight="bold"
+            _light={{
+              color: "gray.700",
+            }}
+            _dark={{
+              color: "gray.300", 
+            }}
+          >
+            Inventory Statistics
+          </Text>
+          
+          {/* Inventory statistic cards */}
           <VStack>
+            <HStack justifyContent="space-around">
+              <AnalyticCard />
+              <AnalyticCard />
+            </HStack>
+
+            <HStack justifyContent="space-around">
+              <AnalyticCard />
+              <AnalyticCard />
+            </HStack>
+          </VStack>
+
+
+          {/* <VStack>
             <Button onPress={() => logToken()}>Get token</Button>
             <Button onPress={() => signOutUser()}>Sign out</Button>
-          </VStack>
+          </VStack> */}
         </VStack>
+
         {/* <HStack
           mb="2"
           space="1"

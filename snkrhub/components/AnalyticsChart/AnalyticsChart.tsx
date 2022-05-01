@@ -1,20 +1,19 @@
 import React from 'react';
 import { Dimensions, Appearance } from 'react-native';
-import { VictoryArea, VictoryChart, VictoryClipContainer, VictoryVoronoiContainer, VictoryTooltip, VictoryAxis, VictoryLabel, VictoryBar, VictoryTheme } from "victory-native";
+import { VictoryArea, VictoryChart, VictoryClipContainer, VictoryVoronoiContainer, VictoryTooltip, VictoryAxis, VictoryGroup, VictoryScatter, VictoryTheme } from "victory-native";
 import { FormattedAnalyticsData } from '../../screens/AppScreens/types';
 
 // Components
 
 // Types
 type Props = {
-  analyticsRangeDataTest: FormattedAnalyticsData[] | undefined
+  analyticsRangeData: FormattedAnalyticsData[] | undefined
 }
 
 const AnalyticsChart = (props: Props) => {
-  console.log(props)
   return (
     <>
-    {props.analyticsRangeDataTest &&
+    {props.analyticsRangeData &&
       <VictoryChart 
         width={Dimensions.get("window").width}
         containerComponent={
@@ -25,10 +24,10 @@ const AnalyticsChart = (props: Props) => {
             }
           />
         }
-        padding={{ top: 10, bottom: 100, left: 40, right: 50 }}
+        padding={{ top: 10, bottom: 80, left: 40, right: 50 }}
       >
         <VictoryArea 
-          data={props.analyticsRangeDataTest} 
+          data={props.analyticsRangeData} 
           y="inventoryvalue" 
           interpolation="natural"
           groupComponent={
