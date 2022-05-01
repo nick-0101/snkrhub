@@ -37,6 +37,15 @@ import { AnalyticsChart, AnalyticCard } from '../../../components';
 import { AnalyticsData, FormattedAnalyticsData } from '../types'
 import { RootTabScreenProps } from '../../../types';
 
+import { VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
+
+const data = [
+  { quarter: 1, earnings: 13000 },
+  { quarter: 2, earnings: 16500 },
+  { quarter: 3, earnings: 14250 },
+  { quarter: 4, earnings: 19000 }
+];
+
 export function AnalyticsSection() {
   // Auth state
   const { signOutUser, getUserToken } = useAuth();
@@ -81,19 +90,12 @@ export function AnalyticsSection() {
   })
 
   const [getInventoryAnalyticsRange, { 
-    loading: inventoryAnalyticsRangeLoading, 
     data: inventoryAnalyticsRangeData, 
   }] = useLazyQuery(FETCH_INVENTORY_RANGE, {
     fetchPolicy: "network-only",
     onCompleted: (data) => {
       if(data.fetchInventoryValueRange || data.fetchInventoryValueRange.length) {
-        // const formattedChart = formatChart(data.fetchInventoryValueRange)
-  
-        // Set chart data
         setAnalyticsRangeData(data.fetchInventoryValueRange)
-  
-        // Set max y value for chart
-        // setMaxYValue(formattedChart.chartYMax)
       }
     }
   })
@@ -251,7 +253,7 @@ export function AnalyticsSection() {
 
           {/* Range selector */}
           <HStack justifyContent={'space-evenly'} alignItems={'center'} mt="-3">           
-            {/* <Button 
+            <Button 
               size="sm"
               variant={rangeSelected === 7 ? "chartRangeFocused" : 'chartRangeUnFocused'}
               onPress={() => setRangeSelected(7)}
@@ -278,31 +280,24 @@ export function AnalyticsSection() {
               onPress={() => setRangeSelected(10000)}
             >
               All
-            </Button> */}
+            </Button>
           </HStack>
 
           {/* Chart */}
-          {inventoryAnalyticsRangeLoading ? 
-            <>
-              <Spinner 
-                pt="5"
-                pb="3"
-                size="sm"
-                color={
-                  'gray.500'
-                }
-              /> 
-            </>
-          : 
-            null
-          }
-
           {inventoryAnalyticsRangeData?.fetchInventoryValueRange ?
             <AnalyticsChart 
               analyticsRangeDataTest={analyticsRangeData}
             />
             :
-            null
+            <Spinner 
+              pt="5"
+              pb="3"
+              size="lg"
+              color={
+                'gray.500'
+              }
+              accessibilityLabel="Loading chart data" 
+            /> 
           }
 
           <VStack>
