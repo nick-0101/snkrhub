@@ -74,15 +74,22 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
   })
 
   // Mutations
-  const [removeInventoryItem, { 
-    reset: removeInventoryItemReset
-  }] = useMutation(DELETE_INVENTORY_ITEM, {
+  const [removeInventoryItem, { reset: removeInventoryItemReset }] = useMutation(DELETE_INVENTORY_ITEM, {
     notifyOnNetworkStatusChange: true
   })
 
   const [removeInventoryAnalytics] = useMutation(DELETE_INVENTORY_ANALYTICS, {
     notifyOnNetworkStatusChange: true
   })
+
+  const [markInventoryItemSold, { reset: markInventoryItemSoldReset}] = useMutation(MARK_INVENTORY_ITEM_SOLD, {
+    notifyOnNetworkStatusChange: true
+  })
+
+  const [updateInventoryAnalyticsItemSold] = useMutation(UPDATE_INVENTORY_ANALYTICS_ITEM_SOLD, {
+    notifyOnNetworkStatusChange: true
+  })
+
   
   // Fetch inital inventory data
   useEffect(() => {
@@ -131,8 +138,62 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
     }
   };
 
-  const markSold = (rowMap: InventorySwiperRow, rowKey: number) => {
+  const markSold = async(rowMap: InventorySwiperRow, rowKey: number) => {
     closeRow(rowMap, rowKey);
+
+    if(inventoryData) {
+      // Find item index
+      const newData: InventoryData[] = Array.from(new Set(inventoryData));
+      const prevIndex = inventoryData.findIndex(item => item.id === rowKey);
+      
+      // Keep track of inventory item price and id for analytics mutation
+      const itemId = inventoryData[prevIndex].id
+      const itemPurchasePrice = inventoryData[prevIndex].purchaseprice
+
+      // Remove item
+      const removedItem = newData.splice(prevIndex, 1);
+      setInventoryData(newData);
+  
+      // Mark item as sold
+      const firebaseToken = await getUserToken()
+      markInventoryItemSold({
+        variables: {
+          itemId: rowKey
+        },
+        context: {
+          headers: { 
+            Authorization: firebaseToken
+          },
+        }
+      }).catch((err) => {
+        // Undo ui changes
+        newData.splice(prevIndex, 0, ...removedItem)
+        setInventoryData(newData);
+
+        // reset the mutation's result to its initial, uncalled state
+        markInventoryItemSoldReset()
+      })
+
+      // Update inventory analytics database
+      updateInventoryAnalyticsItemSold({
+        variables: {
+          inventoryItem: {
+            id: itemId,
+            purchaseprice: itemPurchasePrice
+          }
+        },
+        context: {
+          headers: { 
+            Authorization: firebaseToken
+          },
+        }
+      }).catch((err) => {
+        console.log(err)
+      })
+
+      // Refetch inventory query
+      fetchInventoryItems()
+    }
   }
 
   const deleteRow = async (rowMap: InventorySwiperRow, rowKey: number) => {
