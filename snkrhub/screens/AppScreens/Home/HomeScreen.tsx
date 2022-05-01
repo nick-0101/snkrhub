@@ -92,7 +92,7 @@ export function AnalyticsSection() {
   const [getInventoryAnalyticsRange, { 
     data: inventoryAnalyticsRangeData, 
   }] = useLazyQuery(FETCH_INVENTORY_RANGE, {
-    fetchPolicy: "network-only",
+    fetchPolicy: "no-cache",
     onCompleted: (data) => {
       if(data.fetchInventoryValueRange || data.fetchInventoryValueRange.length) {
         setAnalyticsRangeData(data.fetchInventoryValueRange)
@@ -132,6 +132,9 @@ export function AnalyticsSection() {
   }, [])
 
   const fetchInventoryAnalyticsRange = async(range: number) => {
+    // Set range button 
+    setRangeSelected(range)
+
     // Get users jwt on every request
     const firebaseToken = await getUserToken()
     getInventoryAnalyticsRange({
@@ -149,10 +152,6 @@ export function AnalyticsSection() {
   /*
   * Chart
   */
-  // When range selected changes, refetch chart
-  // useEffect(() => {
-  //   fetchInventoryAnalyticsRange(rangeSelected)
-  // }, [rangeSelected])
 
   return (
     <KeyboardAwareScrollView
@@ -256,28 +255,28 @@ export function AnalyticsSection() {
             <Button 
               size="sm"
               variant={rangeSelected === 7 ? "chartRangeFocused" : 'chartRangeUnFocused'}
-              onPress={() => setRangeSelected(7)}
+              onPress={() => fetchInventoryAnalyticsRange(7)}
             >
               7 days
             </Button>
             <Button 
               size="sm"
               variant={rangeSelected === 30 ? "chartRangeFocused" : 'chartRangeUnFocused'}
-              onPress={() => setRangeSelected(30)}
+              onPress={() => fetchInventoryAnalyticsRange(30)}
             >
               1 month
             </Button>
             <Button 
               size="sm"
               variant={rangeSelected === 90 ? "chartRangeFocused" : 'chartRangeUnFocused'}
-              onPress={() => setRangeSelected(90)}
+              onPress={() => fetchInventoryAnalyticsRange(90)}
             >
               3 months
             </Button>
             <Button 
               size="sm"
               variant={rangeSelected === 10000 ? "chartRangeFocused" : 'chartRangeUnFocused'}
-              onPress={() => setRangeSelected(10000)}
+              onPress={() => fetchInventoryAnalyticsRange(10000)}
             >
               All
             </Button>
@@ -292,7 +291,7 @@ export function AnalyticsSection() {
             <Spinner 
               pt="5"
               pb="3"
-              size="lg"
+              size="sm"
               color={
                 'gray.500'
               }

@@ -68,6 +68,8 @@ const resolvers = {
     }, 
     fetchInventoryValueRange: async(parent: undefined, args: FetchInventoryValueRangeArgs, context: ApolloContextData) => {
       // Fetch documents based on date range provided
+      console.log(args.rangeInDays)
+      
       switch (args.rangeInDays) {
         case 7:
           const sevenDayValueRange = await InventoryValue.findAll({
@@ -75,8 +77,8 @@ const resolvers = {
               user_id: context.userId,
               createdAt: {
                 [Op.between]: [
-                  dayjs().subtract(1, 'day').locale('en').format("YYYY-MM-DD"), // current date
-                  dayjs().subtract(7, 'day').locale('en').format("YYYY-MM-DD") // 7 days from now
+                  dayjs().subtract(7, 'day').locale('en').format("YYYY-MM-DD"), // 7 days from now
+                  dayjs().subtract(1, 'day').locale('en').format("YYYY-MM-DD") // current date
                 ]
               }
             }
@@ -90,8 +92,8 @@ const resolvers = {
               user_id: context.userId,
               createdAt: {
                 [Op.between]: [
-                  dayjs().subtract(1, 'day').locale('en').format("YYYY-MM-DD"), // current date
-                  dayjs().subtract(30, 'day').locale('en').format("YYYY-MM-DD") // 30 days from now
+                  dayjs().subtract(30, 'day').locale('en').format("YYYY-MM-DD"), // 30 days from now 
+                  dayjs().subtract(1, 'day').locale('en').format("YYYY-MM-DD") // current date 
                 ]
               }
             }
@@ -105,8 +107,8 @@ const resolvers = {
               user_id: context.userId,
               createdAt: {
                 [Op.between]: [
-                  dayjs().subtract(1, 'day').locale('en').format("YYYY-MM-DD"), // current date
-                  dayjs().subtract(90, 'day').locale('en').format("YYYY-MM-DD") // 90 days ago
+                  dayjs().subtract(90, 'day').locale('en').format("YYYY-MM-DD"), // 30 days from now 
+                  dayjs().subtract(1, 'day').locale('en').format("YYYY-MM-DD") // current date 
                 ]
               }
             }

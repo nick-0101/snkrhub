@@ -11,6 +11,7 @@ type Props = {
 }
 
 const AnalyticsChart = (props: Props) => {
+  console.log(props)
   return (
     <>
     {props.analyticsRangeDataTest &&
