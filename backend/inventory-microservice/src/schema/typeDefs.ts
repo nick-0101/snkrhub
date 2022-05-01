@@ -20,6 +20,7 @@ const typeDefs = gql`
     shipping: Int,
     purchasedate: String!,
     ordernumber: String
+    markedSold: Boolean
   }
   
   type Mutation {

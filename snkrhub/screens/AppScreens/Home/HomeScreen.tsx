@@ -404,10 +404,10 @@ export function AnalyticsSection() {
           }
 
 
-          {/* <VStack>
+          <VStack>
             <Button onPress={() => logToken()}>Get token</Button>
             <Button onPress={() => signOutUser()}>Sign out</Button>
-          </VStack> */}
+          </VStack>
         </VStack>
 
         {/* <HStack

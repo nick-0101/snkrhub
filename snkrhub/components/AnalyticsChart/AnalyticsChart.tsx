@@ -16,14 +16,14 @@ const AnalyticsChart = (props: Props) => {
     {props.analyticsRangeData &&
       <VictoryChart 
         width={Dimensions.get("window").width}
-        containerComponent={
-          <VictoryVoronoiContainer voronoiDimension="x"
-            labels={({ datum }) => `USD$${datum.y}`}
-            labelComponent={
-              <VictoryTooltip cornerRadius={0} flyoutStyle={{fill: "white"}}/>
-            }
-          />
-        }
+        // containerComponent={
+        //   <VictoryVoronoiContainer voronoiDimension="x"
+        //     labels={({ datum }) => `USD$${datum.inventoryvalue}`}
+        //     labelComponent={
+        //       <VictoryTooltip cornerRadius={0} flyoutStyle={{fill: "#71717a"}}/>
+        //     }
+        //   />
+        // }
         padding={{ top: 10, bottom: 80, left: 40, right: 50 }}
       >
         <VictoryArea 

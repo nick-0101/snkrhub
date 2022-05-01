@@ -22,6 +22,7 @@ const resolvers = {
       const usersInventoryItems = await Inventory.findAll({ 
         where: {
           user_id: context.userId,
+          markedsold: false
         },
         // Skip x instances 
         offset: args.offset,
@@ -51,6 +52,7 @@ const resolvers = {
         shipping: inventoryItem.shipping,
         purchasedate: inventoryItem.purchasedate,
         ordernumber: inventoryItem.ordernumber,
+        markedsold: false
       });
 
       return { "id": Number(newInventoryItem.id) }
