@@ -39,7 +39,7 @@ import { AnalyticsChart, AnalyticCard } from '../../../components';
 import { AnalyticsData, FormattedAnalyticsData } from '../types'
 import { RootTabScreenProps } from '../../../types';
 
-export function AnalyticsSection() {
+export function AnalyticsSection({ navigation }: any) {
   // Auth state
   const { signOutUser, getUserToken } = useAuth();
 
@@ -49,18 +49,6 @@ export function AnalyticsSection() {
 
     console.log(firebaseToken)
   }
-
-
-  // READ
-  // The inventory value system was created wrong, instead of storing each inventory
-  // value in a seperate record, you need to store the total value. When a user adds
-  // a new shoe, you take the previous inventory value and add the value of the new shoe
-  // too it, you then store this value as a new record.
-
-  // TODO
-  //
-  // I need to change the updateAnalyticsForItemDelete resolver to get the last record,
-  // subtract the purchase amount by the last value, and create a new record
 
   /*
   * Apollo
@@ -186,7 +174,7 @@ export function AnalyticsSection() {
               </Text>
               :
               <Text fontSize="4xl" fontWeight="bold" color="gray.50">
-                0.00
+                0
               </Text>
             }
 
@@ -447,7 +435,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
           w="100%"
           flex={{ base: "1" }}
         >            
-          <AnalyticsSection />
+          <AnalyticsSection navigation={navigation} />
         </Stack>
       </Center>
     </>

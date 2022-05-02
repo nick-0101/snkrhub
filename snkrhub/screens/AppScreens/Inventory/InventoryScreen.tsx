@@ -93,7 +93,13 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
   
   // Fetch inital inventory data
   useEffect(() => {
-    fetchInventoryItems()
+    const unsubscribe = navigation.addListener('focus', () => {
+      // The screen is focused
+      fetchInventoryItems()
+    });
+    
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe
   }, [])
   
   const fetchInventoryItems = useCallback(async () => {
