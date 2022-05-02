@@ -344,6 +344,7 @@ const SignUpForm = ({ navigation }: any) => {
                   isLoading={formLoader}
                   spinnerPlacement="end"
                   isDisabled={!dirty}
+                  py="3"
                 >
                   Sign up
                 </Button>

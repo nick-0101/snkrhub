@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, Feather } from "@expo/vector-icons";
 import { Icon } from "native-base";
 
 // Navigator components
@@ -8,7 +8,6 @@ import { AppTabBar } from './AppTabBar';
 
 // Screens / navigators
 import HomeScreen from '../../screens/AppScreens/Home/HomeScreen';
-import InventoryScreen from '../../screens/AppScreens/Inventory/InventoryScreen';
 import { InventoryNavigator } from './InventoryNavigator/InventoryNavigator';
 
 // Types

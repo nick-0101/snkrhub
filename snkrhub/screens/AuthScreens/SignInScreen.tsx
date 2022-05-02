@@ -227,6 +227,7 @@ export function SignInForm({ navigation }: any) {
                   isLoading={formLoader}
                   spinnerPlacement="end"
                   isDisabled={!dirty}
+                  py="3"
                 >
                   Sign in
                 </Button>

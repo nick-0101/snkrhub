@@ -467,6 +467,7 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
                                     color: "gray.100"                    
                                 },
                             }}
+                            py="3"
                             onPress={() => handleSubmit()}
                             background="primary.600"
                             isLoadingText="Create item..."

@@ -358,22 +358,6 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
         borderBottomWidth={1.7}
       >
         <HStack alignItems="center">
-          <IconButton 
-            icon={
-              <Icon 
-                size={7} 
-                as={Ionicons} 
-                name="menu-outline" 
-                _light={{
-                  color: "gray.700",
-                }}
-                _dark={{
-                  color: "gray.300", 
-                }} 
-              />
-            } 
-          />
-
           <HStack ml="3" alignItems={'center'}>
             <Icon
               size={5} 

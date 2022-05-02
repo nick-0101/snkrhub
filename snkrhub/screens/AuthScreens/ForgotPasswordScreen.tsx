@@ -166,6 +166,7 @@ export function ForgotPasswordForm({ navigation }: any) {
                   isLoading={formLoader}
                   spinnerPlacement="end"
                   isDisabled={!dirty}
+                  py="3"
                 >
                   Reset Password
                 </Button>

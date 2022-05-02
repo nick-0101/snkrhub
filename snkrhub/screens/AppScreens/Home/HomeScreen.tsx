@@ -26,9 +26,6 @@ import {
   FETCH_INVENTORY_RANGE
 } from './queries'
 
-// Functions
-import { formatChart } from '../../../functions/formatChart';
-
 // Context
 import { useAuth } from '../../../context/AuthContext'
 

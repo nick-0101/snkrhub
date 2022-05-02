@@ -43,6 +43,5 @@ export interface AnalyticsRangeData {
 }
 
 export interface FormattedAnalyticsData {
-  x: number;
-  y: number;
+  inventoryvalue: number;
 }

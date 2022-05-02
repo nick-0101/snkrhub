@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, Appearance } from 'react-native';
-import { VictoryArea, VictoryChart, VictoryClipContainer, VictoryVoronoiContainer, VictoryTooltip, VictoryAxis, VictoryGroup, VictoryScatter, VictoryTheme } from "victory-native";
+import { VictoryArea, VictoryChart, VictoryClipContainer, VictoryAxis } from "victory-native";
 import { FormattedAnalyticsData } from '../../screens/AppScreens/types';
 
 // Components
