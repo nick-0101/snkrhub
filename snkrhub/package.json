@@ -9,7 +9,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest --watchAll",
-    "ci": "jest --watchAll"
+    "ci": "jest"
   },
   "jest": {
     "preset": "jest-expo",
