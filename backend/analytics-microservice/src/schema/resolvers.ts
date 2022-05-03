@@ -46,7 +46,8 @@ const resolvers = {
 
           await InventoryValue.create({ 
             user_id: context.userId,
-            inventoryvalue: 0
+            inventoryvalue: 0,
+            createdAt: dayjs().locale('en').format("YYYY-MM-DD")
           }, { transaction: t });
           
 
@@ -171,7 +172,8 @@ const resolvers = {
         // Insert row into inventory value table
         await InventoryValue.create({ 
           user_id: context.userId,
-          inventoryvalue: parseInt(previousInventoryVal[0].inventoryvalue) + inventoryItem.purchaseprice
+          inventoryvalue: parseInt(previousInventoryVal[0].inventoryvalue) + inventoryItem.purchaseprice,
+          createdAt: dayjs().locale('en').format("YYYY-MM-DD")
         }, { transaction: t });
 
         // Commit the transaction.
@@ -212,7 +214,8 @@ const resolvers = {
         // Insert row into inventory value table with decreased inventory value
         await InventoryValue.create({ 
           user_id: context.userId,
-          inventoryvalue: Math.abs(parseInt(previousInventoryVal[0].inventoryvalue) - inventoryItem.purchaseprice)
+          inventoryvalue: Math.abs(parseInt(previousInventoryVal[0].inventoryvalue) - inventoryItem.purchaseprice),
+          createdAt: dayjs().locale('en').format("YYYY-MM-DD")
         }, { transaction: t });
 
         // Commit the transaction.
@@ -252,7 +255,8 @@ const resolvers = {
         // Insert row into inventory value table
         await InventoryValue.create({ 
           user_id: context.userId,
-          inventoryvalue: parseInt(previousInventoryVal[0].inventoryvalue) - inventoryItem.purchaseprice
+          inventoryvalue: parseInt(previousInventoryVal[0].inventoryvalue) - inventoryItem.purchaseprice,
+          createdAt: dayjs().locale('en').format("YYYY-MM-DD")
         }, { transaction: t });
 
         // Commit the transaction.

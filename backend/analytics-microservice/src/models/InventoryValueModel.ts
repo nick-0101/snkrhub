@@ -12,11 +12,15 @@ const InventoryValue = db.define('inventory_value', {
       type: DataTypes.DECIMAL,
       allowNull: false,
     },  
+    createdAt: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+    },
   }, {
     freezeTableName: true,
     updatedAt: false,
-    createdAt: true,
-    timestamps: true,
+    createdAt: false,
+    timestamps: false,
   }
 );
 

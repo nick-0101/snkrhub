@@ -5,7 +5,7 @@ CREATE TABLE inventory_analytics (
     inventoryCount INTEGER NOT NULL,
     itemSpend DECIMAL NOT NULL,
     inventorySold INTEGER NOT NULL,
-    inventoryValue DECIMAL NOT NULL,
+    inventoryValue DECIMAL NOT NULL
 );
 
 -- Keeps track of inventory value for historical analysis
