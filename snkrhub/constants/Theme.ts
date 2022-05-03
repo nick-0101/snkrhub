@@ -3,7 +3,7 @@ import { extendTheme, themeTools, theme as nbTheme } from 'native-base';
 // Theme
 const config = {
   useSystemColorMode: false,
-  initialColorMode: "dark",
+  initialColorMode: "light",
 };
 
 const theme = extendTheme({
@@ -32,7 +32,7 @@ const theme = extendTheme({
             bg: `transparent`,
             fontSize: 'xs',
             width: '18%',
-            color: themeTools.mode("#fff", "#262A31")(props)
+            color: themeTools.mode("gray.500", "#262A31")(props)
           };
         },
         chartRangeFocused: (props: any) => {

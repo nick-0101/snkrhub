@@ -6,7 +6,7 @@
     "build": "tsc",
     "start": "node dist/gateway.js",
     "dev": "nodemon -L --exec npx ts-node src/gateway.ts",
-    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --runInBand --coverage"
+    "test": "nodemon -L --exec npx ts-node src/gateway.ts"
   },
   "author": "phoenixbeats01",
   "license": "ISC",

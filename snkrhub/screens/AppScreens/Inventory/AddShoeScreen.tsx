@@ -98,8 +98,10 @@ export default function AddShoeScreen({ navigation }: RootTabScreenProps<'AddSho
             } 
         />
       </HStack>
-
-      <ScrollView px="4"> 
+      
+      <ScrollView 
+        px="4"
+      > 
         <VStack py="5">
             {/* Form pt="5" pb="5" mt="8" mb="5"*/}
             <Formik

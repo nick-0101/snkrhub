@@ -8,7 +8,6 @@ const db = require('../clients/postgres');
 const InventoryAnalytics = require('../models/InventoryAnalyticsModel');
 const InventoryValue = require('../models/InventoryValueModel');
 
-
 // Types
 import { 
   UpdateInventoryAnalyticsArgs,

@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
 import {
   Button,
   HStack,
@@ -10,7 +9,7 @@ import {
   Box,
   Stack,
   Spinner,
-  Icon
+  Icon,
 } from "native-base";
 import { FontAwesome5, MaterialIcons } from '@expo/vector-icons'; 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -80,7 +79,13 @@ export function AnalyticsSection({ navigation }: any) {
 
   // Fetch inital analytics data
   useEffect(() => {
-    fetchInventoryAnalytics()
+    const unsubscribe = navigation.addListener('focus', () => {
+      // The screen is focused
+      fetchInventoryAnalytics()
+    });
+    
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe
   }, [])
 
   const fetchInventoryAnalytics = useCallback(async () => {
@@ -167,26 +172,13 @@ export function AnalyticsSection({ navigation }: any) {
             <Text fontSize="lg" color="gray.50" pr="1" fontWeight="bold">$</Text>
             {inventoryAnalyticsData?.fetchInventoryAnalytics ? 
               <Text fontSize="4xl" fontWeight="bold" color="gray.50">
-                <CountUp isCounting start={0} end={analyticsData?.inventoryvalue} duration={0.7} />
+                <CountUp isCounting start={0} end={analyticsData?.inventoryvalue} duration={1} />
               </Text>
               :
               <Text fontSize="4xl" fontWeight="bold" color="gray.50">
                 0
               </Text>
             }
-
-            {/* <Box 
-              alignSelf="center" 
-              ml="auto" 
-              borderRadius={6}
-              px="2.5"
-              py="1"
-              style={{backgroundColor: 'rgba(191, 219, 254, 0.3)'}}
-            >
-              <Text fontSize="sm" color="blue.50" fontWeight="bold" opacity={100}>
-                + 2.32%
-              </Text>
-            </Box> */}
           </HStack>
 
           {/* Info */}
@@ -214,62 +206,49 @@ export function AnalyticsSection({ navigation }: any) {
       >
         {/* Inventory value chart */}      
         <VStack>
-          {/* Title */}
-          <Text
-            fontSize="lg"
-            fontWeight="bold"
-            _light={{
-              color: "gray.700",
-            }}
-            _dark={{
-              color: "gray.300", 
-            }}
-          >
-            Inventory Overview
-          </Text>
+          <HStack mb="2" justifyContent={'space-between'} alignItems="center">
+            {/* Title */}
+            <Text
+              fontSize="lg"
+              fontWeight="bold"
+              _light={{
+                color: "gray.700",
+              }}
+              _dark={{
+                color: "gray.300", 
+              }}
+            >
+              Inventory Overview
+            </Text>
 
-          {/* Range selector */}
-          <HStack justifyContent={'space-evenly'} alignItems={'center'} mt="4" mb="2">           
-            <Button 
-              borderRadius={50}
-              size="sm"
-              variant={rangeSelected === 1 ? "chartRangeFocused" : 'chartRangeUnFocused'}
-              onPress={() => fetchInventoryAnalyticsRange(1)}
-            >
-              1d
-            </Button>
-            <Button 
-              borderRadius={50}
-              size="sm"
-              variant={rangeSelected === 7 ? "chartRangeFocused" : 'chartRangeUnFocused'}
-              onPress={() => fetchInventoryAnalyticsRange(7)}
-            >
-              7d
-            </Button>
-            <Button 
-              borderRadius={50}
-              size="sm"
-              variant={rangeSelected === 30 ? "chartRangeFocused" : 'chartRangeUnFocused'}
-              onPress={() => fetchInventoryAnalyticsRange(30)}
-            >
-              1m
-            </Button>
-            <Button 
-              borderRadius={50}
-              size="sm"
-              variant={rangeSelected === 90 ? "chartRangeFocused" : 'chartRangeUnFocused'}
-              onPress={() => fetchInventoryAnalyticsRange(90)}
-            >
-              3m
-            </Button>
-            <Button 
-              borderRadius={50}
-              size="sm"
-              variant={rangeSelected === 10000 ? "chartRangeFocused" : 'chartRangeUnFocused'}
-              onPress={() => fetchInventoryAnalyticsRange(10000)}
-            >
-              All
-            </Button>
+            {/* Chart range selector */}
+            <Button.Group isAttached colorScheme="primary" size="sm">
+              <Button 
+                variant={rangeSelected === 1 ? "solid" : 'subtle'}
+                onPress={() => fetchInventoryAnalyticsRange(1)}
+              >
+                1d
+              </Button>
+              <Button 
+                variant={rangeSelected === 7 ? "solid" : 'subtle'}
+                onPress={() => fetchInventoryAnalyticsRange(7)}
+              >
+                7d
+              </Button>
+              <Button 
+                variant={rangeSelected === 30 ? "solid" : 'subtle'}
+                onPress={() => fetchInventoryAnalyticsRange(30)}
+              >
+                1m
+              </Button>
+              <Button 
+                variant={rangeSelected === 10000 ? "solid" : 'subtle'}
+                onPress={() => fetchInventoryAnalyticsRange(10000)}
+              >
+                All
+              </Button>
+
+            </Button.Group>
           </HStack>
 
           {/* Chart */}
@@ -318,7 +297,7 @@ export function AnalyticsSection({ navigation }: any) {
                   mainStat={analyticsData ? analyticsData.itemspend : 0}
                   subtext="Total item spend"
                   prefix={"$"}
-                  width="33%"
+                  width="31%"
                   cardIcon={<Icon 
                     as={FontAwesome5} 
                     name="chart-pie" 
@@ -330,13 +309,14 @@ export function AnalyticsSection({ navigation }: any) {
                 {/* Inventory count */}
                 <AnalyticCard 
                   mainStat={analyticsData ? analyticsData.inventorycount : 0}
-                  width="35%"
+                  width="32%"
                   subtext="Inventory count"
                   cardIcon={<Icon 
                     as={FontAwesome5} 
                     name="boxes" 
                     size="3"
                     color="white"
+                    mr="-0.2"
                   />}
                 />
               </HStack>
@@ -345,14 +325,14 @@ export function AnalyticsSection({ navigation }: any) {
                 {/* Inventory sold */}
                 <AnalyticCard 
                   mainStat={analyticsData ? analyticsData.inventorysold : 0}
-                  width="38%"
+                  width="36%"
                   subtext="Inventory sold"
                   cardIcon={<Icon 
                     as={FontAwesome5} 
                     name="shopping-bag" 
                     size="3"
                     color="white"
-                    ml="0.2"
+                    mr="-0.2"
                   />}
                 />
 
@@ -361,7 +341,7 @@ export function AnalyticsSection({ navigation }: any) {
                   mainStat={analyticsData ? analyticsData.inventoryvalue : 0}
                   subtext="Inventory value"
                   prefix={"$"}
-                  width="35%"
+                  width="32%"
                   cardIcon={<Icon 
                     as={FontAwesome5} 
                     name="chart-area" 

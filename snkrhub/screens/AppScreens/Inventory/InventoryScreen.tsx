@@ -262,7 +262,7 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
   }: { item: InventoryData, index: number }) => (
     <Box>
       <Pressable 
-        onPress={() => console.log('You touched me')} 
+        // onPress={() => console.log('You touched me')} 
         alignItems="center" 
         _light={{ bg: "gray.100", borderColor: 'gray.200' }}
         _dark={{ bg: "gray.900", borderColor: 'gray.800' }}
@@ -340,7 +340,7 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
       <StatusBar 
         translucent
         backgroundColor="transparent"
-        barStyle="light-content"
+        barStyle="dark-content"
       />
       <Box 
         safeAreaTop 
@@ -395,9 +395,8 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
       {/* Render data */}
       {getInventoryLoading ? 
         <Spinner 
-          pt="5"
-          pb="3"
-          size="lg"
+          py="9"
+          size="sm"
           color={
             'gray.500'
           }
@@ -415,7 +414,7 @@ export default function InventoryScreen({ navigation, route }: RootTabScreenProp
           renderItem={renderItem}
           renderHiddenItem={renderHiddenItem}
           leftOpenValue={0}
-          rightOpenValue={-167}
+          rightOpenValue={-175}
           previewRowKey={'0'}
           previewOpenValue={-40}
           onEndReached={({ distanceFromEnd }) => {
