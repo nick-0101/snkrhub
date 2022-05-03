@@ -3,6 +3,9 @@ export {}
 const { ApolloServer } = require('apollo-server-express');
 const { resolvers } = require('../schema/resolvers')
 const { typeDefs } = require('../schema/typeDefs')
+const dayjs = require('dayjs')
+
+// Database
 const db = require('../clients/postgres');
 const Inventory = require('../models/inventoryModel');
 
@@ -25,7 +28,8 @@ describe('tests reading inventory items', () => {
         shipping: 0.00,
         purchasedate: "2022-11-02",
         ordernumber: "sadfsdfsdf",
-        markedsold: false
+        markedsold: false,
+        createdAt: dayjs().locale('en').format("YYYY-MM-DD")
       }
       await Inventory.bulkCreate([item, item, item, item]);
   })
@@ -144,7 +148,8 @@ describe('tests marking inventory item as sold', () => {
       shipping: 0.00,
       purchasedate: "2022-11-02",
       ordernumber: "sadfsdfsdf",
-      markedsold: false
+      markedsold: false,
+      createdAt: dayjs().locale('en').format("YYYY-MM-DD")
     }
     await Inventory.create(item);
   })

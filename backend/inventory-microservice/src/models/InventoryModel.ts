@@ -53,12 +53,16 @@ const Inventory = db.define('inventory', {
     markedsold: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-    }
+    },
+    createdAt: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+    },
   }, {
     tableName: 'inventory',
     updatedAt: false,
-    createdAt: true,
-    timestamps: true,
+    createdAt: false,
+    timestamps: false,
   }
 );
 

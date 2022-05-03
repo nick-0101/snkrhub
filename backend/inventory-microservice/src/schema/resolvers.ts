@@ -1,5 +1,7 @@
 export {};
 
+const dayjs = require('dayjs')
+
 // Clients
 const Inventory = require('../models/inventoryModel');
 
@@ -53,7 +55,8 @@ const resolvers = {
         shipping: inventoryItem.shipping,
         purchasedate: inventoryItem.purchasedate,
         ordernumber: inventoryItem.ordernumber,
-        markedsold: false
+        markedsold: false,
+        createdAt: dayjs().locale('en').format("YYYY-MM-DD")
       });
 
       return { "id": Number(newInventoryItem.id) }
