@@ -3,7 +3,7 @@ import { extendTheme, themeTools, theme as nbTheme } from 'native-base';
 // Theme
 const config = {
   useSystemColorMode: false,
-  initialColorMode: "light",
+  initialColorMode: "dark",
 };
 
 const theme = extendTheme({

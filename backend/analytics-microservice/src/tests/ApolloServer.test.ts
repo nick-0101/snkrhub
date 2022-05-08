@@ -3,6 +3,7 @@ const { ApolloServer } = require('apollo-server-express');
 const { resolvers } = require('../schema/resolvers');
 const { typeDefs } = require('../schema/typeDefs');
 const dayjs = require('dayjs')
+import * as core from '@actions/core';
 
 // Database
 const db = require('../clients/postgres');
@@ -55,72 +56,80 @@ describe('tests querying inventory analytics', () => {
     })
 
     it('queries basic stats from inventory_analytics table', async () => {
-        const testServer = new ApolloServer({
-            typeDefs,
-            resolvers,
-            context: () => ({ userId: 'testUserId' }),
-        });
-
-        const result = await testServer.executeOperation({
-            query: `
-                query FetchInventoryAnalytics {
-                    fetchInventoryAnalytics {
-                        inventorycount
-                        inventorysold
-                        inventoryvalue
-                        itemspend
+        try {
+            const testServer = new ApolloServer({
+                typeDefs,
+                resolvers,
+                context: () => ({ userId: 'testUserId' }),
+            });
+    
+            const result = await testServer.executeOperation({
+                query: `
+                    query FetchInventoryAnalytics {
+                        fetchInventoryAnalytics {
+                            inventorycount
+                            inventorysold
+                            inventoryvalue
+                            itemspend
+                        }
                     }
-                }
-            `
-        });
-
-        expect(result.data?.fetchInventoryAnalytics).toMatchObject({ 
-            inventorycount: 5,
-            itemspend: 2500,
-            inventorysold: 1,
-            inventoryvalue: 2000 
-        });
+                `
+            });
+    
+            expect(result.data?.fetchInventoryAnalytics).toMatchObject({ 
+                inventorycount: 5,
+                itemspend: 2500,
+                inventorysold: 1,
+                inventoryvalue: 2000 
+            });          
+        } catch (error: any) {
+            core.setFailed(error);
+        }
     });
 
     it('queries a range of analytics from inventory_value table', async () => {
-        const testServer = new ApolloServer({
-            typeDefs,
-            resolvers,
-            context: () => ({ userId: 'testUserId' }),
-        });
-
-        const result = await testServer.executeOperation({
-            query: `
-                query FetchInventoryValueRange($rangeInDays: Int!) {
-                    fetchInventoryValueRange(rangeInDays: $rangeInDays) {
-                        inventoryvalue
+        try {       
+            const testServer = new ApolloServer({
+                typeDefs,
+                resolvers,
+                context: () => ({ userId: 'testUserId' }),
+            });
+    
+            const result = await testServer.executeOperation({
+                query: `
+                    query FetchInventoryValueRange($rangeInDays: Int!) {
+                        fetchInventoryValueRange(rangeInDays: $rangeInDays) {
+                            inventoryvalue
+                        }
                     }
+                `,
+                variables: {
+                    rangeInDays: 7
                 }
-            `,
-            variables: {
-                rangeInDays: 7
-            }
-        });
-
-        console.log(result)
-
-        expect(result.data?.fetchInventoryValueRange).toMatchObject([
-            { 
-                inventoryvalue: 500
-            },
-            {
-                inventoryvalue: 450
-            },
-            {
-                inventoryvalue: 500
-            },
-            {
-                inventoryvalue: 500
-            },
-            {
-                inventoryvalue: 500
-            }
-        ]);
+            });
+    
+            console.log(result)
+    
+            expect(result.data?.fetchInventoryValueRange).toMatchObject([
+                { 
+                    inventoryvalue: 500
+                },
+                {
+                    inventoryvalue: 450
+                },
+                {
+                    inventoryvalue: 500
+                },
+                {
+                    inventoryvalue: 500
+                },
+                {
+                    inventoryvalue: 500
+                }
+            ]);
+        } catch (error: any) {
+            core.setFailed(error);
+        }
     });
 })
 
@@ -148,72 +157,84 @@ describe('tests inventory analytics mutations', () => {
     })
 
     it('updates analytics stats on item add', async () => {
-        const testServer = new ApolloServer({
-            typeDefs,
-            resolvers,
-            context: () => ({ userId: 'testUserId' }),
-        });
-
-        const result = await testServer.executeOperation({
-            query: `
-                mutation UpdateAnalyticsForItemAdd($inventoryItem: InventoryAnalyticsItemAddInput!) {
-                    updateAnalyticsForItemAdd(inventoryItem: $inventoryItem)
-                }
-            `,
-            variables: {
-                inventoryItem: {
-                    purchaseprice: 200
-                }
-            },
-        })
-
-        expect(result.data?.updateAnalyticsForItemAdd).toBe('updated stats')
+        try {
+            const testServer = new ApolloServer({
+                typeDefs,
+                resolvers,
+                context: () => ({ userId: 'testUserId' }),
+            });
+    
+            const result = await testServer.executeOperation({
+                query: `
+                    mutation UpdateAnalyticsForItemAdd($inventoryItem: InventoryAnalyticsItemAddInput!) {
+                        updateAnalyticsForItemAdd(inventoryItem: $inventoryItem)
+                    }
+                `,
+                variables: {
+                    inventoryItem: {
+                        purchaseprice: 200
+                    }
+                },
+            })
+    
+            expect(result.data?.updateAnalyticsForItemAdd).toBe('updated stats')
+        } catch (error: any) {
+            core.setFailed(error);
+        }
     });
 
     it('updates analytics stats on item delete', async () => {
-        const testServer = new ApolloServer({
-            typeDefs,
-            resolvers,
-            context: () => ({ userId: 'testUserId' }),
-        });
-
-        const result = await testServer.executeOperation({
-            query: `
-                mutation UpdateAnalyticsForItemDelete($inventoryItem: InventoryAnalyticsItemDelete!) {
-                    updateAnalyticsForItemDelete(inventoryItem: $inventoryItem)
-                }
-            `,
-            variables: {
-                inventoryItem: {
-                    purchaseprice: 200
-                }
-            },
-        })
-
-        expect(result.data?.updateAnalyticsForItemDelete).toBe('updated stats')
+        try {
+            const testServer = new ApolloServer({
+                typeDefs,
+                resolvers,
+                context: () => ({ userId: 'testUserId' }),
+            });
+    
+            const result = await testServer.executeOperation({
+                query: `
+                    mutation UpdateAnalyticsForItemDelete($inventoryItem: InventoryAnalyticsItemDelete!) {
+                        updateAnalyticsForItemDelete(inventoryItem: $inventoryItem)
+                    }
+                `,
+                variables: {
+                    inventoryItem: {
+                        purchaseprice: 200
+                    }
+                },
+            })
+    
+            expect(result.data?.updateAnalyticsForItemDelete).toBe('updated stats')
+        } catch (error: any) {
+            core.setFailed(error);
+        }
     });
 
     it('updates analytics stats on item marked sold', async () => {
-        const testServer = new ApolloServer({
-            typeDefs,
-            resolvers,
-            context: () => ({ userId: 'testUserId' }),
-        });
-
-        const result = await testServer.executeOperation({
-            query: `
-                mutation UpdateAnalyticsForItemSold($inventoryItem: InventoryAnalyticsItemSold!) {
-                    updateAnalyticsForItemSold(inventoryItem: $inventoryItem)
-                }
-            `,
-            variables: {
-                inventoryItem: {
-                    purchaseprice: 200
-                }
-            },
-        })
-
-        expect(result.data?.updateAnalyticsForItemSold).toBe('marked sold')
+        try {
+            const testServer = new ApolloServer({
+                typeDefs,
+                resolvers,
+                context: () => ({ userId: 'testUserId' }),
+            });
+    
+            const result = await testServer.executeOperation({
+                query: `
+                    mutation UpdateAnalyticsForItemSold($inventoryItem: InventoryAnalyticsItemSold!) {
+                        updateAnalyticsForItemSold(inventoryItem: $inventoryItem)
+                    }
+                `,
+                variables: {
+                    inventoryItem: {
+                        purchaseprice: 200
+                    }
+                },
+            })
+    
+            expect(result.data?.updateAnalyticsForItemSold).toBe('marked sold')
+        } catch (error: any) {
+            core.setFailed(error);
+        }
     });
 })
 

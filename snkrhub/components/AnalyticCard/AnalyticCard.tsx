@@ -6,11 +6,9 @@ import {
   Button,
   PresenceTransition
 } from "native-base";
-import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5, MaterialIcons } from '@expo/vector-icons'; 
 
 // Types
-import { InterfaceIconProps } from "native-base/lib/typescript/components/primitives/Icon/types";
 type Props = {
     mainStat: number;
     prefix?: string;

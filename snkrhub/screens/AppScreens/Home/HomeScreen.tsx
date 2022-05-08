@@ -222,7 +222,7 @@ export function AnalyticsSection({ navigation }: any) {
             </Text>
 
             {/* Chart range selector */}
-            <Button.Group isAttached colorScheme="primary" size="sm">
+            <Button.Group isAttached size="sm">
               <Button 
                 variant={rangeSelected === 1 ? "solid" : 'subtle'}
                 onPress={() => fetchInventoryAnalyticsRange(1)}
@@ -247,7 +247,6 @@ export function AnalyticsSection({ navigation }: any) {
               >
                 All
               </Button>
-
             </Button.Group>
           </HStack>
 
@@ -368,11 +367,10 @@ export function AnalyticsSection({ navigation }: any) {
             </Box>         
           }
 
-
-          <VStack>
+          {/* <VStack>
             <Button onPress={() => logToken()}>Get token</Button>
             <Button onPress={() => signOutUser()}>Sign out</Button>
-          </VStack>
+          </VStack> */}
         </VStack>
 
         {/* <HStack
