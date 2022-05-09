@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "GraphQl gateway for backend microservices",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p ./",
     "start": "node dist/gateway.js",
     "dev": "nodemon -L --exec npx ts-node src/gateway.ts",
     "test": "nodemon -L --exec npx ts-node src/gateway.ts"
