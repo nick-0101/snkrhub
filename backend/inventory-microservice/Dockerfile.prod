@@ -8,9 +8,7 @@ WORKDIR /usr/local/apps/inventory-app
 COPY package.json package-lock.json ./
 
 # Run a npm install command based on node env
-RUN npm i -g typescript
-RUN npm install --only=production
-
+RUN npm install 
 # Set working directory to /prod
 WORKDIR /usr/local/apps/inventory-app/prod
 
