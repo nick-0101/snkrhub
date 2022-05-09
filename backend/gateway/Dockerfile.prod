@@ -5,7 +5,7 @@ FROM node:16-alpine
 WORKDIR /usr/local/apps/gateway-app
 
 # Copy the package.json file to out image's filesystem
-COPY package.json package-lock.json ./
+COPY /gateway/package.json /gateway/package-lock.json ./
 
 # Run a npm install command based on node env
 RUN npm install --only=production
@@ -14,10 +14,10 @@ RUN npm install --only=production
 WORKDIR /usr/local/apps/gateway-app/prod
 
 # Copy tsconfig
-COPY tsconfig.json ./
+COPY /gateway/tsconfig.json ./
 
 # Copy the rest of the source code
-COPY src ./src
+COPY /gateway/src ./src
 
 # Build app
 RUN npm run build

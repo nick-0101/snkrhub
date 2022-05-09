@@ -48,6 +48,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./backend/inventory-microservice
-          file: ./backend/inventory-microservice/src/Dockerfile.prod
+          file: ./backend/inventory-microservice/Dockerfile.prod
           push: true
           tags: nic01/snkrhub_inventory-microservice:latest

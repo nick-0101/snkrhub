@@ -4,11 +4,9 @@ services:
   # GraphQL Gateway
   # ---------------------------
   graphql-gateway:
-    container_name: 'graphql-gateway'
-    hostname: 'graphql-gateway'
     build:
-      context: ./gateway
-      dockerfile: ./Dockerfile.test
+      context: .
+      dockerfile: ./gateway/Dockerfile.test
       args:
         NODE_ENV: test
     volumes:

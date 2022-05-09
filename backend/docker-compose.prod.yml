@@ -4,11 +4,9 @@ services:
   # GraphQL Gateway
   # ---------------------------
   graphql-gateway:
-    container_name: 'graphql-gateway'
-    hostname: 'graphql-gateway'
     build:
-      context: ./gateway
-      dockerfile: ./Dockerfile.prod
+      context: .
+      dockerfile: ./gateway/Dockerfile.prod
       args:
         NODE_ENV: production
     volumes:
