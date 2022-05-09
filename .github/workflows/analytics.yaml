@@ -1,4 +1,4 @@
-name: 'analytics service dockerhub push'
+name: 'analytics service dockerhub'
 
 on:
   push:

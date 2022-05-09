@@ -1,4 +1,4 @@
-name: 'graphql gateway dockerhub push'
+name: 'graphql gateway dockerhub'
 
 on:
   push:
