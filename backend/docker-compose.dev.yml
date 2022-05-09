@@ -6,7 +6,7 @@ services:
   graphql-gateway:
     build:
       context: ./gateway
-      dockerfile: ./gateway/Dockerfile.dev
+      dockerfile: ./Dockerfile.dev
       args:
         NODE_ENV: development
     volumes:

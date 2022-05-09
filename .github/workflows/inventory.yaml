@@ -1,4 +1,4 @@
-name: 'inventory microservice'
+name: 'inventory dockerhub push'
 
 on:
   push:
@@ -30,6 +30,12 @@ jobs:
       - name: Check Out Repo
         uses: actions/checkout@v3
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
       # Logins into dockerhub
       - name: Login to Docker Hub
         uses: docker/login-action@v1
@@ -42,6 +48,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./backend/inventory-microservice
+          file: ./backend/inventory-microservice/src/Dockerfile.prod
           push: true
           tags: nic01/snkrhub_inventory-microservice:latest
-          file: ./backend/inventory-microservice/src/Dockerfile.prod

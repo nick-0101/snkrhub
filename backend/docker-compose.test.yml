@@ -8,7 +8,7 @@ services:
     hostname: 'graphql-gateway'
     build:
       context: ./gateway
-      dockerfile: ./gateway/Dockerfile.test
+      dockerfile: ./Dockerfile.test
       args:
         NODE_ENV: test
     volumes:
