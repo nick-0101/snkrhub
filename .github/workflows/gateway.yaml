@@ -44,7 +44,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: ./backend/gateway
+          context: ./backend
           file: ./backend/gateway/Dockerfile.prod
           push: true
           tags: nic01/snkrhub_graphql-gateway:latest
