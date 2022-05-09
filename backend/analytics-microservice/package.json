@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node -r dotenv/configdist/server.js",
+    "start": "node -r dotenv/config dist/server.js",
     "dev": "nodemon -L --exec npx ts-node -r dotenv/config src/server.ts",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --runInBand --coverage"
   },

@@ -1,0 +1,47 @@
+name: 'inventory microservice'
+
+on:
+  push:
+    branches:
+      - '**'
+    # run the workflow only on changes to these paths
+    paths:
+      - 'backend/inventory-microservice/**'
+      - '.github/workflows/inventory.yaml'
+  pull_request:
+    branches:
+      - '**'
+    # run the workflow only on changes to these paths
+    paths:
+      - 'backend/inventory-microservice/**'
+      - '.github/workflows/inventory.yaml'
+  release:
+    types: [published, edited]
+
+jobs:
+  # Build and push the Docker image
+  push_to_registry:
+    name: Push inventory image to docker hub
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
+      - name: Check Out Repo
+        uses: actions/checkout@v3
+
+      # Logins into dockerhub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      # Build and push docker image
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: ./inventory-microservice
+          push: true
+          tags: nic01/snkrhub_inventory-microservice:latest
+          file: ./inventory-microservice/src/Dockerfile.prod

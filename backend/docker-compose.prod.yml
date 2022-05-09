@@ -1,0 +1,59 @@
+version: '3.8'
+services:
+  # ---------------------------
+  # GraphQL Gateway
+  # ---------------------------
+  graphql-gateway:
+    container_name: 'graphql-gateway'
+    hostname: 'graphql-gateway'
+    build:
+      context: .
+      dockerfile: ./gateway/Dockerfile.prod
+      args:
+        NODE_ENV: production
+    volumes:
+      - ./gateway:/usr/local/apps/gateway-app/prod
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    command: npm run start
+
+  # ---------------------------
+  # Inventory microservice
+  # ---------------------------
+  inventory-microservice:
+    build:
+      context: ./inventory-microservice
+      dockerfile: ./Dockerfile.prod
+      args:
+        NODE_ENV: production
+    volumes:
+      - ./inventory-microservice:/usr/local/apps/inventory-app/prod
+    environment:
+      - NODE_ENV=production
+      - POSTGRES_USERNAME=${INVENTORY_PORTGRES_USER}
+      - POSTGRES_PASSWORD=${INVENTORY_PORTGRES_PASSWORD}
+      - POSTGRES_DATABASE=${INVENTORY_PORTGRES_DATABASE}
+      - SESSION_SECRET=${INVENTORY_PORTGRES_SECRET}
+    command: npm run start
+
+  # ---------------------------
+  # Inventory microservice
+  # ---------------------------
+  analytics-microservice:
+    build:
+      context: ./analytics-microservice
+      dockerfile: ./Dockerfile.prod
+      args:
+        NODE_ENV: production
+    volumes:
+      - ./analytics-microservice:/usr/local/apps/analytics-app/prod
+    environment:
+      - NODE_ENV=production
+      - POSTGRES_USERNAME=${ANALYTICS_PORTGRES_USER}
+      - POSTGRES_PASSWORD=${ANALYTICS_PORTGRES_PASSWORD}
+      - POSTGRES_DATABASE=${ANALYTICS_PORTGRES_DATABASE}
+      - SESSION_SECRET=${ANALYTICS_PORTGRES_SECRET}
+    command: npm run start

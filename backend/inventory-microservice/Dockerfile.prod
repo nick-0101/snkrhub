@@ -22,7 +22,7 @@ COPY src ./src
 # Build app
 RUN npm run build
 
-ENV PORT 3000
+ENV PORT 3001
 EXPOSE $PORT
 
 CMD ["node", "server.ts"]
