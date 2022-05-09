@@ -41,7 +41,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: ./inventory-microservice
+          context: ./backend/inventory-microservice
           push: true
           tags: nic01/snkrhub_inventory-microservice:latest
-          file: ./inventory-microservice/src/Dockerfile.prod
+          file: ./backend/inventory-microservice/src/Dockerfile.prod
