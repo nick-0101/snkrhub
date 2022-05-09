@@ -7,7 +7,7 @@ services:
     container_name: 'graphql-gateway'
     hostname: 'graphql-gateway'
     build:
-      context: .
+      context: ./gateway
       dockerfile: ./gateway/Dockerfile.prod
       args:
         NODE_ENV: production

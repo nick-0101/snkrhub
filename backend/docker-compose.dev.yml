@@ -1,6 +1,24 @@
 version: '3.8'
 services:
   # ---------------------------
+  # GraphQL Gateway
+  # ---------------------------
+  graphql-gateway:
+    build:
+      context: ./gateway
+      dockerfile: ./gateway/Dockerfile.dev
+      args:
+        NODE_ENV: development
+    volumes:
+      - ./gateway:/usr/local/apps/gateway-app/dev
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    command: npm run dev
+
+  # ---------------------------
   # Inventory microservice
   # ---------------------------
   inventory-microservice:

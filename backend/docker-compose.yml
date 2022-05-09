@@ -3,14 +3,15 @@ services:
   # ---------------------------
   # GraphQL Gateway
   # ---------------------------
-  # graphql-gateway:
-  #   container_name: 'graphql-gateway'
-  #   hostname: 'graphql-gateway'
-  #   build: ./gateway
-  #   ports:
-  #     - '3000:3000'
-  #   environment:
-  #     - PORT=3000
+  graphql-gateway:
+    container_name: 'graphql-gateway'
+    hostname: 'graphql-gateway'
+    build: ./gateway
+    image: nic01/snkrhub_graphql-gateway
+    ports:
+      - '3000:3000'
+    environment:
+      - PORT=3000
 
   # ---------------------------
   # Inventory microservice
@@ -19,6 +20,7 @@ services:
     container_name: 'inventory-microservice'
     hostname: 'inventory-microservice'
     build: ./inventory-microservice
+    image: nic01/snkrhub_inventory-microservice
     ports:
       - '3001:3001'
     environment:
@@ -31,6 +33,7 @@ services:
     container_name: 'analytics-microservice'
     hostname: 'analytics-microservice'
     build: ./analytics-microservice
+    image: nic01/snkrhub_analytics-microservice
     ports:
       - '3002:3002'
     environment:
