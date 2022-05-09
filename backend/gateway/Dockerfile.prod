@@ -17,7 +17,7 @@ RUN npm install
 WORKDIR /usr/local/apps/gateway-app/prod
 
 # Copy the rest of the source code
-COPY . ./
+COPY ./gateway ./
 
 # Build app
 RUN npx tsc -p ./tsconfig.json
