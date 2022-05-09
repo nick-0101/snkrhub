@@ -6,14 +6,14 @@ on:
       - '**'
     # run the workflow only on changes to these paths
     paths:
-      - 'backend/gateway-microservice/**'
+      - 'backend/gateway/**'
       - '.github/workflows/gateway.yaml'
   pull_request:
     branches:
       - '**'
     # run the workflow only on changes to these paths
     paths:
-      - 'backend/gateway-microservice/**'
+      - 'backend/gateway/**'
       - '.github/workflows/gateway.yaml'
   release:
     types: [published, edited]
