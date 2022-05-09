@@ -1,4 +1,4 @@
-name: 'analytics service dockerhub push'
+name: 'graphql gateway dockerhub push'
 
 on:
   push:
@@ -6,22 +6,22 @@ on:
       - '**'
     # run the workflow only on changes to these paths
     paths:
-      - 'backend/analytics-microservice/**'
-      - '.github/workflows/analytics.yaml'
+      - 'backend/gateway-microservice/**'
+      - '.github/workflows/gateway.yaml'
   pull_request:
     branches:
       - '**'
     # run the workflow only on changes to these paths
     paths:
-      - 'backend/analytics-microservice/**'
-      - '.github/workflows/analytics.yaml'
+      - 'backend/gateway-microservice/**'
+      - '.github/workflows/gateway.yaml'
   release:
     types: [published, edited]
 
 jobs:
   # Build and push the Docker image
   push_to_registry:
-    name: Push analytics image to docker hub
+    name: Push graphql gateway image to docker hub
     timeout-minutes: 10
     runs-on: ubuntu-latest
 
@@ -47,7 +47,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: ./backend/analytics-microservice
-          file: ./backend/analytics-microservice/Dockerfile.prod
+          context: ./backend/gateway
+          file: ./backend/gateway/Dockerfile.prod
           push: true
-          tags: nic01/snkrhub_analytics-microservice:latest
+          tags: nic01/snkrhub_graphql-gateway:latest

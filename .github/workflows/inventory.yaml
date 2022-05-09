@@ -1,4 +1,4 @@
-name: 'inventory dockerhub push'
+name: 'inventory service dockerhub push'
 
 on:
   push:

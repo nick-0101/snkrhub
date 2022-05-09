@@ -8,6 +8,7 @@ WORKDIR /usr/local/apps/inventory-app
 COPY package.json package-lock.json ./
 
 # Run a npm install command based on node env
+RUN npm i -g typescript
 RUN npm install --only=production
 
 # Set working directory to /prod
@@ -25,4 +26,4 @@ RUN npm run build
 ENV PORT 3001
 EXPOSE $PORT
 
-CMD ["node", "server.ts"]
+CMD ["npm", "run", "start"]
