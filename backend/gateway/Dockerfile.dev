@@ -5,10 +5,10 @@ FROM node:16-alpine
 WORKDIR /usr/local/apps/gateway-app
 
 # Copy the package.json file to out image's filesystem
-COPY ./gateway/package.json package-lock.json ./
+COPY ./gateway/package.json ./
 
 # Copy supergraph
-COPY supergraph.graphql ./
+COPY ./supergraph.graphql ./
 
 # Set working directory to /dev
 WORKDIR /usr/local/apps/gateway-app/dev

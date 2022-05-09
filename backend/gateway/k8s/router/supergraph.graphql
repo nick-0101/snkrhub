@@ -1,0 +1,144 @@
+schema
+  @link(url: "https://specs.apollo.dev/link/v1.0")
+  @link(url: "https://specs.apollo.dev/join/v0.2", for: EXECUTION) {
+  query: Query
+  mutation: Mutation
+}
+
+directive @join__field(
+  graph: join__Graph!
+  requires: join__FieldSet
+  provides: join__FieldSet
+  type: String
+  external: Boolean
+  override: String
+  usedOverridden: Boolean
+) repeatable on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @join__graph(name: String!, url: String!) on ENUM_VALUE
+
+directive @join__implements(
+  graph: join__Graph!
+  interface: String!
+) repeatable on OBJECT | INTERFACE
+
+directive @join__type(
+  graph: join__Graph!
+  key: join__FieldSet
+  extension: Boolean! = false
+  resolvable: Boolean! = true
+) repeatable on OBJECT | INTERFACE | UNION | ENUM | INPUT_OBJECT | SCALAR
+
+directive @link(
+  url: String
+  as: String
+  for: link__Purpose
+  import: [link__Import]
+) repeatable on SCHEMA
+
+type InventoryAnalytics @join__type(graph: ANALYTICS) {
+  inventorycount: Int!
+  itemspend: Int!
+  inventorysold: Int!
+  inventoryvalue: Int!
+}
+
+input InventoryAnalyticsItemAddInput @join__type(graph: ANALYTICS) {
+  purchaseprice: Int!
+}
+
+input InventoryAnalyticsItemDelete @join__type(graph: ANALYTICS) {
+  purchaseprice: Int!
+}
+
+input InventoryAnalyticsItemSold @join__type(graph: ANALYTICS) {
+  purchaseprice: Int!
+}
+
+type InventoryItem @join__type(graph: INVENTORY) {
+  id: Int!
+  name: String!
+  styleid: String
+  brand: String
+  colour: String
+  condition: String
+  shoesize: Float
+  purchaseprice: Int!
+  tax: Int
+  shipping: Int
+  purchasedate: String!
+  ordernumber: String
+  markedSold: Boolean
+}
+
+input InventoryItemInput @join__type(graph: INVENTORY) {
+  name: String!
+  styleid: String
+  brand: String
+  colour: String
+  condition: String
+  shoesize: Float
+  purchaseprice: Int!
+  tax: Int
+  shipping: Int
+  purchasedate: String!
+  ordernumber: String
+}
+
+type InventoryItemResponse @join__type(graph: INVENTORY) {
+  id: Int!
+}
+
+type InventoryValueAnalytics @join__type(graph: ANALYTICS) {
+  inventoryvalue: Int!
+  createdAt: String!
+}
+
+scalar join__FieldSet
+
+enum join__Graph {
+  ANALYTICS
+    @join__graph(name: "analytics", url: "http://analytics:3002/graphql")
+  INVENTORY
+    @join__graph(name: "inventory", url: "http://inventory:3001/graphql")
+}
+
+scalar link__Import
+
+enum link__Purpose {
+  """
+  `SECURITY` features provide metadata necessary to securely resolve fields.
+  """
+  SECURITY
+
+  """
+  `EXECUTION` features provide metadata necessary for operation execution.
+  """
+  EXECUTION
+}
+
+type Mutation @join__type(graph: ANALYTICS) @join__type(graph: INVENTORY) {
+  updateAnalyticsForItemAdd(
+    inventoryItem: InventoryAnalyticsItemAddInput!
+  ): String @join__field(graph: ANALYTICS)
+  updateAnalyticsForItemDelete(
+    inventoryItem: InventoryAnalyticsItemDelete!
+  ): String @join__field(graph: ANALYTICS)
+  updateAnalyticsForItemSold(
+    inventoryItem: InventoryAnalyticsItemSold!
+  ): String @join__field(graph: ANALYTICS)
+  addInventoryItem(inventoryItem: InventoryItemInput!): InventoryItemResponse!
+    @join__field(graph: INVENTORY)
+  deleteInventoryItem(itemId: Int!): InventoryItemResponse!
+    @join__field(graph: INVENTORY)
+  markInventoryItemSold(itemId: Int!): InventoryItemResponse!
+    @join__field(graph: INVENTORY)
+}
+
+type Query @join__type(graph: ANALYTICS) @join__type(graph: INVENTORY) {
+  fetchInventoryAnalytics: InventoryAnalytics! @join__field(graph: ANALYTICS)
+  fetchInventoryValueRange(rangeInDays: Int!): [InventoryValueAnalytics]
+    @join__field(graph: ANALYTICS)
+  fetchUserInventoryItems(offset: Int!, limit: Int!): [InventoryItem]
+    @join__field(graph: INVENTORY)
+}

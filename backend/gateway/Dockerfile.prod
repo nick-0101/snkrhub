@@ -7,9 +7,6 @@ WORKDIR /usr/local/apps/gateway-app
 # Copy the package.json file to out image's filesystem
 COPY ./gateway/package.json ./
 
-# Copy supergraph
-COPY supergraph.graphql ./
-
 # Run a npm install command based on node env
 RUN npm install 
 
