@@ -1,5 +1,8 @@
-Dockerfile
+Dockerfile.test
+Dockerfile.dev
+Dockerfile.prod
 .dockerignore
 .git
 .gitignore
 docker-compose*
+# node_modules

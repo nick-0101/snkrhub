@@ -5,7 +5,7 @@ FROM node:16-alpine
 WORKDIR /usr/local/apps/gateway-app
 
 # Copy the package.json file to out image's filesystem
-COPY ./gateway/package.json ./
+COPY ./gateway/package*.json ./
 
 # Run a npm install command based on node env
 RUN npm install 

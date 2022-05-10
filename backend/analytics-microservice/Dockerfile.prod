@@ -5,7 +5,7 @@ FROM node:16-alpine
 WORKDIR /usr/local/apps/analytics-app
 
 # Copy the package.json file to out image's filesystem
-COPY package.json package-lock.json ./
+COPY package*.json ./
 
 # Run a npm install command based on node env
 RUN npm install 

@@ -2,7 +2,7 @@
 FROM node:16-alpine
 
 # Directory where we run all the commands
-WORKDIR /usr/local/apps/gateway-app
+WORKDIR /usr/local/apps/gateway-app/test
 
 # Copy the package.json file to out image's filesystem
 COPY ./gateway/package.json ./
@@ -12,9 +12,6 @@ COPY supergraph.graphql ./
 
 # Run a command based on environment, we pass the arguments in the docker-compose
 RUN npm install
-
-# Set working directory to /test
-WORKDIR /usr/local/apps/gateway-app/test
 
 # Copy the rest of our source code
 COPY ./gateway ./

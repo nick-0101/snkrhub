@@ -31,6 +31,7 @@ services:
       - ./inventory-microservice:/usr/local/apps/inventory-app/test
     environment:
       - NODE_ENV=test
+      - POSTGRES_IP=postgres-inventory-test-db
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=inventory-microservice
       - POSTGRES_DATABASE=postgres
@@ -60,6 +61,7 @@ services:
       - ./analytics-microservice:/usr/local/apps/analytics-app/test
     environment:
       - NODE_ENV=test
+      - POSTGRES_IP=postgres-analytics-test-db
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=analytics-microservice
       - POSTGRES_DATABASE=postgres
