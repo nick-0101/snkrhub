@@ -14,22 +14,36 @@ const { validateUserToken } = require('./controllers/validateUserToken.controlle
 // Types
 import { ApolloRequest, ApolloContext, ApolloBuildService } from './types'
 
-// Firebase
+// Firebase client init
 firebaseApp()
 
 // Initialize an ApolloGateway instance and pass it the supergraph schema
 let supergraphUpdate;
+let superGraphpath: string;
+
+// Check if gateway is running in kubenetes
+const kubernetesHost = process.env.APOLLO_KUBERNETES_HOST == "true" ? true : false;
+
+if (kubernetesHost){
+  superGraphpath = "/etc/config/supergraph.graphql"
+  console.log('Apollo gateway running on kubernetes...');
+} else {
+  superGraphpath = "../supergraph.graphql"
+  console.log('Apollo gateway running locally...');
+}
+
+// Initalize apollo gateway
 const gateway = new ApolloGateway({
   async supergraphSdl({ update, healthCheck }: typeof externalSupergraphUpdateCallback) {
     // create a file watcher
-    const watcher = watch('../supergraph.graphql');
+    const watcher = watch(superGraphpath);
 
     // subscribe to file changes
     watcher.on('change', async () => {
       // update the supergraph schema
       try {
         console.log(`📦 [gateway]: Rebuilding supergraph `);
-        const updatedSupergraph = readFileSync("../supergraph.graphql", 'utf16le')
+        const updatedSupergraph = readFileSync(superGraphpath, 'utf16le')
     
         // optional health check update to ensure our services are responsive
         await healthCheck(updatedSupergraph);
@@ -45,7 +59,7 @@ const gateway = new ApolloGateway({
     // Fetch inital schema
     supergraphUpdate = update;
     return {
-      supergraphSdl: await readFileSync('../supergraph.graphql', 'utf16le'),
+      supergraphSdl: await readFileSync(superGraphpath, 'utf16le'),
 
       // cleanup is called when the gateway is stopped
       async cleanup() {
@@ -72,7 +86,7 @@ const server = new ApolloServer({
       requestDidStart() {
         return {
           willSendResponse({ response }: typeof GraphQLResponse) {
-            // Append our final result to the outgoing response headers
+            // Append header to outgoing response headers
             response.http.headers.set(
               'X-Powered-By', 'Cats on keyboards'
             );

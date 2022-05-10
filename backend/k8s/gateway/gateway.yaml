@@ -21,7 +21,7 @@ spec:
             - name: supergraph-volume
               mountPath: /etc/config
           env:
-            - name: APOLLO_SCHEMA_CONFIG_EMBEDDED
+            - name: APOLLO_KUBERNETES_HOST
               value: 'true'
           ports:
             - containerPort: 3000
