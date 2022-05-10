@@ -14,7 +14,7 @@ RUN npm install
 WORKDIR /usr/local/apps/inventory-app/prod
 
 # Copy the rest of the source code
-COPY ./ .
+COPY . ./
 
 # Build app
 RUN npm run build
