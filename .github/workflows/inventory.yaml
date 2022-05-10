@@ -47,12 +47,12 @@ jobs:
           context: ./backend/inventory-microservice
           file: ./backend/inventory-microservice/Dockerfile.test
           load: true
-          tags: nic01/snkrhub_graphql-gateway:test
+          tags: nic01/snkrhub_inventory-microservice:test
 
       # Build and export test docker image
       - name: Test
         run: |
-          docker run --rm nic01/snkrhub_graphql-gateway:test
+          docker run --rm nic01/snkrhub_inventory-microservice:test
 
       # Build and push docker image
       - name: Build and push
