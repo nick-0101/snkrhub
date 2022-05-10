@@ -34,10 +34,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: router-service
+  name: gateway-service
 spec:
   selector:
-    app: router
+    app: gateway
   ports:
     - protocol: TCP
       port: 3000
@@ -58,6 +58,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: router-service
+                name: gateway-service
                 port:
-                  number: 4000
+                  number: 3000
