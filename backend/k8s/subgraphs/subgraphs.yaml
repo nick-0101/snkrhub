@@ -1,0 +1,65 @@
+# Inventory microservice
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory
+spec:
+  selector:
+    matchLabels:
+      app: subgraph-inventory
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: subgraph-inventory
+    spec:
+      containers:
+        - name: inventory
+          image: nic01/snkrhub_inventory-microservice:latest
+          ports:
+            - containerPort: 3001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory
+spec:
+  selector:
+    app: subgraph-inventory
+  ports:
+    - protocol: TCP
+      port: 3001
+      targetPort: 3001
+
+# Analytics microservice
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics
+spec:
+  selector:
+    matchLabels:
+      app: subgraph-analytics
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: subgraph-analytics
+    spec:
+      containers:
+        - name: analytics
+          image: nic01/snkrhub_analytics-microservice:latest
+          ports:
+            - containerPort: 3002
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: analytics
+spec:
+  selector:
+    app: subgraph-analytics
+  ports:
+    - protocol: TCP
+      port: 3002
+      targetPort: 3002
