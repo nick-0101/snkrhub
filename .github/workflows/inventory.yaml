@@ -40,20 +40,6 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      # Build and export test docker image
-      - name: Build and export to Docker
-        uses: docker/build-push-action@v3
-        with:
-          context: ./backend/inventory-microservice
-          file: ./backend/inventory-microservice/Dockerfile.test
-          load: true
-          tags: nic01/snkrhub_inventory-microservice:test
-
-      # Build and export test docker image
-      - name: Test
-        run: |
-          docker run --rm nic01/snkrhub_inventory-microservice:test
-
       # Build and push docker image
       - name: Build and push
         uses: docker/build-push-action@v3
