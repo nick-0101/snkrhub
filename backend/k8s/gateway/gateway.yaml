@@ -40,8 +40,8 @@ spec:
     app: router
   ports:
     - protocol: TCP
-      port: 4000
-      targetPort: 4000
+      port: 3000
+      targetPort: 3000
 
 ---
 apiVersion: networking.k8s.io/v1
