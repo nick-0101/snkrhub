@@ -15,7 +15,14 @@ spec:
     spec:
       containers:
         - name: inventory
-          image: nic01/snkrhub_inventory-microservice:latest
+          image: 'nic01/snkrhub_inventory-microservice:latest'
+          env:
+            - name: POSTGRES_USERNAME
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: inventory_microservice
+            - name: POSTGRES_DATABASE
+              value: postgres
           ports:
             - containerPort: 3001
 ---
