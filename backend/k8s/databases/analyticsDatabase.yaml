@@ -20,10 +20,9 @@ metadata:
 spec:
   selector:
     app: analytics-db
-  type: LoadBalancer
+  type: NodePort
   ports:
   - port: 5432
-  targetPort: 5432
 
 ---
 # PostgreSQL StatefulSet
@@ -36,42 +35,32 @@ spec:
   selector:
     matchLabels:
       app: analytics-db
-    replicas: 2
-    template:
+  replicas: 1
+  template:
     metadata:
       labels:
-       app: analytics-db
+        app: analytics-db
     spec:
-      # Official Postgres Container
       containers:
         - name: analytics-db
-      image: postgres
-      imagePullPolicy: IfNotPresent
-      ports:
-      - containerPort: 5432	
-      # Resource Limits
-      resources:
-        requests:
-          memory: "265Mi"
-          cpu: "250m"
-        limits:
-          memory: "512Mi"
-          cpu: "500m"
-      # Data Volume
-      volumeMounts:
-      - name: analytics-postgresql-db-disk
-        mountPath: /data
-      # Point to ConfigMap
-      env:
-        - configMapRef:
-          name: analytics-db-config
+          image: postgres
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: analytics-postgresql-db-disk
+              mountPath: /var/lib/postgresql/data
+          envFrom:
+            - configMapRef:
+                name: analytics-db-config
 
 # Volume Claim
-volumeClaimTemplates:
-  - metadata:
-    name: analytics-postgresql-db-disk
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      resources:
-        requests:
-        storage: 5Gi
+  volumeClaimTemplates:
+    - metadata:
+        name: analytics-postgresql-db-disk
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi

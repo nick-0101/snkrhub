@@ -9,7 +9,6 @@ data:
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: inventory_microservice
   POSTGRES_DB: postgres
-  PGDATA: /data/pgdata
 ---
 
 # PostgreSQL StatefulSet Service
@@ -20,10 +19,10 @@ metadata:
 spec:
   selector:
     app: inventory-db
-  type: LoadBalancer
+  type: NodePort
   ports:
   - port: 5432
-  targetPort: 5432
+
 
 ---
 # PostgreSQL StatefulSet
@@ -36,42 +35,32 @@ spec:
   selector:
     matchLabels:
       app: inventory-db
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
-       app: inventory-db
+        app: inventory-db
     spec:
-      # Official Postgres Container
       containers:
         - name: inventory-db
-      image: postgres
-      imagePullPolicy: IfNotPresent
-      ports:
-      - containerPort: 5432	
-      # Resource Limits
-      resources:
-        requests:
-          memory: "265Mi"
-          cpu: "250m"
-        limits:
-          memory: "512Mi"
-          cpu: "500m"
-      # Data Volume
-      volumeMounts:
-      - name: inventory-postgresql-db-disk
-        mountPath: /data
-      # Point to ConfigMap
-      env:
-        - configMapRef:
-          name: inventory-db-config
+          image: postgres
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: inventory-postgresql-db-disk
+              mountPath: /var/lib/postgresql/data
+          envFrom:
+            - configMapRef:
+                name: inventory-db-config
 
 # Volume Claim
-volumeClaimTemplates:
-  - metadata:
-    name: inventory-postgresql-db-disk
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      resources:
-        requests:
-        storage: 5Gi
+  volumeClaimTemplates:
+    - metadata:
+        name: inventory-postgresql-db-disk
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
