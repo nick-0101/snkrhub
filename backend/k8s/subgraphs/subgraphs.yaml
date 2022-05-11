@@ -37,7 +37,8 @@ spec:
     - protocol: TCP
       port: 3001
       targetPort: 3001
-
+      
+---
 # Analytics microservice
 apiVersion: apps/v1
 kind: Deployment
