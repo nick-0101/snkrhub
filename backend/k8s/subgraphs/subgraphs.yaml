@@ -55,7 +55,14 @@ spec:
     spec:
       containers:
         - name: analytics
-          image: nic01/snkrhub_analytics-microservice:latest
+          image: 'nic01/snkrhub_analytics-microservice:latest'
+          env:
+            - name: POSTGRES_USERNAME
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: analytics_microservice
+            - name: POSTGRES_DATABASE
+              value: postgres
           ports:
             - containerPort: 3002
 ---

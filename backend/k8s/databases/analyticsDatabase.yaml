@@ -2,79 +2,76 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-	name: analytics-db-config
-	labels:
-		app: analytics-db
+  name: analytics-db-config
+  labels:
+    app: analytics-db
 data:
-	POSTGRES_USER: postgres
-	POSTGRES_PASSWORD: analytics-microservice
-	POSTGRES_DB: postgres
-	PGDATA: /data/pgdata
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: analytics_microservice
+  POSTGRES_DB: postgres
+  PGDATA: /data/pgdata
 ---
 
 # PostgreSQL StatefulSet Service
 apiVersion: v1
 kind: Service
 metadata:
-	name: analytics-postgres-db-lb
+  name: analytics-postgres-db-lb
 spec:
-	selector:
-		app: analytics-db
-	type: LoadBalancer
-	ports:
-	- port: 5432
-	targetPort: 5432
+  selector:
+    app: analytics-db
+  type: LoadBalancer
+  ports:
+  - port: 5432
+  targetPort: 5432
 
 ---
 # PostgreSQL StatefulSet
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-	name: analytics-db
+  name: analytics-db
 spec:
-	serviceName: analytics-db-service
-	selector:
-		matchLabels:
-			app: analytics-db
-	replicas: 2
-	template:
-		metadata:
-			labels:
-				app: analytics-db
-		spec:
-			# Official Postgres Container
-			containers:
-			- name: analytics-db
-			image: postgres
-			imagePullPolicy: IfNotPresent
-			ports:
-			- containerPort: 5432
-			
+  serviceName: analytics-db-service
+  selector:
+    matchLabels:
+      app: analytics-db
+    replicas: 2
+    template:
+    metadata:
+      labels:
+       app: analytics-db
+    spec:
+      # Official Postgres Container
+      containers:
+        - name: analytics-db
+      image: postgres
+      imagePullPolicy: IfNotPresent
+      ports:
+      - containerPort: 5432	
       # Resource Limits
-			resources:
-				requests:
-					memory: "265Mi"
-					cpu: "250m"
-				limits:
-					memory: "512Mi"
-					cpu: "500m"
-			
+      resources:
+        requests:
+          memory: "265Mi"
+          cpu: "250m"
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
       # Data Volume
-			volumeMounts:
-			- name: analytics-postgresql-db-disk
-			  mountPath: /data
-			
+      volumeMounts:
+      - name: analytics-postgresql-db-disk
+        mountPath: /data
       # Point to ConfigMap
-			env:
-			- configMapRef:
-			  name: analytics-db-config
+      env:
+        - configMapRef:
+          name: analytics-db-config
 
 # Volume Claim
 volumeClaimTemplates:
-	- metadata:
-		name: analytics-postgresql-db-disk
-	spec:
-		accessModes: ["ReadWriteOnce"]
-		resources:
-			requests:
-				storage: 5Gi
+  - metadata:
+    name: analytics-postgresql-db-disk
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+        storage: 5Gi
