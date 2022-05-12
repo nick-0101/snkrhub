@@ -4,6 +4,7 @@ const { initializeApp, cert } = require('firebase-admin/app');
 
 // Init firebase
 const connectFirebase = async() => {
+    console.log(process.env.FIREBASE_TYPE)
     const firebaseApp = initializeApp({
         credential: cert({ 
             "type": process.env.FIREBASE_TYPE,

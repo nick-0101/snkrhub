@@ -25,7 +25,7 @@ spec:
               value: 'true'
           envFrom:
             - secretRef:
-              name: gateway-secret
+                name: gateway-secret
           ports:
             - containerPort: 3000
       volumes:
