@@ -16,15 +16,16 @@ spec:
       containers:
         - name: inventory
           image: 'nic01/snkrhub_inventory-microservice:latest'
+          imagePullPolicy: Always
           env:
             - name: POSTGRES_IP
-              value: inventory-db-0
+              value: inventory
             - name: POSTGRES_USERNAME
               value: postgres
             - name: POSTGRES_PASSWORD
               value: inventory_microservice
             - name: POSTGRES_DATABASE
-              value: postgres
+              value: snkrhub_inventory
           ports:
             - containerPort: 3001
 ---
@@ -59,15 +60,16 @@ spec:
       containers:
         - name: analytics
           image: 'nic01/snkrhub_analytics-microservice:latest'
+          imagePullPolicy: Always
           env:
             - name: POSTGRES_IP
-              value: analytics-db-0
+              value: analytics
             - name: POSTGRES_USERNAME
               value: postgres
             - name: POSTGRES_PASSWORD
               value: analytics_microservice
             - name: POSTGRES_DATABASE
-              value: postgres
+              value: snkrhub_analytics
           ports:
             - containerPort: 3002
 ---

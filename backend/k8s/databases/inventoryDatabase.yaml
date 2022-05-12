@@ -8,7 +8,7 @@ metadata:
 data:
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: inventory_microservice
-  POSTGRES_DB: postgres
+  POSTGRES_DB: snkrhub_inventory
   PGDATA: /var/lib/postgresql/data/inventory/
 ---
 
