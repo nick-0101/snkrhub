@@ -3,7 +3,7 @@ export {};
 const dayjs = require('dayjs')
 
 // Clients
-const Inventory = require('../models/inventoryModel');
+const Inventory = require('../models/InventoryModel');
 
 // Types
 import { 
