@@ -5,4 +5,5 @@ Dockerfile.prod
 .git
 .gitignore
 docker-compose*
+dist
 # node_modules

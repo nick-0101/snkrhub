@@ -14,4 +14,6 @@ const postgresURL = POSTGRES_PASSWORD ? `postgres://${POSTGRES_USERNAME}:${POSTG
 const db = new Sequelize(postgresURL, { logging: false });
 db.sync();
 
+console.log(postgresURL)
+
 module.exports = db;

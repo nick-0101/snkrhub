@@ -17,6 +17,8 @@ spec:
         - name: inventory
           image: 'nic01/snkrhub_inventory-microservice:latest'
           env:
+            - name: POSTGRES_IP
+              value: inventory-db-0
             - name: POSTGRES_USERNAME
               value: postgres
             - name: POSTGRES_PASSWORD
@@ -58,6 +60,8 @@ spec:
         - name: analytics
           image: 'nic01/snkrhub_analytics-microservice:latest'
           env:
+            - name: POSTGRES_IP
+              value: analytics-db-0
             - name: POSTGRES_USERNAME
               value: postgres
             - name: POSTGRES_PASSWORD
