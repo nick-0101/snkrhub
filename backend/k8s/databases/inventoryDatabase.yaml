@@ -9,6 +9,7 @@ data:
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: inventory_microservice
   POSTGRES_DB: postgres
+  PGDATA: /var/lib/postgresql/data/inventory/
 ---
 
 # PostgreSQL StatefulSet Service

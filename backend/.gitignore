@@ -1,1 +1,2 @@
 .kube
+k8s/*/kustomization.yaml

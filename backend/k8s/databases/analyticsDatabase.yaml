@@ -9,7 +9,7 @@ data:
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: analytics_microservice
   POSTGRES_DB: postgres
-  PGDATA: /data/pgdata
+  PGDATA: /var/lib/postgresql/data/analytics/
 ---
 
 # PostgreSQL StatefulSet Service

@@ -23,6 +23,9 @@ spec:
           env:
             - name: APOLLO_KUBERNETES_HOST
               value: 'true'
+          envFrom:
+            - secretRef:
+              name: gateway-secret
           ports:
             - containerPort: 3000
       volumes:
