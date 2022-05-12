@@ -17,6 +17,7 @@ spec:
       containers:
         - name: gateway
           image: nic01/snkrhub_graphql-gateway:latest
+          imagePullPolicy: Always
           volumeMounts:
             - name: supergraph-volume
               mountPath: /etc/config
