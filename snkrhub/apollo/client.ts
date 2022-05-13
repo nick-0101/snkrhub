@@ -16,6 +16,6 @@ const cache = new InMemoryCache({
 
 // Initialize Apollo Client
 export const client = new ApolloClient({
-  uri: 'http://localhost:3000/graphql',
+  uri: 'https://snkrhub.xyz',
   cache
 });
