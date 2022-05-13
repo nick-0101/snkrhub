@@ -6,10 +6,10 @@
 <p>
   <!-- Ci status -->
   <a href="https://github.com/phoenixbeats01/snkrhub/actions/workflows/frontend.yml">
-    <img src="https://github.com/phoenixbeats01/snkrhub/actions/workflows/frontend.yml/badge.svg?style=flat-square" alt="SnkrHub Frontend CI" />
+    <img src="https://github.com/phoenixbeats01/snkrhub/actions/workflows/frontend.yml/badge.svg" alt="SnkrHub Frontend CI" />
   </a>
   <a href="https://github.com/phoenixbeats01/snkrhub/actions/workflows/backend.yml">
-    <img src="https://github.com/phoenixbeats01/snkrhub/actions/workflows/backend.yml/badge.svg?branch=master?style=flat-square" alt="SnkrHub Backend CI" />
+    <img src="https://github.com/phoenixbeats01/snkrhub/actions/workflows/backend.yml/badge.svg?branch=master" alt="SnkrHub Backend CI" />
   </a>
   
   <br />
@@ -34,9 +34,9 @@
   <span> · </span>
     <a href="#getting-started">Documentation</a>
   <span> · </span>
-    <a href="https://github.com/Louis3797/awesome-readme-template/issues/">Report Bug</a>
+    <a href="https://github.com/phoenixbeats01/snkrhub/issues/">Report Bug</a>
   <span> · </span>
-    <a href="https://github.com/Louis3797/awesome-readme-template/issues/">Request Feature</a>
+    <a href="https://github.com/phoenixbeats01/snkrhub/issues/">Request Feature</a>
   </h4>
 </div>
 
