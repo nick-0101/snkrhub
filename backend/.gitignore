@@ -1,2 +1,3 @@
 .kube
 k8s/*/kustomization.yaml
+inventory-microservice/.env

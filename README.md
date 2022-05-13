@@ -6,10 +6,10 @@
 <p>
   <!-- Ci status -->
   <a href="https://github.com/phoenixbeats01/snkrhub/actions/workflows/frontend.yml">
-    <img src="https://github.com/phoenixbeats01/snkrhub/actions/workflows/frontend.yml/badge.svg" alt="SnkrHub Frontend CI" />
+    <img src="https://github.com/phoenixbeats01/snkrhub/actions/workflows/frontend.yml/badge.svg?style=flat-square" alt="SnkrHub Frontend CI" />
   </a>
   <a href="https://github.com/phoenixbeats01/snkrhub/actions/workflows/backend.yml">
-    <img src="https://github.com/phoenixbeats01/snkrhub/actions/workflows/backend.yml/badge.svg?branch=master" alt="SnkrHub Backend CI" />
+    <img src="https://github.com/phoenixbeats01/snkrhub/actions/workflows/backend.yml/badge.svg?branch=master?style=flat-square" alt="SnkrHub Backend CI" />
   </a>
   
   <br />
