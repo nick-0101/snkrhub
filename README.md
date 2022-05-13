@@ -29,15 +29,15 @@
   </a>
 </p>
    
-<!-- <h4>
-    <a href="https://github.com/Louis3797/awesome-readme-template/">View Demo</a>
+<h4>
+    <a href="https://www.youtube.com/watch?v=HqYkj0zfZIY/">View Demo</a>
   <span> · </span>
-    <a href="https://github.com/Louis3797/awesome-readme-template">Documentation</a>
+    <a href="#getting-started">Documentation</a>
   <span> · </span>
     <a href="https://github.com/Louis3797/awesome-readme-template/issues/">Report Bug</a>
   <span> · </span>
     <a href="https://github.com/Louis3797/awesome-readme-template/issues/">Request Feature</a>
-  </h4> -->
+  </h4>
 </div>
 
 <br />
@@ -50,7 +50,6 @@
   - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
   - [Run Frontend Locally](#run-frontend-locally)
   - [Run Backend Locally](#run-backend-locally)
 - [License](#license)
@@ -113,6 +112,10 @@ The only major difficulty I had with the deployment was getting tls configured, 
     <li><a href="https://kubernetes.io/">Kubernetes</a></li>
   </ul>
 </details>
+
+<!-- Getting Started -->
+
+## Getting Started
 
 <!-- Prerequisites -->
 
