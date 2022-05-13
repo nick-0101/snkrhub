@@ -222,30 +222,74 @@ export function AnalyticsSection({ navigation }: any) {
             </Text>
 
             {/* Chart range selector */}
-            <Button.Group isAttached size="sm">
+            <Button.Group size="sm" mx={-2}>
               <Button 
+                mx={-1}
                 variant={rangeSelected === 1 ? "solid" : 'subtle'}
                 onPress={() => fetchInventoryAnalyticsRange(1)}
               >
-                1d
+                <Text 
+                  _light={{
+                    color: "gray.800",
+                  }}
+                  _dark={{
+                    color: "gray.200", 
+                  }}
+                  fontSize={'xs'}
+                >
+                  1d
+                </Text>
               </Button>
               <Button 
+                mx={-1}
                 variant={rangeSelected === 7 ? "solid" : 'subtle'}
                 onPress={() => fetchInventoryAnalyticsRange(7)}
               >
-                7d
+                <Text 
+                  _light={{
+                    color: "gray.800",
+                  }}
+                  _dark={{
+                    color: "gray.200", 
+                  }}
+                  fontSize={'xs'}
+                >
+                  7d
+                </Text>
               </Button>
               <Button 
+                mx={-1}
                 variant={rangeSelected === 30 ? "solid" : 'subtle'}
                 onPress={() => fetchInventoryAnalyticsRange(30)}
               >
-                1m
+                <Text 
+                  _light={{
+                    color: "gray.800",
+                  }}
+                  _dark={{
+                    color: "gray.200", 
+                  }}
+                  fontSize={'xs'}
+                >
+                  1m
+                </Text>
               </Button>
               <Button 
+                mx={-1}
                 variant={rangeSelected === 10000 ? "solid" : 'subtle'}
                 onPress={() => fetchInventoryAnalyticsRange(10000)}
               >
-                All
+                <Text 
+                  _light={{
+                    color: "gray.800",
+                  }}
+                  _dark={{
+                    color: "gray.200", 
+                  }}
+                  fontSize={'xs'}
+                >
+                  All
+                </Text>
               </Button>
             </Button.Group>
           </HStack>

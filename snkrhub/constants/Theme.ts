@@ -43,7 +43,13 @@ const theme = extendTheme({
             fontSize: 'xs',
             width: '18%',
           };
-        }
+        },
+        subtle: (props: any) => {
+          return {
+            bg: 'transparent',
+            color: 'white'
+          }
+        },
       }
     },
     IconButton: {
