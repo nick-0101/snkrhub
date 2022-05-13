@@ -22,7 +22,9 @@ spec:
     app: inventory-db
   type: NodePort
   ports:
-  - port: 5432
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432
 
 
 ---

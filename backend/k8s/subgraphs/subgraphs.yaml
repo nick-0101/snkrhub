@@ -19,7 +19,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: POSTGRES_IP
-              value: inventory
+              value: inventory-postgres-db-lb
             - name: POSTGRES_USERNAME
               value: postgres
             - name: POSTGRES_PASSWORD
@@ -63,7 +63,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: POSTGRES_IP
-              value: analytics
+              value: analytics-postgres-db-lb
             - name: POSTGRES_USERNAME
               value: postgres
             - name: POSTGRES_PASSWORD
