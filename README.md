@@ -1,13 +1,6 @@
-## Snkrhub - Track, manage, and organize your sneaker reselling
-
 <div align="center">
 
-  <img src="assets/logo.png" alt="logo" width="200" height="auto" />
   <h1>Snkrhub - Track, manage, and organize your sneaker reselling</h1>
-  
-  <p>
-    An app to track your sneaker inventory  
-  </p>
 
 <!-- Badges -->
 <p>
@@ -18,22 +11,21 @@
   <a href="https://github.com/phoenixbeats01/snkrhub/actions/workflows/backend.yml">
     <img src="https://github.com/phoenixbeats01/snkrhub/actions/workflows/backend.yml/badge.svg?branch=master" alt="SnkrHub Backend CI" />
   </a>
+  
+  <br />
 
   <!-- Repo info -->
-  <a href="https://github.com/Louis3797/awesome-readme-template/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/Louis3797/awesome-readme-template" alt="contributors" />
+  <a href="https://github.com/phoenixbeats01/snkrhub">
+    <img src="https://img.shields.io/github/stars/phoenixbeats01/snkrhub?style=flat-square" alt="stars" />
   </a>
   <a href="https://github.com/phoenixbeats01/snkrhub/network/members">
-    <img src="https://img.shields.io/github/forks/phoenixbeats01/snkrhub" alt="forks" />
-  </a>
-  <a href="https://github.com/phoenixbeats01/snkrhub/stargazers">
-    <img src="https://img.shields.io/github/stars/phoenixbeats01/snkrhub" alt="stars" />
+    <img src="https://img.shields.io/github/forks/phoenixbeats01/snkrhub?style=flat-square" alt="forks" />
   </a>
   <a href="https://github.com/phoenixbeats01/snkrhub/issues/">
-    <img src="https://img.shields.io/github/issues/phoenixbeats01/snkrhub" alt="open issues" />
+    <img src="https://img.shields.io/github/issues/phoenixbeats01/snkrhub?style=flat-square" alt="open issues" />
   </a>
   <a href="https://github.com/phoenixbeats01/snkrhub/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/phoenixbeats01/snkrhub.svg" alt="license" />
+    <img src="https://img.shields.io/badge/licence-MIT-brightgreen?style=flat-square" alt="license" />
   </a>
 </p>
    
@@ -68,7 +60,7 @@
 ## About the Project
 
 <div align="center"> 
-  <img src="https://placehold.co/600x400?text=Your+Screenshot+here" alt="screenshot" />
+    <img src="https://i.ibb.co/hB6Jzfv/snkrhubscreenshot.png" alt="snkrhubscreenshot">
 </div>
 
 This project was created to learn about Microservices and Kubernetes.
